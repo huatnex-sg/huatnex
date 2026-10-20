@@ -629,7 +629,7 @@ PROJECTS.push(
   cat:[{n:"Tengah first BTO estates (2018–20 launches)",type:"BTO standard",units:4000,ready:2029,c:"Guessing"},
        {n:"Jurong Lake District growth area",type:"Infra",units:0,ready:2030,c:"Guessing"}],
   comps:["clavon","clematis"]},
- {id:"thomson",name:"Thomson Reserve",d:20,seg:"RCR",launch:2026,psf:null,units:1268,c:"Likely",
+ {id:"thomson",name:"Thomson Reserve",d:20,seg:"RCR",launch:2026,lm:10,psf:2636,indic:{2:2608,3:2643,4:2737,5:null},units:1268,c:"Likely",
   schools:{s:0,txt:"",c:"Likely"},mrt:{s:0,txt:"",c:"Likely"},supply:{s:5,txt:"",c:"Likely"},
   cat:[{n:"Bishan / Ang Mo Kio standard BTOs (2021–22 launches)",type:"BTO standard",units:1500,ready:2030,c:"Guessing"},
        {n:"Ang Mo Kio / Bishan Plus BTOs",type:"BTO Prime/Plus",units:1500,ready:2038,c:"Guessing"}],
@@ -857,7 +857,7 @@ function renderPrice(p){renderTrack(p);
     <div class="kpi"><div class="l">Comparables grew</div><div class="v">${avg==null?"–":(avg*100).toFixed(1)+"% a year"}</div></div>`;
   const gross = (b0/o.psf-1)*100;const rn=realNow(p);
   if(rn&&ssdDone(p)){const ag=(rn.psf/p.psf-1)*100;$("#exitKpis").innerHTML+=`<div class="kpi"><div class="l">Actual today</div><div class="v" style="color:var(--jade)">$${fmt(rn.psf)} (${ag>=0?"+":""}${ag.toFixed(0)}%)</div></div>`;}
-  $("#exitNote").innerHTML = (rn&&ssdDone(p)?`This launch's 4-year window ended in ${ex}, so you can check the model against reality: homes here now go for about $${fmt(rn.psf)} psf (${nowLabel(rn)}, URA), against the base forecast of $${fmt(Math.round(b0/10)*10)}. `:"")+`Base = the ${p.seg} market's long-run price trend: the average yearly growth of URA's price index of non-landed homes over the last 10 years (${(TREND[p.seg].g10*100).toFixed(1)}%) and 12 years (${(TREND[p.seg].g12*100).toFixed(1)}%), to ${TREND_ASOF}.${p.ec?" ECs are priced off the OCR condo trend; they have tended to gain more as they near full privatisation, so this may be cautious.":""} In a test on 17 past launches using only what was known at launch, this approach missed the 4-year price by about 4% in a typical case, slightly on the low side. Launches have grown about 2 points a year slower than the index, but that is already reflected in the test. Gross gain over 4 years ≈ ${gross.toFixed(0)}% before ~3% buyer stamp duty at entry, ~1% agent fee and interest cost at exit. ${conf("Likely")}`;
+  $("#exitNote").innerHTML = (p.indic?`The entry price is the developer's starting price for this room type, from the 17 Oct 2026 preview; bookings open 31 Oct. Average prices are usually higher than starting prices, so update the entry price once actual prices are known. ${conf("Likely")} `:"")+(rn&&ssdDone(p)?`This launch's 4-year window ended in ${ex}, so you can check the model against reality: homes here now go for about $${fmt(rn.psf)} psf (${nowLabel(rn)}, URA), against the base forecast of $${fmt(Math.round(b0/10)*10)}. `:"")+`Base = the ${p.seg} market's long-run price trend: the average yearly growth of URA's price index of non-landed homes over the last 10 years (${(TREND[p.seg].g10*100).toFixed(1)}%) and 12 years (${(TREND[p.seg].g12*100).toFixed(1)}%), to ${TREND_ASOF}.${p.ec?" ECs are priced off the OCR condo trend; they have tended to gain more as they near full privatisation, so this may be cautious.":""} In a test on 17 past launches using only what was known at launch, this approach missed the 4-year price by about 4% in a typical case, slightly on the low side. Launches have grown about 2 points a year slower than the index, but that is already reflected in the test. Gross gain over 4 years ≈ ${gross.toFixed(0)}% before ~3% buyer stamp duty at entry, ~1% agent fee and interest cost at exit. ${conf("Likely")}`;
   drawChart(p, o.psf, base, bull, bear);
 }
 function drawChart(p, psf, base, bull, bear){
@@ -1167,10 +1167,11 @@ let ROOMSEL=null;
 PROJECTS.forEach(p=>{p.all={psf:p.psf,sec12:p.sec12,secN12:p.secN12,devPsf:p.devPsf,lastYM:p.lastYM};});
 const COMPS0=Object.fromEntries(Object.entries(COMPS).map(([k,c])=>[k,{...c}]));
 function roomRec(p,b){const r=(ROOM[p.id]||{})[b];return r?{n0:r[0],p0:r[1],nNew:r[2],pL:r[3],last:r[4],nS:r[5],pS:r[6],sz:r[7]}:null;}
-function roomOK(p,b){if(p.upcoming)return true;const r=roomRec(p,b);if(p.press)return !!r&&(r.nNew>0||r.nS>0);return !!r&&r.n0>=3;}
+function roomOK(p,b){if(p.indic)return b in p.indic;if(p.upcoming)return true;const r=roomRec(p,b);if(p.press)return !!r&&(r.nNew>0||r.nS>0);return !!r&&r.n0>=3;}
 function applyRoom(b){ROOMSEL=b;
   PROJECTS.forEach(p=>{const a=p.all,r=b?roomRec(p,b):null;p.roomData=!!(r&&r.n0>=3);p.sz=r?r.sz:null;
     if(p.press)p.roomData=false;
+    if(p.indic){Object.assign(p,a);p.psf=b?(p.indic[b]||null):a.psf;p.roomSold=null;return;}
     if(p.roomData)Object.assign(p,{psf:r.p0,sec12:r.pS,secN12:r.nS,devPsf:r.pL,lastYM:r.last||a.lastYM,roomSold:r.nNew});else Object.assign(p,a,{roomSold:null});});
   for(const k of Object.keys(COMPS))delete COMPS[k];
   Object.entries(COMPS0).forEach(([k,c])=>{if(c.src!=="ura")COMPS[k]={...c};});
@@ -1333,7 +1334,7 @@ function renderGate(p){const ok=ROOMSEL&&roomOK(p,ROOMSEL);const g=$("#roomGate"
   $("#rgTitle").textContent=`${p.name}: which unit are you looking at?`;
   $("#rgNote").textContent=ROOMSEL&&!p.upcoming?`Not enough ${roomName(ROOMSEL)} units have sold here to judge them. Pick another room type.`:`Pick a room type to see the verdict. We compare it with the same room type in 2–3 similar launches nearby, because 1-bedroom and 4-bedroom units rise in value at different speeds.`;
   $("#rgOpts").innerHTML=ROOMS.map(R=>{const r=roomRec(p,R.b),ok=roomOK(p,R.b);
-    return `<button class="rgopt" type="button" data-b="${R.b}" ${ok?"":"disabled"}><b>${R.l}</b><span>${R.s}</span><span class="rp">${p.upcoming?"Not priced yet":ok?`$${fmt(r.p0)} psf at launch · ${fmt(r.nNew)} sold`:r&&r.nNew?`Only ${r.nNew} sold`:"None sold"}</span></button>`;}).join("");
+    return `<button class="rgopt" type="button" data-b="${R.b}" ${ok?"":"disabled"}><b>${R.l}</b><span>${R.s}</span><span class="rp">${p.upcoming?(p.indic&&!(R.b in p.indic)?"No units of this size":p.indic&&p.indic[R.b]?`From $${fmt(p.indic[R.b])} psf (preview price)`:"Not priced yet"):ok?`$${fmt(r.p0)} psf at launch · ${fmt(r.nNew)} sold`:r&&r.nNew?`Only ${r.nNew} sold`:"None sold"}</span></button>`;}).join("");
   return false;}
 $("#rgOpts").addEventListener("click",e=>{const b=e.target.closest(".rgopt");if(!b||b.disabled)return;applyRoom(+b.dataset.b);renderAll();$("#s0").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});});
 document.addEventListener("click",e=>{if(!e.target.closest("[data-room-change]"))return;applyRoom(null);renderAll();$("#roomGate").scrollIntoView({behavior:"smooth",block:"center"});});
