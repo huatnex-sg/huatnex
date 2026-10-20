@@ -44,7 +44,7 @@
   --f-display:"Poppins",system-ui,sans-serif; --f-body:"Nunito Sans",system-ui,sans-serif; --f-mono:"DM Mono",ui-monospace,monospace;
 }
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.55}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.55}
 a{color:var(--accent)}
 .wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 64px}
 
@@ -55,8 +55,8 @@ header.top{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;justify-
 h1{font-family:var(--f-display);font-weight:800;font-size:clamp(28px,4vw,38px);letter-spacing:-.02em;margin:0;line-height:1;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 h1 .huat{background:linear-gradient(90deg,var(--accent-2),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
 h1 .nex{color:var(--head)}
-h1 .mvp{font:600 11px var(--f-mono);letter-spacing:.08em;color:var(--seg-ocr-fg);background:var(--gold-soft);border:1px solid var(--gold);padding:3px 8px;border-radius:999px;-webkit-text-fill-color:currentColor}
-.tagline{margin:6px 0 0;color:var(--muted);font-size:14px;font-weight:600}
+h1 .mvp{font:600 13px var(--f-mono);letter-spacing:.08em;color:var(--seg-ocr-fg);background:var(--gold-soft);border:1px solid var(--gold);padding:3px 8px;border-radius:999px;-webkit-text-fill-color:currentColor}
+.tagline{margin:6px 0 0;color:var(--muted);font-size:16px;font-weight:600}
 .hero{margin-top:6px;background:var(--hero);border:1px solid var(--line);border-radius:24px;padding:24px 26px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px 28px;align-items:center;box-shadow:var(--shadow)}
 .hero h2.lead{color:var(--head);font-family:var(--f-display);font-size:clamp(20px,2.6vw,28px);line-height:1.2;margin:0;display:block;text-wrap:balance}
 .hero h2.lead .huat{color:var(--accent)}
@@ -66,8 +66,8 @@ h1 .mvp{font:600 11px var(--f-mono);letter-spacing:.08em;color:var(--seg-ocr-fg)
 @media (max-width:640px){.hero{grid-template-columns:1fr;padding:20px 18px}.dots{display:none}.hsearch button{padding:12px 14px}.vscore b{font-size:36px}details.deep>summary{padding:16px}.deepbody{padding:0 14px 16px}}
 .sub{color:var(--muted);margin:6px 0 0;max-width:62ch}
 h2{color:var(--head);font-family:var(--f-display);font-weight:700;font-size:22px;margin:0;text-wrap:balance;display:flex;gap:10px;align-items:center}
-h2 .n{font:600 12px var(--f-mono);color:var(--seg-rcr-fg);background:var(--accent-soft);border:1px solid var(--accent-2);border-radius:999px;padding:3px 9px}
-h3{color:var(--head);font-family:var(--f-display);font-size:15px;margin:0 0 8px;font-weight:700}
+h2 .n{font:600 14px var(--f-mono);color:var(--seg-rcr-fg);background:var(--accent-soft);border:1px solid var(--accent-2);border-radius:999px;padding:3px 9px}
+h3{color:var(--head);font-family:var(--f-display);font-size:17px;margin:0 0 8px;font-weight:700}
 .warn{margin-top:16px;background:var(--gold-soft);border:1px solid #F6DEB0;padding:12px 16px;border-radius:16px}
 .warn b{color:var(--ink)}
 
@@ -76,34 +76,34 @@ h3{color:var(--head);font-family:var(--f-display);font-size:15px;margin:0 0 8px;
 .chips{display:block}
 .segpills{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .segpill{display:grid;gap:2px;text-align:left;padding:12px 14px;border-radius:18px;border:1px solid;cursor:pointer;font-family:var(--f-body);color:var(--ink);min-width:0}
-.segpill .sp-k{font:600 11px var(--f-mono);letter-spacing:.06em}
-.segpill .sp-n{font:700 15px var(--f-display);color:var(--head)}
-.segpill .sp-c{font-weight:700;font-size:14px}
-.segpill .sp-s{font-size:12px;color:var(--muted)}
+.segpill .sp-k{font:600 13px var(--f-mono);letter-spacing:.06em}
+.segpill .sp-n{font:700 17px var(--f-display);color:var(--head)}
+.segpill .sp-c{font-weight:700;font-size:16px}
+.segpill .sp-s{font-size:14px;color:var(--muted)}
 .seg-CCR{background:#F1F5FD;border-color:#D5DFF4}.seg-CCR .sp-k{color:var(--seg-ccr-fg)}
 .seg-RCR{background:#FEF3F0;border-color:#F8D3CA}.seg-RCR .sp-k{color:var(--seg-rcr-fg)}
 .seg-OCR{background:#FEF8EC;border-color:#F3DFB2}.seg-OCR .sp-k{color:var(--seg-ocr-fg)}
 .segpill:hover{box-shadow:var(--shadow)}
 .segpill[aria-pressed="true"]{box-shadow:0 0 0 3px var(--accent-soft),var(--shadow);border-color:var(--accent-2)}
 .seglist{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;max-height:150px;overflow:auto;padding:2px}
-.seglist .sl-h{flex-basis:100%;font:600 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.seglist .sl-h{flex-basis:100%;font:600 13px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:4px}
 .chip.land{font-weight:600}
-.chip .tag{font:600 10px var(--f-mono);padding:1px 6px;border-radius:999px;background:#E3EAF8;color:var(--seg-ccr-fg)}
+.chip .tag{font:600 13px var(--f-mono);padding:1px 6px;border-radius:999px;background:#E3EAF8;color:var(--seg-ccr-fg)}
 .chip .tag.EC{background:#FCEFD6;color:var(--seg-ocr-fg)}
-.chip .soon{font:600 10px var(--f-mono);padding:1px 6px;border-radius:999px;background:var(--accent-soft);color:var(--seg-rcr-fg)}
-@media (max-width:520px){.segpill{padding:10px}.segpill .sp-n{font-size:13px}.segpill .sp-c{font-size:12.5px}}
-.chip{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 13px var(--f-body);padding:7px 14px;border-radius:999px;cursor:pointer;display:flex;gap:8px;align-items:center;box-shadow:0 1px 2px rgba(30,52,89,.05)}
+.chip .soon{font:600 13px var(--f-mono);padding:1px 6px;border-radius:999px;background:var(--accent-soft);color:var(--seg-rcr-fg)}
+@media (max-width:520px){.segpill{padding:10px}.segpill .sp-n{font-size:15px}.segpill .sp-c{font-size:14.5px}}
+.chip{flex:0 0 auto;border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 15px var(--f-body);padding:7px 14px;border-radius:999px;cursor:pointer;display:flex;gap:8px;align-items:center;box-shadow:0 1px 2px rgba(30,52,89,.05)}
 .chip:hover{border-color:var(--accent)}
 .chip[aria-pressed="true"]{background:var(--accent-soft);color:var(--seg-rcr-fg);border-color:var(--accent-2)}
-.chip .score{font-family:var(--f-mono);font-size:12px;opacity:.85}
-.seg{display:inline-block;font:600 11px var(--f-mono);padding:1px 7px;border-radius:999px;letter-spacing:.04em}
+.chip .score{font-family:var(--f-mono);font-size:14px;opacity:.85}
+.seg{display:inline-block;font:600 13px var(--f-mono);padding:1px 7px;border-radius:999px;letter-spacing:.04em}
 .seg.CCR{background:var(--seg-ccr-bg);color:var(--seg-ccr-fg)}.seg.RCR{background:var(--seg-rcr-bg);color:var(--seg-rcr-fg)}.seg.OCR{background:var(--seg-ocr-bg);color:var(--seg-ocr-fg)}
-.balance{margin-top:10px;display:grid;grid-template-columns:auto minmax(120px,1fr) auto;gap:6px 12px;align-items:center;font-size:13px}
-.balance .lab{font:600 11px var(--f-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.balance{margin-top:10px;display:grid;grid-template-columns:auto minmax(120px,1fr) auto;gap:6px 12px;align-items:center;font-size:15px}
+.balance .lab{font:600 13px var(--f-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
 .bal{display:flex;height:12px;border-radius:6px;overflow:hidden;background:var(--line)}
 .bal .dm{background:#9ED2BF}.bal .sp{background:#F4B3A6}
 .bal.big{height:22px;border-radius:11px}
-.verdict{font:600 12px var(--f-mono);padding:2px 10px;border-radius:999px;white-space:nowrap}
+.verdict{font:600 14px var(--f-mono);padding:2px 10px;border-radius:999px;white-space:nowrap}
 .verdict.good{background:var(--jade-soft);color:var(--jade)}.verdict.mid{background:var(--ochre-soft);color:var(--ochre)}.verdict.bad{background:var(--red-soft);color:var(--red)}
 @media (max-width:520px){.balance{grid-template-columns:1fr auto}.balance .bal{grid-column:1/-1;grid-row:2}}
 
@@ -112,89 +112,89 @@ section.stage{margin-top:40px;display:grid;gap:16px}
 .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
 .panel{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:20px;min-width:0;box-shadow:var(--shadow)}
 .side-d{border-top:4px solid #9ED2BF}.side-s{border-top:4px solid #F4B3A6}
-.conf{font:500 11px var(--f-mono);padding:1px 7px;border-radius:999px;white-space:nowrap;vertical-align:1px}
+.conf{font:500 13px var(--f-mono);padding:1px 7px;border-radius:999px;white-space:nowrap;vertical-align:1px}
 .conf.Certain{background:var(--jade-soft);color:var(--jade)}
 .conf.Likely{background:var(--ochre-soft);color:var(--ochre)}
 .conf.Guessing{background:var(--red-soft);color:var(--red)}
-table{border-collapse:collapse;width:100%;font-size:14px}
-th{text-align:left;font:600 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);padding:6px 8px}
+table{border-collapse:collapse;width:100%;font-size:16px}
+th{text-align:left;font:600 13px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line);padding:6px 8px}
 td{border-bottom:1px solid var(--line);padding:7px 8px;vertical-align:top}
 td.num,th.num{text-align:right;font-family:var(--f-mono);font-variant-numeric:tabular-nums}
 .scroll{overflow-x:auto}
 .segcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
-.dlist{list-style:none;margin:0;padding:0;display:grid;gap:4px;font-size:14px}
+.dlist{list-style:none;margin:0;padding:0;display:grid;gap:4px;font-size:16px}
 .dlist li{display:flex;gap:8px}
 .dlist .d{font-family:var(--f-mono);color:var(--muted);width:30px;flex:0 0 auto}
-.mixed{font:500 10px var(--f-mono);color:var(--ochre);border:1px solid var(--ochre);border-radius:999px;padding:0 6px;margin-left:auto;height:fit-content}
-.pill{font:600 11px var(--f-mono);padding:2px 8px;border-radius:999px}
+.mixed{font:500 13px var(--f-mono);color:var(--ochre);border:1px solid var(--ochre);border-radius:999px;padding:0 6px;margin-left:auto;height:fit-content}
+.pill{font:600 13px var(--f-mono);padding:2px 8px;border-radius:999px}
 .pill.in{background:var(--jade-soft);color:var(--jade)}
 .pill.out{background:var(--red-soft);color:var(--red)}
 .pill.past{background:var(--line);color:var(--muted)}
-.meter{display:grid;grid-template-columns:150px 1fr 40px;gap:10px;align-items:center;font-size:14px}
+.meter{display:grid;grid-template-columns:150px 1fr 40px;gap:10px;align-items:center;font-size:16px}
 .bar{height:10px;background:var(--line);border-radius:5px;overflow:hidden}
 .bar i{display:block;height:100%;background:linear-gradient(90deg,#F6D9A8,#F4A890);border-radius:5px}
 .sliders{display:grid;gap:10px}
-.sliders label{display:grid;grid-template-columns:150px 1fr 36px;gap:10px;align-items:center;font-size:14px}
+.sliders label{display:grid;grid-template-columns:150px 1fr 36px;gap:10px;align-items:center;font-size:16px}
 input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:20px;background:transparent;accent-color:var(--accent)}
 input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:linear-gradient(90deg,#FDEBE6,#E3EAF8)}
 input[type=range]::-moz-range-track{height:8px;border-radius:4px;background:linear-gradient(90deg,#FDEBE6,#E3EAF8)}
 input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;margin-top:-5px;border-radius:50%;background:#fff;border:3px solid #F4A890;box-shadow:0 1px 3px rgba(92,111,168,.25)}
 input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:#fff;border:3px solid #F4A890}
-input[type=number]{font:500 14px var(--f-mono);width:110px;padding:6px 10px;border:1px solid #EADCE2;border-radius:12px;background:#FFFBF9;color:var(--ink)}
+input[type=number]{font:500 16px var(--f-mono);width:110px;padding:6px 10px;border:1px solid #EADCE2;border-radius:12px;background:#FFFBF9;color:var(--ink)}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .big{font-family:var(--f-display);font-weight:800;font-size:44px;letter-spacing:-.02em;line-height:1;color:var(--accent)}
 .kpis{display:flex;flex-wrap:wrap;gap:28px}
-.kpi .l{font:600 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.kpi .l{font:600 13px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .kpi .v{font:600 22px var(--f-mono);font-variant-numeric:tabular-nums;color:var(--head)}
-.note{color:var(--muted);font-size:13px;max-width:72ch}
+.note{color:var(--muted);font-size:15px;max-width:72ch}
 .rank td:first-child{font-family:var(--f-mono);color:var(--muted)}
 .rank tr.sel{background:var(--accent-soft)}
-svg text{fill:var(--muted);font-family:var(--f-mono);font-size:11px}
-.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+svg text{fill:var(--muted);font-family:var(--f-mono);font-size:13px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:15px;color:var(--muted)}
 .legend i{display:inline-block;width:12px;height:3px;margin-right:6px;vertical-align:middle}
 .row{display:flex;flex-wrap:wrap;gap:16px;align-items:center}
-.hovercard{position:fixed;z-index:20;width:300px;max-width:calc(100vw - 32px);background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 16px;box-shadow:0 12px 36px rgba(92,111,168,.18);pointer-events:none;font-size:13px}
-.hovercard h4{margin:0 0 2px;font:700 15px var(--f-display);color:var(--head);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.hovercard{position:fixed;z-index:20;width:300px;max-width:calc(100vw - 32px);background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 16px;box-shadow:0 12px 36px rgba(92,111,168,.18);pointer-events:none;font-size:15px}
+.hovercard h4{margin:0 0 2px;font:700 17px var(--f-display);color:var(--head);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .hovercard .meta{color:var(--muted);margin-bottom:10px}
 .hovercard .hrow{display:flex;justify-content:space-between;gap:8px;margin:4px 0}
-.hovercard .hrow b{font:600 13px var(--f-mono);color:var(--head)}
+.hovercard .hrow b{font:600 15px var(--f-mono);color:var(--head)}
 .hovercard .bal{margin:8px 0 6px}
-.hovercard .src2{color:var(--muted);font-size:11.5px;margin-top:8px}
+.hovercard .src2{color:var(--muted);font-size:13px;margin-top:8px}
 .hsearch{position:relative;display:flex;gap:8px;align-items:center;margin-top:16px;max-width:640px}
-.hsearch input{flex:1;min-width:0;font:600 15px var(--f-body);color:var(--ink);background:#fff;border:1px solid #EADCE2;border-radius:999px;padding:13px 18px 13px 44px;box-shadow:0 4px 14px rgba(232,128,110,.08)}
+.hsearch input{flex:1;min-width:0;font:600 17px var(--f-body);color:var(--ink);background:#fff;border:1px solid #EADCE2;border-radius:999px;padding:13px 18px 13px 44px;box-shadow:0 4px 14px rgba(232,128,110,.08)}
 .hsearch input::placeholder{color:#B6A9B4;font-weight:600}
 .hsearch input:focus{outline:none;border-color:var(--accent-2);box-shadow:0 0 0 4px var(--accent-soft)}
 .hs-ico{position:absolute;left:16px;top:50%;width:18px;height:18px;transform:translateY(-50%);color:var(--accent);pointer-events:none}
-.hsearch button{flex:0 0 auto;font:700 14px var(--f-display);color:var(--seg-rcr-fg);background:var(--accent-soft);border:1px solid var(--accent-2);border-radius:999px;padding:12px 20px;cursor:pointer}
+.hsearch button{flex:0 0 auto;font:700 16px var(--f-display);color:var(--seg-rcr-fg);background:var(--accent-soft);border:1px solid var(--accent-2);border-radius:999px;padding:12px 20px;cursor:pointer}
 .hsearch button:hover{background:#FBD9D0}
 .hs-list{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:30;list-style:none;margin:0;padding:6px;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 12px 36px rgba(92,111,168,.16);max-height:340px;overflow:auto}
 .hs-list li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 12px;border-radius:12px;cursor:pointer}
 .hs-list li[aria-selected="true"],.hs-list li:hover{background:var(--accent-soft)}
-.hs-list .t{font-weight:700;color:var(--ink)}.hs-list .s{display:block;font-size:12px;color:var(--muted)}
-.hs-list .k{flex:0 0 auto;font:600 10.5px var(--f-mono);letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:999px;background:#F3F5FB;color:var(--head)}
+.hs-list .t{font-weight:700;color:var(--ink)}.hs-list .s{display:block;font-size:14px;color:var(--muted)}
+.hs-list .k{flex:0 0 auto;font:600 13px var(--f-mono);letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:999px;background:#F3F5FB;color:var(--head)}
 .hs-list .k.launch{background:var(--accent-soft);color:var(--seg-rcr-fg)}
-.hs-list .hdr{font:600 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:8px 12px 4px;cursor:default}
+.hs-list .hdr{font:600 13px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:8px 12px 4px;cursor:default}
 .hs-list .hdr:hover{background:none}
 .hs-msg{margin:8px 0 0}
 details>summary{list-style:none}
 details>summary::-webkit-details-marker{display:none}
 details.sub{margin-top:10px}
-details.sub>summary{display:inline-flex;align-items:center;gap:6px;cursor:pointer;font:700 13.5px var(--f-display);color:var(--seg-rcr-fg);padding:6px 12px;border-radius:999px;background:var(--accent-soft);border:1px solid #F8CFC4}
+details.sub>summary{display:inline-flex;align-items:center;gap:6px;cursor:pointer;font:700 15.5px var(--f-display);color:var(--seg-rcr-fg);padding:6px 12px;border-radius:999px;background:var(--accent-soft);border:1px solid #F8CFC4}
 details.sub>summary::before{content:"";width:7px;height:7px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(-45deg);transition:transform .15s}
 details.sub[open]>summary::before{transform:rotate(45deg)}
 details.howto>summary{background:#F3F5FB;border-color:#DDE4F4;color:var(--head)}
 .notice{margin-top:14px}
-.notice>summary{display:inline-flex;gap:8px;align-items:center;cursor:pointer;font:600 13px var(--f-body);color:var(--seg-ocr-fg);background:var(--gold-soft);border:1px solid #F6DEB0;padding:6px 14px;border-radius:999px}
-.notice>summary::before{content:"i";display:grid;place-items:center;width:16px;height:16px;border-radius:50%;background:#F6DEB0;font:700 11px var(--f-mono)}
+.notice>summary{display:inline-flex;gap:8px;align-items:center;cursor:pointer;font:600 15px var(--f-body);color:var(--seg-ocr-fg);background:var(--gold-soft);border:1px solid #F6DEB0;padding:6px 14px;border-radius:999px}
+.notice>summary::before{content:"i";display:grid;place-items:center;width:16px;height:16px;border-radius:50%;background:#F6DEB0;font:700 13px var(--f-mono)}
 .notice p{margin:8px 0 0;max-width:80ch;color:var(--ink)}
-.caveat{margin-top:28px;padding:16px 18px;border-top:1px solid var(--line);font-size:13.5px;color:var(--muted)}
+.caveat{margin-top:28px;padding:16px 18px;border-top:1px solid var(--line);font-size:15.5px;color:var(--muted)}
 .caveat p{margin:0;max-width:90ch}
 .caveat b{color:var(--ink)}
 details.deep{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}
 details.deep>summary{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:6px 12px;align-items:center;padding:18px 22px;cursor:pointer}
-details.deep>summary .dq{font:700 18px var(--f-display);color:var(--head)}
-details.deep>summary .dsum{grid-column:2/4;color:var(--ink);font-size:14px}
-details.deep>summary::after{content:"Show me why";grid-column:3;grid-row:1;font:700 12px var(--f-display);color:var(--seg-rcr-fg);background:var(--accent-soft);border:1px solid #F8CFC4;padding:5px 12px;border-radius:999px;white-space:nowrap}
+details.deep>summary .dq{font:700 20.5px var(--f-display);color:var(--head)}
+details.deep>summary .dsum{grid-column:2/4;color:var(--ink);font-size:16px}
+details.deep>summary::after{content:"Show me why";grid-column:3;grid-row:1;font:700 14px var(--f-display);color:var(--seg-rcr-fg);background:var(--accent-soft);border:1px solid #F8CFC4;padding:5px 12px;border-radius:999px;white-space:nowrap}
 details.deep[open]>summary::after{content:"Hide"}
 .deepbody{padding:0 22px 22px;display:grid;gap:12px}
 .verdict-card{padding:22px}
@@ -203,81 +203,81 @@ details.deep[open]>summary::after{content:"Hide"}
 .vscore{display:flex;align-items:baseline;gap:8px}
 .vscore b{font:800 44px var(--f-display);color:var(--accent);line-height:1}
 .vscore span{color:var(--muted);font-weight:600}
-.vline{margin:6px 0 14px;font-size:16px;color:var(--ink)}
+.vline{margin:6px 0 14px;font-size:18.5px;color:var(--ink)}
 details.q{border-top:1px solid var(--line)}
 details.q>summary{display:grid;grid-template-columns:14px minmax(0,1fr) auto;gap:4px 12px;align-items:center;padding:12px 2px;cursor:pointer}
 details.q>summary .dot{width:12px;height:12px;border-radius:50%}
-details.q>summary .qq{font:700 15px var(--f-display);color:var(--head)}
-details.q>summary .qa{grid-column:2/4;font-size:14.5px;color:var(--ink)}
-details.q>summary::after{content:"Why?";grid-column:3;grid-row:1;font:700 12px var(--f-display);color:var(--seg-rcr-fg)}
+details.q>summary .qq{font:700 17px var(--f-display);color:var(--head)}
+details.q>summary .qa{grid-column:2/4;font-size:16.5px;color:var(--ink)}
+details.q>summary::after{content:"Why?";grid-column:3;grid-row:1;font:700 14px var(--f-display);color:var(--seg-rcr-fg)}
 details.q[open]>summary::after{content:"Hide"}
 .dot.good{background:#9ED2BF}.dot.mid{background:#F6D9A8}.dot.bad{background:#F4B3A6}
-.why{padding:0 0 14px 26px;font-size:14px;color:var(--ink);max-width:80ch}
-.why .more{display:inline-block;margin-top:8px;font:700 12.5px var(--f-display);color:var(--seg-rcr-fg);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
-.howbtn{display:inline-flex;align-items:center;gap:8px;font:700 13.5px var(--f-display);color:var(--head);background:#F3F5FB;border:1px solid #DDE4F4;border-radius:999px;padding:6px 14px 6px 6px;cursor:pointer}
+.why{padding:0 0 14px 26px;font-size:16px;color:var(--ink);max-width:80ch}
+.why .more{display:inline-block;margin-top:8px;font:700 14.5px var(--f-display);color:var(--seg-rcr-fg);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.howbtn{display:inline-flex;align-items:center;gap:8px;font:700 15.5px var(--f-display);color:var(--head);background:#F3F5FB;border:1px solid #DDE4F4;border-radius:999px;padding:6px 14px 6px 6px;cursor:pointer}
 .howbtn:hover{background:#E8EDF9}
 
 /* Waitlist prompt (public site only) */
 .hdr-r{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.wlbtn{font:700 13.5px var(--f-display);color:#fff;background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:8px 16px;cursor:pointer}
+.wlbtn{font:700 15.5px var(--f-display);color:#fff;background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:8px 16px;cursor:pointer}
 .wlbtn:hover{background:#DD6F5C}
 .wl{position:fixed;right:20px;bottom:20px;z-index:30;width:360px;max-width:calc(100vw - 32px);background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px 20px 16px;box-shadow:0 16px 44px rgba(92,111,168,.22);transform:translateY(16px);opacity:0;transition:transform .25s,opacity .25s}
 .wl.show{transform:none;opacity:1}
-.wl h3{margin:0 28px 6px 0;font:700 17px var(--f-display);color:var(--head)}
-.wl p{margin:0 0 10px;font-size:14px;color:var(--ink)}
+.wl h3{margin:0 28px 6px 0;font:700 19.5px var(--f-display);color:var(--head)}
+.wl p{margin:0 0 10px;font-size:16px;color:var(--ink)}
 .wl form{display:flex;gap:8px;flex-wrap:wrap}
 .wl input{flex:1 1 180px;min-width:0;font:15px var(--f-body);padding:10px 12px;border:1px solid #DDE4F4;border-radius:12px;color:var(--ink)}
 .wl input:focus{outline:2px solid var(--accent-2);outline-offset:1px}
-.wl .go{font:700 14px var(--f-display);color:#fff;background:var(--accent);border:0;border-radius:12px;padding:10px 16px;cursor:pointer}
+.wl .go{font:700 16px var(--f-display);color:#fff;background:var(--accent);border:0;border-radius:12px;padding:10px 16px;cursor:pointer}
 .wl .x{position:absolute;top:10px;right:12px;width:30px;height:30px;border:0;background:none;font-size:22px;line-height:1;color:var(--muted);cursor:pointer;border-radius:50%}
 .wl .x:hover{background:#F3F5FB}
-.wl .no{background:none;border:0;padding:0;margin-top:8px;font:600 13px var(--f-body);color:var(--muted);text-decoration:underline;cursor:pointer}
-.wl .fine{font-size:12px;color:var(--muted);margin:8px 0 0}
-.wl .msg{font-size:13px;margin:6px 0 0;color:var(--red)}
-.wl .ok{font:700 15px var(--f-display);color:var(--jade);margin:4px 0 0}
+.wl .no{background:none;border:0;padding:0;margin-top:8px;font:600 15px var(--f-body);color:var(--muted);text-decoration:underline;cursor:pointer}
+.wl .fine{font-size:14px;color:var(--muted);margin:8px 0 0}
+.wl .msg{font-size:15px;margin:6px 0 0;color:var(--red)}
+.wl .ok{font:700 17px var(--f-display);color:var(--jade);margin:4px 0 0}
 @media (max-width:520px){.wl{left:16px;right:16px;bottom:16px;width:auto}}
 @media (prefers-reduced-motion:reduce){.wl{transition:none}}
-.howbtn .ico{width:26px;height:26px;border-radius:50%;background:#fff;border:1px solid #C9D5F0;display:grid;place-items:center;font:800 14px var(--f-display);color:var(--accent)}
+.howbtn .ico{width:26px;height:26px;border-radius:50%;background:#fff;border:1px solid #C9D5F0;display:grid;place-items:center;font:800 16px var(--f-display);color:var(--accent)}
 @media (max-width:520px){.howbtn .lbl{display:none}.howbtn{padding:6px}}
-.howlink{background:none;border:0;padding:0;margin-left:6px;font:700 14px var(--f-display);color:var(--seg-rcr-fg);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.howlink{background:none;border:0;padding:0;margin-left:6px;font:700 16px var(--f-display);color:var(--seg-rcr-fg);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .howov{position:fixed;inset:0;z-index:40;background:rgba(59,68,96,.28);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}
 .howpanel{position:fixed;top:0;right:0;bottom:0;z-index:41;width:min(760px,100%);overflow:auto;overscroll-behavior:contain;background:#fff;border-radius:24px 0 0 24px;box-shadow:-12px 0 40px rgba(92,111,168,.18);
   padding-top:calc(env(safe-area-inset-top,0px) + 22px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 32px);padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
 @media (max-width:640px){.howpanel{border-radius:0}}
 .howtop{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;position:sticky;top:-22px;background:#fff;padding:6px 0 12px;z-index:1;border-bottom:1px solid var(--line)}
 .howtop h2{font-size:26px;margin:0}
-.eyebrow{margin:0 0 2px;font:600 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.eyebrow{margin:0 0 2px;font:600 13px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
 .howclose{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:#fff;font:400 24px/1 var(--f-body);color:var(--head);cursor:pointer;flex:0 0 auto}
 .howclose:hover{border-color:var(--accent-2);color:var(--accent)}
 .howsec{padding:20px 0;border-bottom:1px solid var(--line);max-width:68ch}
-.howsec h3{font-size:18px;margin-bottom:10px}
+.howsec h3{font-size:20.5px;margin-bottom:10px}
 .howsec p{margin:8px 0}
-.howsec .lead{font:600 17px var(--f-display);color:var(--ink);background:var(--accent-soft);border-radius:14px;padding:12px 16px}
+.howsec .lead{font:600 19.5px var(--f-display);color:var(--ink);background:var(--accent-soft);border-radius:14px;padding:12px 16px}
 .howsteps{margin:0;padding-left:20px;display:grid;gap:8px}
 .howlist{margin:6px 0;padding-left:0;list-style:none;display:grid;gap:8px}
 .howlist li{padding-left:2px}
 .howdl{display:grid;grid-template-columns:130px minmax(0,1fr);gap:10px 16px;margin:12px 0}
-.howdl dt{font:700 14px var(--f-display);color:var(--head)}
+.howdl dt{font:700 16px var(--f-display);color:var(--head)}
 .howdl dd{margin:0}
 @media (max-width:520px){.howdl{grid-template-columns:1fr}.howdl dd{margin-bottom:6px}}
 .wbar{display:flex;height:34px;border-radius:12px;overflow:hidden;margin:12px 0;border:1px solid var(--line)}
-.wbar span{display:grid;place-items:center;font:700 12px var(--f-display);color:var(--ink);min-width:0;white-space:nowrap;overflow:hidden}
-.howtab{font-size:13.5px}.howtab td:first-child{font-weight:700;color:var(--head)}
+.wbar span{display:grid;place-items:center;font:700 14px var(--f-display);color:var(--ink);min-width:0;white-space:nowrap;overflow:hidden}
+.howtab{font-size:15.5px}.howtab td:first-child{font-weight:700;color:var(--head)}
 .howtab .dot{display:inline-block;width:10px;height:10px;border-radius:50%;vertical-align:-1px;margin-right:4px}
 .howlimits{background:var(--gold-soft);border-radius:16px;padding:18px 18px;border:1px solid #F6DEB0;margin-top:18px}
 .howfoot{margin-top:14px}
 body.howopen{overflow:hidden}
-details summary{cursor:pointer;color:var(--muted);font-size:14px;margin-bottom:10px}
-.src{font-size:12px;color:var(--muted);margin-top:8px}
+details summary{cursor:pointer;color:var(--muted);font-size:16px;margin-bottom:10px}
+.src{font-size:14px;color:var(--muted);margin-top:8px}
 .roomgate .panel{border:2px solid var(--accent);background:linear-gradient(180deg,#FFF7F4,#fff)}
-.rg-k{margin:0 0 4px;font:600 12px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.rg-k{margin:0 0 4px;font:600 14px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
 .roomgate h2{margin:0 0 6px}
 .rgopts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:14px}
 .rgopt{display:grid;gap:3px;text-align:left;padding:12px 14px;border-radius:16px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-family:var(--f-body);color:var(--ink);min-width:0}
 .rgopt:hover:not(:disabled),.rgopt:focus-visible{border-color:var(--accent);box-shadow:0 0 0 3px var(--red-soft);outline:none}
-.rgopt b{font-family:var(--f-display);font-size:16px;color:var(--head)}
-.rgopt span{font-size:13px;color:var(--muted)}
-.rgopt .rp{font:600 13px var(--f-mono);color:var(--ink)}
+.rgopt b{font-family:var(--f-display);font-size:18.5px;color:var(--head)}
+.rgopt span{font-size:15px;color:var(--muted)}
+.rgopt .rp{font:600 15px var(--f-mono);color:var(--ink)}
 .rgopt:disabled{opacity:.45;cursor:not-allowed}
 .rg-foot{margin:12px 0 0}
 .trackrec{border:2px solid var(--jade-soft)}.trackrec h3{margin:0 0 8px}
@@ -291,22 +291,34 @@ details summary{cursor:pointer;color:var(--muted);font-size:14px;margin-bottom:1
 #map{width:100%;height:auto;display:block;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
 #map.dragging{cursor:grabbing}
 .mapwrap{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--line)}
+.mapbig{display:none;width:100%;margin:0 0 10px;align-items:center;justify-content:center;gap:8px;font:700 16px var(--f-display);color:#fff;background:var(--accent);border:0;border-radius:14px;padding:12px 14px;cursor:pointer}
+.mapbig span{font:600 13px var(--f-body);opacity:.9}
+@media (max-width:700px){.mapbig{display:flex;flex-wrap:wrap}}
+.fsx,.rothint,.fsbar{display:none}
+.mapwrap.fs{position:fixed;inset:0;z-index:50;border-radius:0;border:0;background:var(--water);display:flex;align-items:center;justify-content:center}
+.mapwrap.fs #map{width:100%;height:100%}
+.mapwrap.fs .fsx{display:grid;place-items:center;position:absolute;top:10px;left:10px;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:26px;line-height:1;color:var(--ink);cursor:pointer;box-shadow:0 2px 8px rgba(92,111,168,.18)}
+.mapwrap.fs .fsbar:not([hidden]){display:flex;position:absolute;left:10px;right:10px;bottom:12px;gap:10px;align-items:center;justify-content:space-between;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;font:700 15px var(--f-display);color:var(--head);box-shadow:0 6px 18px rgba(92,111,168,.2)}
+.fsbar button{font:700 15px var(--f-display);color:#fff;background:var(--accent);border:0;border-radius:10px;padding:9px 12px;cursor:pointer;white-space:nowrap}
+@media (orientation:portrait) and (max-width:700px){.mapwrap.fs .rothint{display:block;position:absolute;top:14px;left:64px;right:56px;margin:0;text-align:center;background:var(--gold-soft);border:1px solid #F6DEB0;border-radius:12px;padding:8px 10px;font:600 14px var(--f-body);color:var(--seg-ocr-fg)}}
+body.mapfs{overflow:hidden}
+body.mapfs .hovercard{z-index:60}
 .zoomctl{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:6px}
-.zoomctl button{width:34px;height:34px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:50%;font:600 16px var(--f-mono);cursor:pointer;display:grid;place-items:center;box-shadow:var(--shadow)}
+.zoomctl button{width:34px;height:34px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:50%;font:600 18.5px var(--f-mono);cursor:pointer;display:grid;place-items:center;box-shadow:var(--shadow)}
 .zoomctl button:hover{border-color:var(--accent);color:var(--accent)}
-.zoomlvl{position:absolute;left:10px;bottom:10px;font:500 11px var(--f-mono);color:var(--muted);background:var(--surface);padding:2px 8px;border-radius:999px;opacity:.92}
+.zoomlvl{position:absolute;left:10px;bottom:10px;font:500 13px var(--f-mono);color:var(--muted);background:var(--surface);padding:2px 8px;border-radius:999px;opacity:.92}
 #map .cell{cursor:pointer;transition:fill-opacity .15s}
 #map .cell:hover{fill-opacity:.55}
 #map .cell.on{stroke:var(--accent);stroke-width:2}
-#map .dn{font:500 10px var(--f-mono);fill:var(--ink);opacity:.65;pointer-events:none}
-#map .sea{font:500 10px var(--f-mono);letter-spacing:.35em;fill:var(--muted);opacity:.8}
+#map .dn{font:500 13px var(--f-mono);fill:var(--ink);opacity:.65;pointer-events:none}
+#map .sea{font:500 13px var(--f-mono);letter-spacing:.35em;fill:var(--muted);opacity:.8}
 #map .pin{cursor:pointer}
 #map .pin:focus-visible circle{stroke:var(--accent);stroke-width:3}
-#map .pl{font:700 12px var(--f-display);fill:var(--ink);paint-order:stroke;stroke:var(--surface);stroke-width:4px;stroke-linejoin:round}
+#map .pl{font:700 14px var(--f-display);fill:var(--ink);paint-order:stroke;stroke:var(--surface);stroke-width:4px;stroke-linejoin:round}
 .toggle{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
 .sw{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:6px}
 .dinfo h3{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.lrow{display:flex;justify-content:space-between;gap:8px;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:8px 0;color:var(--ink);font:600 14px var(--f-body);cursor:pointer}
+.lrow{display:flex;justify-content:space-between;gap:8px;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:8px 0;color:var(--ink);font:600 16px var(--f-body);cursor:pointer}
 .lrow:hover{color:var(--accent)}
 @media (prefers-reduced-motion:no-preference){.bar i{transition:width .3s}}
 </style>
@@ -327,9 +339,9 @@ details summary{cursor:pointer;color:var(--muted);font-size:14px;margin-bottom:1
   <button class="x" type="button" id="wlX" aria-label="Close">×</button>
   <div id="wlBody">
     <h3 id="wlT">Help us build the full HuatNex</h3>
-    <p>This is an early MVP. Better property data costs money, and before we raise seed funding we want to know how many people would use HuatNex. Your interest helps us decide how much data to buy.</p>
-    <p>That data would power the next features: analysis of resale homes as investments, and rental pricing analysis.</p>
-    <p>Join the waitlist and we'll tell you when the full version opens.</p>
+    <p>This is an early version. Good property data costs money, so before we raise funds we want to know if people would use HuatNex.</p>
+    <p>More interest means more data, and new tools to check resale homes and rental prices.</p>
+    <p>Join the waitlist and we'll tell you when it's ready.</p>
     <form id="wlForm" novalidate><input type="email" id="wlEmail" name="email" autocomplete="email" placeholder="you@example.com" aria-label="Email address" required><button class="go" type="submit">Join waitlist</button></form>
     <p class="msg" id="wlMsg" hidden></p>
     <p class="fine">We'll only email you about HuatNex. Unsubscribe anytime.</p>
@@ -340,7 +352,7 @@ details summary{cursor:pointer;color:var(--muted);font-size:14px;margin-bottom:1
 <div class="hero">
   <div>
     <h2 class="lead"><span class="huat">Huat</span> are you looking at?</h2>
-    <p>Pick a new launch. We tell you in plain words whether it's likely to grow in value, and you can open up the reasons if you want them.</p>
+    <p>Pick a new condo. We tell you in plain words if it's likely to grow in value.</p>
     <form class="hsearch" id="hsForm" role="search" autocomplete="off">
       <svg class="hs-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       <input id="hs" type="search" placeholder="Huat are you looking at?" aria-label="Huat are you looking at? Search a development, area, MRT station or school" aria-autocomplete="list" aria-controls="hsList" aria-expanded="false">
@@ -361,8 +373,12 @@ details summary{cursor:pointer;color:var(--muted);font-size:14px;margin-bottom:1
         <button class="chip" id="mm-segment" aria-pressed="false">Colour by segment</button>
         <button class="chip" id="mm-opp" aria-pressed="false">Colour by opportunity</button>
       </div>
+      <button class="mapbig" id="mapBig" type="button"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Open the big map <span>best with your phone sideways</span></button>
       <div class="mapwrap"><svg id="map" viewBox="0 0 960 560" role="img" aria-label="Map of Singapore land use and planning areas with new launch pins. Scroll or pinch to zoom, drag to pan."><rect width="960" height="560" fill="var(--water)"/><g id="luG"></g><g id="dyn"></g></svg>
-        <div class="zoomctl"><button id="zIn" aria-label="Zoom in">+</button><button id="zOut" aria-label="Zoom out">−</button><button id="zReset" aria-label="Reset view" style="font-size:12px">⤢</button></div>
+        <div class="zoomctl"><button id="zIn" aria-label="Zoom in">+</button><button id="zOut" aria-label="Zoom out">−</button><button id="zReset" aria-label="Reset view" style="font-size:14px">⤢</button><button id="zFull" aria-label="Big map" title="Big map"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+        <button class="fsx" id="fsX" type="button" aria-label="Close big map">×</button>
+        <p class="rothint" aria-hidden="true">Turn your phone sideways for a bigger map</p>
+        <div class="fsbar" id="fsBar" hidden><span id="fsName"></span><button type="button" id="fsGo">See the verdict ›</button></div>
         <div class="zoomlvl" id="zLvl">1.0×</div></div>
       <p class="note" style="margin:6px 0 0">Scroll or pinch to zoom, drag to pan. Hover a pin for buyers vs supply.</p>
       <details class="sub"><summary>Map layers and legend</summary>
@@ -397,8 +413,8 @@ details summary{cursor:pointer;color:var(--muted);font-size:14px;margin-bottom:1
 </section>
 
 <details class="notice" open><summary>MVP guide, not financial advice</summary>
-  <p>HuatNex is a guide to help Singaporeans evaluate new launches in the property market. It is not financial advice: make financial and investment decisions with licensed professionals, such as CEA-registered property agents. As this is an MVP, the database is incomplete. We will keep building the database and adding features if there is demand.</p>
-  <p>Launch and resale prices come from URA's transaction records. Room types are grouped by unit size, because URA doesn't record bedrooms. Some unit counts, the upgrade rate and a few planning figures are still HuatNex estimates.</p>
+  <p>HuatNex helps Singaporeans size up new condo launches. It's a guide, not financial advice: check with a CEA-registered property agent before you decide. This is an early version, so some data is still missing. We'll add more if people find it useful.</p>
+  <p>Prices come from URA's records of real sales. Room types are based on unit size, because URA doesn't record bedrooms. A few numbers are still our estimates.</p>
 </details>
 
 <div class="picker"><div class="chips" id="chips"></div></div>
@@ -568,11 +584,11 @@ details summary{cursor:pointer;color:var(--muted);font-size:14px;margin-bottom:1
   <div class="panel">
     <div class="kpis" id="exitKpis"></div>
     <div id="chart" style="margin-top:14px"></div>
-    <div class="legend"><span><i style="background:var(--accent)"></i>Base</span><span><i style="background:var(--ccr)"></i>Bull</span><span><i style="background:var(--gold)"></i>Bear</span></div>
+    <div class="legend"><span><i style="background:var(--accent)"></i>Likely</span><span><i style="background:var(--ccr)"></i>Good case</span><span><i style="background:var(--gold)"></i>Bad case</span></div>
     <p class="note" id="exitNote"></p>
   </div>
   <div class="panel trackrec" id="trackRec"></div>
-  <details class="sub"><summary>Change the assumptions</summary>
+  <details class="sub"><summary>Try your own numbers</summary>
     <div class="panel" style="margin-top:10px">
       <div class="row">
         <label class="note">Entry psf <input type="number" id="entryPsf" step="10"></label>
@@ -581,14 +597,14 @@ details summary{cursor:pointer;color:var(--muted);font-size:14px;margin-bottom:1
       <p class="note">Growth starts at the market segment's long-run trend. Change it to test your own view; the good and bad cases move with it.</p>
     </div>
   </details>
-  <details class="sub"><summary>Same room type in similar launches, and how much they grew</summary>
+  <details class="sub"><summary>Similar launches and how much they grew</summary>
     <div class="panel scroll" style="margin-top:10px">
       <table><thead><tr><th>Project</th><th class="num">Launch</th><th class="num">Launch psf</th><th class="num">Now psf</th><th class="num">Gain</th><th class="num">CAGR</th><th class="num">Resales: above / near / below launch</th></tr></thead><tbody id="compRows"></tbody></table>
       <p class="note" id="compNote"></p>
     </div>
   </details>
 </div></details>
-<footer class="caveat"><p><b>About HuatNex.</b> HuatNex is a guide to help Singaporeans evaluate new launches in the property market. It is not financial advice: make financial and investment decisions with licensed professionals, such as CEA-registered property agents. As this is an MVP, the database is incomplete. We will keep building the database and adding features if there is demand.</p></footer>
+<footer class="caveat"><p><b>About HuatNex.</b> HuatNex helps Singaporeans size up new condo launches. It's a guide, not financial advice: check with a CEA-registered property agent before you decide. This is an early version, so some data is still missing. We'll add more if people find it useful.</p></footer>
 </div>
 <script>
 const SSD_YEARS = 4; // purchases from 4 Jul 2025
@@ -837,12 +853,12 @@ function renderBank(p){
   const resGain = m&&o ? +(m.res_ha-o.res_ha).toFixed(1) : 0;
   $("#supNote").innerHTML = `${s[1]} ${conf(s[2])}<br>${p.supply.txt} ${conf(p.supply.c)}${m?`<br><b>Master Plan 2025:</b> ${m.reserve_ha_2km} ha of reserve sites and ${m.white_ha_2km} ha of white sites within 2km. Reserve land has no fixed use yet and can be rezoned for housing in later plans.${o?` Residential zoning within 1km changed by ${resGain>0?"+":""}${resGain} ha since the 2019 plan${resGain>5?", a sign of new housing land coming":""}.`:""} ${conf("Certain")}`:""}`;
   $("#balBig").innerHTML = `<div class="row" style="justify-content:space-between;margin-bottom:8px"><b>${fmt(x.buyers)} likely buyers vs ${fmt(x.sup)} competing units</b><span class="verdict ${x.v[0]}">${x.v[1]} · ${x.ratio.toFixed(2)} buyers per unit</span></div><div class="bal big"><span class="dm" style="width:${x.share}%"></span><span class="sp" style="flex:1"></span></div>`;
-  $("#bbNote").innerHTML = `HDB flats completed ${ex-7} to ${ex-4} reach their 5-year minimum occupation between ${ex-2} and ${ex+1}, around when you can sell. Counted from HDB block records for BTO projects within ${BTO_KM}km of the launch (listed above). Prime and Plus flats need 10 years, so they fall outside almost every SSD window. ${conf("Likely")}`;
+  $("#bbNote").innerHTML = `HDB owners must live in their flat for 5 years (the MOP) before they can sell. Flats finished ${ex-7}–${ex-4} reach that point between ${ex-2} and ${ex+1}, around when you can sell. We count BTO projects within ${BTO_KM}km. Prime and Plus flats wait 10 years, so they don't count. ${conf("Likely")}`;
   {const nb=btoNear(p),tot=nb.reduce((a,o)=>a+o.b[4],0),show=nb.slice(0,12);
-   $("#btoNear").innerHTML=`<h3>HDB BTOs reaching MOP around your exit, within ${BTO_KM}km</h3>
-    <p class="note" style="margin-top:0">${nb.length?`<b>${fmt(tot)} flats in ${nb.length} BTO project${nb.length===1?"":"s"}</b> within ${BTO_KM}km were completed ${ex-7}–${ex-4}, so their owners pass the 5-year minimum occupation period between ${ex-2} and ${ex+1}, around when you can sell (${ex}). These are the upgraders most likely to look at this launch.`:`No BTO project within ${BTO_KM}km reaches its 5-year minimum occupation period between ${ex-2} and ${ex+1}, around when you can sell (${ex}).`}</p>
-    ${nb.length?`<div class="scroll"><table><thead><tr><th>BTO project</th><th>District · town</th><th class="num">Completed</th><th class="num">MOP</th><th class="num">Flats</th><th class="num">Distance</th></tr></thead><tbody>${show.map(o=>`<tr><td>${esc(o.b[0])}</td><td>${o.b[2]?"D"+o.b[2]+" · ":""}${btoTown(o.b[1])}</td><td class="num">${o.b[3]}</td><td class="num">${o.b[3]+5}</td><td class="num">${fmt(o.b[4])}</td><td class="num">${o.k.toFixed(1)}km</td></tr>`).join("")}</tbody></table></div>${nb.length>show.length?`<p class="note">…and ${nb.length-show.length} more further away.</p>`:""}`:""}
-    <p class="note">Flats sold, by block, from HDB Property Information (data.gov.sg), grouped into projects and located with OneMap. Straight-line distance from the launch pin. Shown on the map with a ${BTO_KM}km ring when "Buyer bank" is on. ${conf("Likely")}</p>`;}
+   $("#btoNear").innerHTML=`<h3>Nearby HDB owners who can sell when you do (within ${BTO_KM}km)</h3>
+    <p class="note" style="margin-top:0">${nb.length?`<b>${fmt(tot)} flats in ${nb.length} BTO project${nb.length===1?"":"s"}</b> finish their 5-year wait between ${ex-2} and ${ex+1}, around when you can sell (${ex}). Their owners are your most likely buyers.`:`No BTO within ${BTO_KM}km finishes its 5-year wait around when you can sell (${ex}).`}</p>
+    ${nb.length?`<div class="scroll"><table><thead><tr><th>BTO project</th><th>District · town</th><th class="num">Completed</th><th class="num">Can sell from</th><th class="num">Flats</th><th class="num">Distance</th></tr></thead><tbody>${show.map(o=>`<tr><td>${esc(o.b[0])}</td><td>${o.b[2]?"D"+o.b[2]+" · ":""}${btoTown(o.b[1])}</td><td class="num">${o.b[3]}</td><td class="num">${o.b[3]+5}</td><td class="num">${fmt(o.b[4])}</td><td class="num">${o.k.toFixed(1)}km</td></tr>`).join("")}</tbody></table></div>${nb.length>show.length?`<p class="note">…and ${nb.length-show.length} more further away.</p>`:""}`:""}
+    <p class="note">Source: HDB records (data.gov.sg), mapped with OneMap. Turn on "Buyer bank" to see them on the map. ${conf("Likely")}</p>`;}
   const pill = {in:'<span class="pill in">IN</span>',out:'<span class="pill out">TOO LATE</span>',past:'<span class="pill past">ABSORBED</span>'};
   $("#bbRows").innerHTML = b.rows.map(r=>`<tr><td>${r.n}</td><td>${r.type}</td><td class="num">${r.units?fmt(r.units):"–"}</td><td class="num">${r.ready}</td><td>${pill[r.st]}</td><td>${conf(r.c)}</td></tr>`).join("");
 }
@@ -858,19 +874,19 @@ function renderTrackCmp(p){const el=$("#trackCmp");if(!el)return;const pc=PINS[p
   const cell=t=>t&&t.n?`<td class="num">${fmt(t.n)}</td><td class="num" style="color:var(--jade)">${pc2(t.up,t.n)}</td><td class="num" style="color:var(--red)">${pc2(t.down,t.n)}</td><td class="num"><b>${tScore(t)??"–"}</b></td>`:`<td class="num">0</td><td class="num">–</td><td class="num">–</td><td class="num">–</td>`;
   const sum=f=>rows.reduce((o,r)=>{const t=f(r);if(t){o.n+=t.n;o.up+=t.up;o.flat+=t.flat;o.down+=t.down;}return o;},{n:0,up:0,flat:0,down:0});
   const A=sum(r=>r.a),R=rb?sum(r=>r.r):null,own=profOf(p.id),ownR=rb?profOf(p.id,rb):null;
-  const line=(t,lab)=>t&&t.n?`<b>${lab}:</b> ${fmt(t.n)} resales and sub-sales, <b style="color:var(--jade)">${pc2(t.up,t.n)} sold 5%+ above launch price</b>, ${pc2(t.flat,t.n)} within 5%, <b style="color:var(--red)">${pc2(t.down,t.n)} below</b>. Resale score <b>${tScore(t)??"–"}</b>/10.`:`<b>${lab}:</b> no resales or sub-sales yet.`;
-  if(!rows.length){el.innerHTML=`<h3>Resale track record nearby</h3><p class="note" style="margin:0">No comparable development nearby has resales or sub-sales on record yet, so there is no track record to compare. ${own&&own.n?line(own,"This launch"):""}</p>`;return;}
-  el.innerHTML=`<h3>Resale track record nearby: overall, then ${rb?rn+" units":"by unit type"}</h3>
+  const line=(t,lab)=>t&&t.n?`<b>${lab}:</b> ${fmt(t.n)} resales. <b style="color:var(--jade)">${pc2(t.up,t.n)} made money</b>, <b style="color:var(--red)">${pc2(t.down,t.n)} lost money</b>. Score <b>${tScore(t)??"–"}</b>/10.`:`<b>${lab}:</b> no resales yet.`;
+  if(!rows.length){el.innerHTML=`<h3>Resale track record nearby</h3><p class="note" style="margin:0">No similar launch nearby has resales yet, so there's nothing to compare. ${own&&own.n?line(own,"This launch"):""}</p>`;return;}
+  el.innerHTML=`<h3>Did nearby buyers make money?</h3>
    <p class="note" style="margin:0 0 4px">${line(A,`All units, ${rows.length} nearby development${rows.length===1?"":"s"}`)}</p>
-   ${rb?`<p class="note" style="margin:0 0 8px">${line(R,`${rn} units only`)}${R&&A.n&&R.n?` ${Math.abs(tScore(R)-tScore(A))>=1?`<b>${rn} units did ${tScore(R)>tScore(A)?"better":"worse"} than the overall picture.</b>`:`${rn} units tracked the overall picture.`}`:""}</p>`:`<p class="note" style="margin:0 0 8px">Pick a room type to see how that unit type did; results can differ a lot by size.</p>`}
+   ${rb?`<p class="note" style="margin:0 0 8px">${line(R,`${rn} units only`)}${R&&A.n&&R.n?` ${Math.abs(tScore(R)-tScore(A))>=1?`<b>${rn} units did ${tScore(R)>tScore(A)?"better":"worse"} than the overall picture.</b>`:`${rn} units tracked the overall picture.`}`:""}</p>`:`<p class="note" style="margin:0 0 8px">Pick a room type to see how that size did. Results can differ a lot by size.</p>`}
    <div class="scroll"><table class="rank"><thead><tr><th rowspan="2">Development</th><th class="num" rowspan="2">Distance</th><th class="num" colspan="4">All units</th>${rb?`<th class="num" colspan="4">${rn}</th>`:""}</tr>
-   <tr><th class="num">Resales</th><th class="num">5%+ above</th><th class="num">Below</th><th class="num">Score</th>${rb?`<th class="num">Resales</th><th class="num">5%+ above</th><th class="num">Below</th><th class="num">Score</th>`:""}</tr></thead>
+   <tr><th class="num">Resales</th><th class="num">Made money</th><th class="num">Lost money</th><th class="num">Score</th>${rb?`<th class="num">Resales</th><th class="num">Made money</th><th class="num">Lost money</th><th class="num">Score</th>`:""}</tr></thead>
    <tbody>${rows.map(r=>`<tr><td>${esc(nm(r.k))}${r.cmp?' <span class="tag">comparable</span>':""}</td><td class="num">${r.d.toFixed(1)}km</td>${cell(r.a)}${rb?cell(r.r):""}</tr>`).join("")}
    ${own&&own.n?`<tr class="sel"><td>${esc(p.name)} (this launch)</td><td class="num">–</td>${cell(own)}${rb?cell(ownR):""}</tr>`:""}</tbody></table></div>
    <details class="sub"><summary>Every unit type, development by development</summary><div class="scroll" style="margin-top:8px"><table class="rank"><thead><tr><th>Development</th>${ROOMS.map(R=>`<th class="num">${R.l.replace(" or penthouse","+")}</th>`).join("")}</tr></thead>
    <tbody>${rows.map(r=>`<tr><td>${esc(nm(r.k))}</td>${ROOMS.map(R=>{const t=profOf(r.k,R.b);return `<td class="num">${t.n?`${fmt(t.n)} · <span style="color:var(--jade)">${pc2(t.up,t.n)}</span>${t.down?` · <span style="color:var(--red)">${pc2(t.down,t.n)}↓</span>`:""}`:"–"}</td>`;}).join("")}</tr>`).join("")}</tbody></table>
-   <p class="note">Each cell: resales and sub-sales · share sold 5%+ above launch price · share sold below (↓).</p></div></details>
-   <p class="note">Resales and sub-sales since Oct 2021 (URA records) against each development's launch price, by unit size where its launch price for that size is known. "5%+ above" roughly covers stamp duty and agent fees, so it's the nearest to profitable; "below" lost money before costs. Resale score = 10 × (share 5%+ above − share below), shown with 5 or more transactions. Nearby means the comparables plus any same-type launch within 3km with 10+ resales. ${conf("Likely")}</p>`;}
+   <p class="note">Each cell: resales · % made money · % lost money (↓).</p></div></details>
+   <p class="note">Resales since Oct 2021 (URA). "Made money" = sold at least 5% above launch price, enough to cover stamp duty and agent fees. "Lost money" = sold below launch price. Score = % made money minus % lost money, out of 10. ${conf("Likely")}</p>`;}
 function renderSens(p){renderTrackCmp(p);
   const b = bank(p);
   const f = [["Schools ≤1km",p.schools.s],["MRT / mall ≤1km",p.mrt.s],["Buyer bank",b.s],["Supply gap",p.supply.s]];
@@ -891,19 +907,19 @@ const cur = () => PROJECTS.find(p=>p.id===sel);
 function trackRec(key){const P=PROF[key];if(!P)return null;const bb=ROOMSEL&&P.b[ROOMSEL-1];
   if(bb)return {n:bb[0],up:bb[1],flat:bb[2],down:bb[3],room:true,bandRef:!!bb[4]};return {n:P.a[0],up:P.a[1],flat:P.a[2],down:P.a[3],room:false,bandRef:false};}
 const pct=(a,n)=>n?Math.round(a/n*100):0;
-function trackLine(t){return `${t.n===1?"1 resale or sub-sale":fmt(t.n)+" resales and sub-sales"}: <b style="color:var(--jade)">${fmt(t.up)} sold 5%+ above launch price</b>, ${fmt(t.flat)} within 5%, <b style="color:var(--red)">${fmt(t.down)} below launch price</b>`;}
+function trackLine(t){return `${t.n===1?"1 resale":fmt(t.n)+" resales"}: <b style="color:var(--jade)">${fmt(t.up)} made money</b>, ${fmt(t.flat)} about break-even, <b style="color:var(--red)">${fmt(t.down)} lost money</b>`;}
 function renderTrack(p){const el=$("#trackRec");if(!el)return;const rn=roomName(ROOMSEL);
   const own=trackRec(p.id);let tot={n:0,up:0,flat:0,down:0},any=false,mixed=false;
   p.comps.forEach(k=>{const t=trackRec(k);if(!t)return;any=true;if(ROOMSEL&&!t.room)mixed=true;tot.n+=t.n;tot.up+=t.up;tot.flat+=t.flat;tot.down+=t.down;});
-  el.innerHTML=`<h3>Benchmark check: past transactions</h3>
+  el.innerHTML=`<h3>Did buyers at similar launches make money?</h3>
   <div class="kpis">
-    <div class="kpi"><div class="l">Comparables' resales since Oct 2021</div><div class="v">${any?fmt(tot.n):"–"}</div></div>
-    <div class="kpi"><div class="l">Sold 5%+ above launch</div><div class="v" style="color:var(--jade)">${any?`${fmt(tot.up)} (${pct(tot.up,tot.n)}%)`:"–"}</div></div>
-    <div class="kpi"><div class="l">Within 5% of launch</div><div class="v" style="color:var(--ochre)">${any?`${fmt(tot.flat)} (${pct(tot.flat,tot.n)}%)`:"–"}</div></div>
-    <div class="kpi"><div class="l">Below launch price</div><div class="v" style="color:var(--red)">${any?`${fmt(tot.down)} (${pct(tot.down,tot.n)}%)`:"–"}</div></div></div>
-  <p class="note" style="margin:10px 0 0"><b>${esc(p.name)} itself:</b> ${own&&own.n?trackLine(own)+(ROOMSEL&&own.room?` (${rn} units)`:"")+".":"no resales or sub-sales yet."}
+    <div class="kpi"><div class="l">Resales at similar launches</div><div class="v">${any?fmt(tot.n):"–"}</div></div>
+    <div class="kpi"><div class="l">Made money</div><div class="v" style="color:var(--jade)">${any?`${fmt(tot.up)} (${pct(tot.up,tot.n)}%)`:"–"}</div></div>
+    <div class="kpi"><div class="l">About break-even</div><div class="v" style="color:var(--ochre)">${any?`${fmt(tot.flat)} (${pct(tot.flat,tot.n)}%)`:"–"}</div></div>
+    <div class="kpi"><div class="l">Lost money</div><div class="v" style="color:var(--red)">${any?`${fmt(tot.down)} (${pct(tot.down,tot.n)}%)`:"–"}</div></div></div>
+  <p class="note" style="margin:10px 0 0"><b>${esc(p.name)} itself:</b> ${own&&own.n?trackLine(own)+(ROOMSEL&&own.room?` (${rn} units)`:"")+".":"no resales yet."}
   ${any?`<br><b>Its ${p.comps.length} comparable${p.comps.length===1?"":"s"}:</b> ${trackLine(tot)}${ROOMSEL&&!mixed?` (${rn} units)`:ROOMSEL?" (some comparables count all unit types, because their "+rn+" history is too thin)":""}.`:""}</p>
-  <p class="note" style="margin:6px 0 0">"Above launch price" compares each URA resale or sub-sale with the project's launch price (same room type where we have it). It is not the same as profit: URA doesn't link a sale to what that owner paid, and stamp duty plus agent fees take roughly 4–5%, so "within 5%" is roughly break-even. ${conf("Certain")} for the counts.</p>`;}
+  <p class="note" style="margin:6px 0 0">"Made money" means sold for at least 5% more than the launch price, enough to cover stamp duty and agent fees. "Lost money" means sold for less than the launch price. We compare with the launch price, because we can't see what each owner paid. ${conf("Certain")} for the counts.</p>`;}
 // Long-run market trend by segment: mean of the 10- and 12-year growth of URA's price index of non-landed private homes (data.gov.sg), to 2026 Q2.
 const TREND = {"CCR": {"g10": 0.0224, "g12": 0.0156, "g": 0.019}, "RCR": {"g10": 0.0487, "g12": 0.0353, "g": 0.042}, "OCR": {"g10": 0.0565, "g12": 0.0409, "g": 0.0487}}, TREND_ASOF = "2026 Q2";
 const longRun = p => TREND[p.seg].g;
@@ -919,20 +935,20 @@ function renderPrice(p){renderTrack(p);
   const g = cs.map(cagr); const avg = g.length?g.reduce((a,b)=>a+b,0)/g.length:null;
   const spread = g.length?(Math.max(...g)-Math.min(...g))*100:0;
   if(!cs.length)$("#compNote").innerHTML="No earlier launch of this type nearby has a long enough price history to compare with.";
-  else $("#compNote").innerHTML = (p.compRoom?`These are ${roomName(ROOMSEL)} units in the ${cs.length} ${p.ec?"EC":"condo"} launches ${p.compHow} whose ${roomName(ROOMSEL)} units grew the most since launch, among launches at least six months older than this one. We look within 2km first, the same area as the ${roomName(ROOMSEL)} supply count, then widen to 3km and 5km.`:`${ROOMSEL?`Fewer than two nearby launches have enough ${roomName(ROOMSEL)} sales history yet, so these comparisons use whole-project prices. `:""}These are the ${cs.length} ${p.ec?"EC":"condo"} launches ${p.compHow} with the highest growth since launch, among those that launched at least six months before this one.`)+` Their yearly growth averages ${(avg*100).toFixed(1)}% (spread ${spread.toFixed(1)} points), against the ${p.seg} market trend of ${(longRun(p)*100).toFixed(1)}%. They are a cross-check only, not part of the forecast: picking the best performers flatters growth, and in testing, forecasts built on recent growth missed by about 10%. ${conf("Likely")}`;
+  else $("#compNote").innerHTML = (p.compRoom?`The ${roomName(ROOMSEL)} units that grew most at older launches ${p.compHow} (we look within 2km first).`:`${ROOMSEL?`Not enough ${roomName(ROOMSEL)} resales nearby yet, so these use whole-project prices. `:""}The older launches ${p.compHow} that grew most.`)+` They grew about ${(avg*100).toFixed(1)}% a year, against ${(longRun(p)*100).toFixed(1)}% for the area. They're a sense check, not the forecast. ${conf("Likely")}`;
   const base = o.g;
   const bull = base + 0.02, bear = Math.max(-0.02, base - 0.025);
   const ex = exitYear(p);
   const proj = r => o.psf*Math.pow(1+r, SSD_YEARS);
   const b0 = proj(base);
   $("#exitKpis").innerHTML = `
-    <div class="kpi"><div class="l">Base exit ${ex}</div><div class="big">$${fmt(Math.round(b0/10)*10)}</div></div>
-    <div class="kpi"><div class="l">Base growth (${p.seg} trend)</div><div class="v">${(base*100).toFixed(1)}% a year</div></div>
-    <div class="kpi"><div class="l">Bull / Bear psf</div><div class="v">${fmt(Math.round(proj(bull)))} / ${fmt(Math.round(proj(bear)))}</div></div>
-    <div class="kpi"><div class="l">Comparables grew</div><div class="v">${avg==null?"–":(avg*100).toFixed(1)+"% a year"}</div></div>`;
+    <div class="kpi"><div class="l">Likely price in ${ex}</div><div class="big">$${fmt(Math.round(b0/10)*10)}</div></div>
+    <div class="kpi"><div class="l">Usual yearly growth here</div><div class="v">${(base*100).toFixed(1)}% a year</div></div>
+    <div class="kpi"><div class="l">Good case / bad case</div><div class="v">${fmt(Math.round(proj(bull)))} / ${fmt(Math.round(proj(bear)))}</div></div>
+    <div class="kpi"><div class="l">Similar launches grew</div><div class="v">${avg==null?"–":(avg*100).toFixed(1)+"% a year"}</div></div>`;
   const gross = (b0/o.psf-1)*100;const rn=realNow(p);
   if(rn&&ssdDone(p)){const ag=(rn.psf/p.psf-1)*100;$("#exitKpis").innerHTML+=`<div class="kpi"><div class="l">Actual today</div><div class="v" style="color:var(--jade)">$${fmt(rn.psf)} (${ag>=0?"+":""}${ag.toFixed(0)}%)</div></div>`;}
-  $("#exitNote").innerHTML = (p.indic?`The entry price is the developer's starting price for this room type, from the 17 Oct 2026 preview; bookings open 31 Oct. Average prices are usually higher than starting prices, so update the entry price once actual prices are known. ${conf("Likely")} `:"")+(rn&&ssdDone(p)?`This launch's 4-year window ended in ${ex}, so you can check the model against reality: homes here now go for about $${fmt(rn.psf)} psf (${nowLabel(rn)}, URA), against the base forecast of $${fmt(Math.round(b0/10)*10)}. `:"")+`Base = the ${p.seg} market's long-run price trend: the average yearly growth of URA's price index of non-landed homes over the last 10 years (${(TREND[p.seg].g10*100).toFixed(1)}%) and 12 years (${(TREND[p.seg].g12*100).toFixed(1)}%), to ${TREND_ASOF}.${p.ec?" ECs are priced off the OCR condo trend; they have tended to gain more as they near full privatisation, so this may be cautious.":""} In a test on 17 past launches using only what was known at launch, this approach missed the 4-year price by about 4% in a typical case, slightly on the low side. Launches have grown about 2 points a year slower than the index, but that is already reflected in the test. Gross gain over 4 years ≈ ${gross.toFixed(0)}% before ~3% buyer stamp duty at entry, ~1% agent fee and interest cost at exit. ${conf("Likely")}`;
+  $("#exitNote").innerHTML = (p.indic?`This uses the developer's starting price (bookings open 31 Oct). Most buyers will pay more than the starting price. ${conf("Likely")} `:"")+(rn&&ssdDone(p)?`This launch's 4 years are up: homes here now sell for about $${fmt(rn.psf)} psf (URA), against our forecast of $${fmt(Math.round(b0/10)*10)}. `:"")+`How we worked this out: the launch price grows at the area's usual rate, ${(TREND[p.seg].g*100).toFixed(1)}% a year (the average of the last 10 and 12 years in URA's price index).${p.ec?" ECs often gain more as they near full privatisation, so this may be cautious.":""} On 17 past launches, this was usually within 4% of the real price. That's a ${gross.toFixed(0)}% gain before costs; take off about 3% stamp duty when you buy and 1% agent fee when you sell. ${conf("Likely")}`;
   drawChart(p, o.psf, base, bull, bear);
 }
 function drawChart(p, psf, base, bull, bear){
@@ -1104,7 +1120,7 @@ function supplyGapHTML(d){const T=supplyPA(),x=T[d],n=T._n;
   if(!x)return `<p style="margin:4px 0 8px"><b style="color:var(--jade)">Supply gap: no new private homes here since 2021</b> <span class="note">(no launches or land sold)</span></p>`;
   const third=x.rank<=n/3?"low":x.rank<=2*n/3?"mid":"high";
   const head={low:["var(--jade)","Supply gap: little new private supply"],mid:["var(--ink)","Supply: moderate new private supply"],high:["var(--red)","No supply gap: heavy new private supply"]}[third];if(ROOMSEL)head[1]=head[1].replace("private supply","private "+roomName(ROOMSEL)+" supply");
-  return `<p style="margin:4px 0 8px"><b style="color:${head[0]}">${head[1]}</b><br><span class="note">${fmt(x.u)} new private ${ROOMSEL?roomName(ROOMSEL)+" ":""}homes since 2021 (${x.l} launch${x.l===1?"":"es"}${x.s?`, ${x.s} land site${x.s===1?"":"s"} not yet launched`:""}). Ranked #${n-x.rank+1} of ${n} planning areas for new private ${ROOMSEL?roomName(ROOMSEL)+" ":""}supply (#1 = most).${ROOMSEL?" Land not yet launched is counted at the usual share for this room type.":""} ${conf("Likely")}</span></p>`;}
+  return `<p style="margin:4px 0 8px"><b style="color:${head[0]}">${head[1]}</b><br><span class="note">${fmt(x.u)} new private ${ROOMSEL?roomName(ROOMSEL)+" ":""}homes here since 2021. That's #${n-x.rank+1} most of ${n} areas. ${conf("Likely")}</span></p>`;}
 function renderDistInfo(d){
   const A=PA.areas.find(x=>x.c===d);const p=cur();const pc=PINS[p.id];
   const inD=PROJECTS.filter(q=>PA.pin_pa[q.id]===d);
@@ -1118,10 +1134,10 @@ function renderDistInfo(d){
     ${supplyGapHTML(d)}
     <div>${inD.length?inD.map(q=>`<button class="lrow" data-p="${q.id}"><span>${q.name}</span><span style="font-family:var(--f-mono)">${score(q)}</span></button>`).join(""):'<p class="note">No launches seeded here yet.</p>'}</div>
     <details class="sub"><summary>What's within 1km</summary>
-    ${Object.keys(near).map(k=>`<p style="margin:6px 0"><b style="font-size:13px">${lab[k]}: ${near[k].length}</b><br><span style="font-size:13px">${near[k].join(k==="school"?"<br>":", ")||'<span class="note">none mapped</span>'}</span></p>`).join("")}
+    ${Object.keys(near).map(k=>`<p style="margin:6px 0"><b style="font-size:15px">${lab[k]}: ${near[k].length}</b><br><span style="font-size:15px">${near[k].join(k==="school"?"<br>":", ")||'<span class="note">none mapped</span>'}</span></p>`).join("")}
     <p class="note">Straight-line distances from the launch pin ${conf("Likely")}. School and station positions are official; launch pins are HuatNex placements.</p></details>
     ${(()=>{const m=LU.stats[p.id];if(!m)return"";return `<details class="sub"><summary>Zoning around it</summary>
-    <table style="font-size:13px"><tbody>
+    <table style="font-size:15px"><tbody>
       <tr><td>Residential-zoned land ≤1km</td><td class="num">${m.res_ha} ha · ${m.res_pct}%</td></tr>
       <tr><td>Avg residential plot ratio ≤1km</td><td class="num">${m.avg_gpr??"–"}</td></tr>
       <tr><td>Landed (low-rise) zoning ≤1km</td><td class="num">${m.landed_ha} ha</td></tr>
@@ -1132,7 +1148,7 @@ function renderDistInfo(d){
     </tbody></table>
     <p class="note">Zoning measured from URA Master Plan 2025 (with 2019 for comparison) ${conf("Certain")}. Zoned land includes existing estates, so it shows density and future-use land, not vacant plots. A jump in residential zoning between plans usually means land newly set aside for housing.</p></details>`;})()}
     ${(()=>{const m=MP.stats[p.id];if(!m)return"";return `<details class="sub"><summary>Planning checks</summary>
-    <table style="font-size:13px"><tbody>
+    <table style="font-size:15px"><tbody>
       <tr><td>Nearest station</td><td class="num">${m.nearest.n}${m.nearest.f?" (future)":""} · ${fmt(m.nearest.m)}m</td></tr>
       ${m.nearest.f?`<tr><td>Nearest open MRT</td><td class="num">${m.nearest_open.n} · ${fmt(m.nearest_open.m)}m</td></tr>`:""}
       <tr><td>HDB blocks ≤1km / ≤2km</td><td class="num">${fmt(m.hdb_1km)} / ${fmt(m.hdb_2km)}</td></tr>
@@ -1266,7 +1282,7 @@ function applyRoom(b){ROOMSEL=b;
 assignComps();
 function defHc(p){const cs=p.comps.map(k=>COMPS[k]);return cs.length?Math.round(cs.reduce((a,c)=>a+(c.src==="old"?0.55:0.8),0)/cs.length*100)/100:0.55;}
 PROJECTS.forEach(p=>{const cs=compSupply(p);const others=cs.units-p.units,soon=cs.sites.filter(o=>isSoon(o.L)).length;
-  p.supply={s:Math.max(1,Math.min(10,Math.round(10-others/550))),c:"Likely",txt:`${cs.sites.length} development${cs.sites.length===1?"":"s"} within 2km on government land won since 2021 (${soon} not launched yet) and ${cs.prj.length} other private launch${cs.prj.length===1?"":"es"} since 2021, about ${fmt(others)} competing homes in all (URA and HDB land sales, URA transaction records)`};});
+  p.supply={s:Math.max(1,Math.min(10,Math.round(10-others/550))),c:"Likely",txt:`About ${fmt(others)} other new private homes within 2km compete with this one (${cs.prj.length+cs.sites.length} launches and land sites since 2021${soon?`, ${soon} not launched yet`:""})`};});
 // ---- Supply by room type (v35). A room type is a size band; 3-bedroom includes 3-bed + study, 4-bedroom 4-bed + study.
 PROJECTS.forEach(p=>{p.supplyAll=p.supply;});
 // share of new sales in each band, by segment and for ECs (URA records, Nov 2021 onwards)
@@ -1287,7 +1303,7 @@ function roomSupply(p,b){const pc=PINS[p.id];
 function setSupply(b){PROJECTS.forEach(p=>{if(!b||!PINS[p.id]){p.supply=p.supplyAll;return;}
     const r=roomSupply(p,b),per=550*(ROOMSHARE.all[b]||0.2),lab=roomName(b),nl=r.prj.filter(o=>!o.est).length,ns=r.sites.length+r.prj.filter(o=>o.est).length;
     p.supply={s:Math.max(1,Math.min(10,Math.round(10-r.others/per))),c:"Likely",rs:r,
-      txt:`About ${fmt(r.others)} competing ${lab} homes within 2km: ${fmt(r.others-r.est)} sold in ${nl} other private launch${nl===1?"":"es"} since 2021${ns?`, plus about ${fmt(r.est)} expected from ${ns} project${ns===1?"":"s"} or land site${ns===1?"":"s"} not launched yet (at the usual ${lab} share for the area)`:""} (URA transaction records, URA and HDB land sales)`};});
+      txt:`About ${fmt(r.others)} other ${lab} homes within 2km compete with this one: ${fmt(r.others-r.est)} already sold in ${nl} launch${nl===1?"":"es"} since 2021${ns?`, and about ${fmt(r.est)} more still to come`:""}`};});
   SUPPLY_PA0=null;}
 const _arSupply=applyRoom;applyRoom=function(b){_arSupply(b);setSupply(b);};
 // Re-score MRT factor from official station distances (MP2025)
@@ -1403,7 +1419,7 @@ function renderVerdict(p){const el=$("#verdict");if(!el)return;
   const Q=[
    {k:"buyers",q:"Will there be buyers when you sell?",c:x.v[0],
     a:x.v[0]==="good"?"Likely yes. More likely buyers than competing homes.":x.v[0]==="mid"?"Some, but there will be plenty of competition.":"Not many. Lots of similar homes will be for sale at the same time.",
-    w:`When you can sell without the extra stamp duty (${ex}), about ${fmt(x.buyers)} nearby HDB households may be ready to upgrade, while about ${fmt(x.sup)} other private homes compete for them.${(()=>{const t=hdbTown(p);if(!t)return"";const tn=t.name.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());return t.mopn?` In the past year, ${fmt(t.mopn)} flats in ${tn} that had just passed their 5-year minimum occupation were resold, typically for ${money(t.mopmed)}. That cash is what upgraders bring.`:` In the past year, no flats that had just passed their 5-year minimum occupation were resold in ${tn}, so few local upgraders are cashing out.`;})()}`,go:"s2"},
+    w:`From ${ex}, when you can sell without extra stamp duty, about ${fmt(x.buyers)} HDB families nearby may want to upgrade. About ${fmt(x.sup)} other new private homes will compete for them.${(()=>{const t=hdbTown(p);if(!t)return"";const tn=t.name.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());return t.mopn?` Last year, ${fmt(t.mopn)} HDB flats in ${tn} were sold right after their 5-year wait, for about ${money(t.mopmed)} each. That's the cash upgraders bring.`:` Last year, hardly any HDB flats in ${tn} were sold right after their 5-year wait, so few local upgraders have cash in hand.`;})()}`,go:"s2"},
    {k:"schools",q:"Good primary schools nearby?",c:pop.length?"good":near.length?"mid":"bad",
     a:pop.length?`Yes. ${pop[0].sc.n}, a popular school, is ${Math.round(pop[0].k*1000)}m away.`:near.length?"There are schools within 1km, but none are in high demand.":"No primary school within 1km.",
     w:near.length?near.slice(0,3).map(z=>`${z.sc.n}${z.sc.pop?" (popular)":""} is ${Math.round(z.k*1000)}m away; ${ballot(z)}.`).join(" "):"Living within 1km of a school gives priority in the Primary 1 ballot, which many families pay for.",go:"s1"},
@@ -1415,7 +1431,7 @@ function renderVerdict(p){const el=$("#verdict");if(!el)return;
     w:`${p.supply.txt}.${LU.stats[p.id]&&LU19[p.id]&&(LU.stats[p.id].res_ha-LU19[p.id].res_ha)>5?" The government has also zoned more land for housing nearby since 2019.":""}`,go:"s2"},
    {k:"price",q:"What could it sell for?",c:gain==null?"mid":gain>=15?"good":gain>=5?"mid":"bad",
     a:done?`Its 4-year window has passed. It now sells for about $${fmt(rn.psf)} psf, versus $${fmt(p.psf)} at launch (${rn.psf>=p.psf?"+":""}${((rn.psf/p.psf-1)*100).toFixed(0)}%).`:e?`About $${fmt(Math.round(e.exit/10)*10)} psf in ${ex}, versus $${fmt(e.psf)} psf at launch (${gain>=0?"+":""}${gain.toFixed(0)}%).`:p.psf?"No forecast yet.":"Not priced yet. The developer hasn't announced prices.",
-    w:(()=>{let n=0,u=0,d=0;p.comps.forEach(k=>{const t=trackRec(k);if(t){n+=t.n;u+=t.up;d+=t.down;}});return n?`Of ${fmt(n)} resales and sub-sales at its comparable launches since Oct 2021, ${fmt(u)} sold 5% or more above launch price and ${fmt(d)} below it. `:"";})()+(done?`Based on ${nowLabel(rn)} in URA's records, compared with the median price in its first 3 months of sales. It's before stamp duty, agent fees and loan interest.`:`This is a middle-of-the-road estimate from the ${p.seg} market's long-run price trend, about ${(longRun(p)*100).toFixed(1)}% a year over the last 10–12 years. In testing on past launches it missed by about 4%. It's before stamp duty, agent fees and loan interest.`),go:"s4"}];
+    w:(()=>{let n=0,u=0,d=0;p.comps.forEach(k=>{const t=trackRec(k);if(t){n+=t.n;u+=t.up;d+=t.down;}});return n?`At similar nearby launches, ${fmt(u)} of ${fmt(n)} resales made money and ${fmt(d)} lost money. `:"";})()+(done?`Based on ${nowLabel(rn)} (URA). Before stamp duty and agent fees.`:`We grow the launch price at the area's usual rate, about ${(longRun(p)*100).toFixed(1)}% a year. On past launches this was usually within 4% of the real price. Before stamp duty and agent fees.`),go:"s4"}];
   keepOpen(el,()=>{el.innerHTML=`<div class="vhead"><div><h2>${esc(p.name)}</h2><p class="note" style="margin:2px 0 0">${A?esc(A.n)+" · ":""}${p.seg==="CCR"?"prime core (CCR)":p.seg==="RCR"?"city fringe (RCR)":"suburbs (OCR)"}${p.ec?" · executive condominium":""} · ${p.upcoming?"launching soon":"launched "+launchTxt(p)}</p>
     <p class="note" style="margin:6px 0 0">Room type: <b>${roomName(ROOMSEL)}</b>${p.roomData?` · $${fmt(p.psf)} psf at launch · ${fmt(p.roomSold)} sold so far`:p.upcoming?" · not priced yet":""} <button class="howlink" type="button" data-room-change>Change</button></p></div>
     <div class="vscore"><b>${sc}</b><span>Huat Score / 100</span></div></div>
@@ -1480,6 +1496,19 @@ const track=(ev,props)=>{try{const ph=window.posthog;if(ph&&typeof ph.capture===
   $("#weights").addEventListener("change",e=>{const k=(e.target.id||"").replace(/^w-/,"");if(k)track("weights_changed",{factor:k,value:+e.target.value});});
 })();
 if(location.hash==="#how")openHow();
+// Big map (v40): a full-screen overlay, so it works on every phone; tap a pin, then "See the verdict".
+(()=>{const mw=document.querySelector(".mapwrap");if(!mw)return;let pinTap=false;
+  const open=trigger=>{mw.classList.add("fs");document.body.classList.add("mapfs");$("#fsBar").hidden=true;setTimeout(applyView,50);track("map_fullscreen_opened",{trigger});};
+  const close=()=>{mw.classList.remove("fs");document.body.classList.remove("mapfs");$("#fsBar").hidden=true;setTimeout(applyView,50);};
+  $("#mapBig").addEventListener("click",()=>open("phone_button"));
+  $("#zFull").addEventListener("click",()=>mw.classList.contains("fs")?close():open("map_button"));
+  $("#fsX").addEventListener("click",close);
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&mw.classList.contains("fs"))close();});
+  $("#map").addEventListener("click",e=>{const pin=e.target.closest("[data-p]");pinTap=!!pin&&!/^[gt]:/.test(pin.dataset.p);},true);
+  const ra=renderAll;renderAll=function(){ra();if(!mw.classList.contains("fs")||!pinTap)return;pinTap=false;const p=cur();
+    $("#fsName").textContent=`${p.name} · Huat Score ${score(p)}`;$("#fsBar").hidden=false;};
+  $("#fsGo").addEventListener("click",()=>{close();const t=$("#roomGate").hidden?$("#s0"):$("#roomGate");t.scrollIntoView({behavior:"smooth",block:"start"});});
+})();
 // Waitlist prompt: public site only (needs PostHog). Shows by itself; visitors opt out with "No thanks" or ×.
 (()=>{const ph=()=>window.posthog;
   // start only once PostHog has really loaded, so no sign-up is ever queued into a library that never arrives
