@@ -187,6 +187,9 @@ details.howto>summary{background:#F3F5FB;border-color:#DDE4F4;color:var(--head)}
 .notice>summary{display:inline-flex;gap:8px;align-items:center;cursor:pointer;font:600 13px var(--f-body);color:var(--seg-ocr-fg);background:var(--gold-soft);border:1px solid #F6DEB0;padding:6px 14px;border-radius:999px}
 .notice>summary::before{content:"i";display:grid;place-items:center;width:16px;height:16px;border-radius:50%;background:#F6DEB0;font:700 11px var(--f-mono)}
 .notice p{margin:8px 0 0;max-width:80ch;color:var(--ink)}
+.caveat{margin-top:28px;padding:16px 18px;border-top:1px solid var(--line);font-size:13.5px;color:var(--muted)}
+.caveat p{margin:0;max-width:90ch}
+.caveat b{color:var(--ink)}
 details.deep{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}
 details.deep>summary{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:6px 12px;align-items:center;padding:18px 22px;cursor:pointer}
 details.deep>summary .dq{font:700 18px var(--f-display);color:var(--head)}
@@ -393,7 +396,8 @@ details summary{cursor:pointer;color:var(--muted);font-size:14px;margin-bottom:1
   </details>
 </section>
 
-<details class="notice"><summary>Early preview: some numbers are still estimates</summary>
+<details class="notice" open><summary>MVP guide, not financial advice</summary>
+  <p>HuatNex is a guide to help Singaporeans evaluate new launches in the property market. It is not financial advice: make financial and investment decisions with licensed professionals, such as MAS-licensed financial advisers. As this is an MVP, the database is incomplete. We will keep building the database and adding features if there is demand.</p>
   <p>Launch and resale prices come from URA's transaction records. Room types are grouped by unit size, because URA doesn't record bedrooms. Some unit counts, the upgrade rate and a few planning figures are still HuatNex estimates.</p>
 </details>
 
@@ -487,7 +491,8 @@ details summary{cursor:pointer;color:var(--muted);font-size:14px;margin-bottom:1
     <h3>What HuatNex is not</h3>
     <ul class="howlist">
       <li>It is not a valuation, and the Huat Score is not a probability.</li>
-      <li>It is not financial advice. Speak to a licensed adviser before you buy.</li>
+      <li>It is not financial advice. It is a guide to help Singaporeans evaluate new launches; make financial and investment decisions with licensed professionals, such as MAS-licensed financial advisers.</li>
+      <li>It is an MVP, so the database is incomplete. We will keep building it and adding features if there is demand.</li>
       <li>Past price growth does not guarantee future growth, and interest rates, cooling measures and the wider economy can change the picture.</li>
       <li>It is an early preview. For launches from late 2021 and 2022, whose 4-year window has passed, we now show what prices actually did next to our forecast. A full test of the scoring rules across all of them is next.</li>
     </ul>
@@ -583,6 +588,7 @@ details summary{cursor:pointer;color:var(--muted);font-size:14px;margin-bottom:1
     </div>
   </details>
 </div></details>
+<footer class="caveat"><p><b>About HuatNex.</b> HuatNex is a guide to help Singaporeans evaluate new launches in the property market. It is not financial advice: make financial and investment decisions with licensed professionals, such as MAS-licensed financial advisers. As this is an MVP, the database is incomplete. We will keep building the database and adding features if there is demand.</p></footer>
 </div>
 <script>
 const SSD_YEARS = 4; // purchases from 4 Jul 2025
