@@ -324,7 +324,8 @@ details summary{cursor:pointer;color:var(--muted);font-size:14px;margin-bottom:1
   <button class="x" type="button" id="wlX" aria-label="Close">×</button>
   <div id="wlBody">
     <h3 id="wlT">Help us build the full HuatNex</h3>
-    <p>This is an early MVP. Better property data costs money, and before we raise seed funding we want to know how many people would use HuatNex. Your interest helps us decide how much data to buy and which features to build next.</p>
+    <p>This is an early MVP. Better property data costs money, and before we raise seed funding we want to know how many people would use HuatNex. Your interest helps us decide how much data to buy.</p>
+    <p>That data would power the next features: analysis of resale homes as investments, and rental pricing analysis.</p>
     <p>Join the waitlist and we'll tell you when the full version opens.</p>
     <form id="wlForm" novalidate><input type="email" id="wlEmail" name="email" autocomplete="email" placeholder="you@example.com" aria-label="Email address" required><button class="go" type="submit">Join waitlist</button></form>
     <p class="msg" id="wlMsg" hidden></p>
@@ -440,7 +441,7 @@ details summary{cursor:pointer;color:var(--muted);font-size:14px;margin-bottom:1
     <dl class="howdl">
       <dt>Schools</dt><dd>Living within 1km of a primary school gives priority in the Primary 1 ballot, and families pay for that. Popular schools (oversubscribed in the Phase 2C ballot, or among the 50 most popular) count most, popular schools 1–2km away a little, and any other school within 1km a little.</dd>
       <dt>MRT</dt><dd>Homes a short walk from a station hold value and rent more easily. A 5-minute walk scores highest. Planned stations count too, and we tell you when they're not open yet.</dd>
-      <dt>Buyers</dt><dd>Who could buy from you when you sell? Mostly families upgrading from HDB flats that have passed their 5-year minimum occupation. Half of this score comes from real HDB resale records for the area, and half from flats due to reach that 5-year mark around the time you'd sell.</dd>
+      <dt>Buyers</dt><dd>Who could buy from you when you sell? Mostly families upgrading from HDB flats that have passed their 5-year minimum occupation. Half of this score comes from real HDB resale records for the area, and half from BTO flats within 3km that reach that 5-year mark around the time you'd sell.</dd>
       <dt>Few new condos</dt><dd>Lots of new homes nearby means more competition for the same buyers. We count the homes on land sold to developers within 2km since 2021. The fewer there are, the higher the score.</dd>
     </dl>
     <p class="note">You can change how much each ingredient counts under "How does it compare with other launches?".</p>
@@ -827,7 +828,7 @@ function renderBank(p){
   const resGain = m&&o ? +(m.res_ha-o.res_ha).toFixed(1) : 0;
   $("#supNote").innerHTML = `${s[1]} ${conf(s[2])}<br>${p.supply.txt} ${conf(p.supply.c)}${m?`<br><b>Master Plan 2025:</b> ${m.reserve_ha_2km} ha of reserve sites and ${m.white_ha_2km} ha of white sites within 2km. Reserve land has no fixed use yet and can be rezoned for housing in later plans.${o?` Residential zoning within 1km changed by ${resGain>0?"+":""}${resGain} ha since the 2019 plan${resGain>5?", a sign of new housing land coming":""}.`:""} ${conf("Certain")}`:""}`;
   $("#balBig").innerHTML = `<div class="row" style="justify-content:space-between;margin-bottom:8px"><b>${fmt(x.buyers)} likely buyers vs ${fmt(x.sup)} competing units</b><span class="verdict ${x.v[0]}">${x.v[1]} · ${x.ratio.toFixed(2)} buyers per unit</span></div><div class="bal big"><span class="dm" style="width:${x.share}%"></span><span class="sp" style="flex:1"></span></div>`;
-  $("#bbNote").innerHTML = `HDB flats completed ${ex-7} to ${ex-4} reach their 5-year minimum occupation between ${ex-2} and ${ex+1}, around when you can sell. Counted from HDB block records for this town, with neighbouring towns within 4 km at half weight. Prime and Plus flats need 10 years, so they fall outside almost every SSD window. ${conf("Likely")}`;
+  $("#bbNote").innerHTML = `HDB flats completed ${ex-7} to ${ex-4} reach their 5-year minimum occupation between ${ex-2} and ${ex+1}, around when you can sell. Counted from HDB block records for BTO projects within ${BTO_KM}km of the launch (listed above). Prime and Plus flats need 10 years, so they fall outside almost every SSD window. ${conf("Likely")}`;
   {const nb=btoNear(p),tot=nb.reduce((a,o)=>a+o.b[4],0),show=nb.slice(0,12);
    $("#btoNear").innerHTML=`<h3>HDB BTOs reaching MOP around your exit, within ${BTO_KM}km</h3>
     <p class="note" style="margin-top:0">${nb.length?`<b>${fmt(tot)} flats in ${nb.length} BTO project${nb.length===1?"":"s"}</b> within ${BTO_KM}km were completed ${ex-7}–${ex-4}, so their owners pass the 5-year minimum occupation period between ${ex-2} and ${ex+1}, around when you can sell (${ex}). These are the upgraders most likely to look at this launch.`:`No BTO project within ${BTO_KM}km reaches its 5-year minimum occupation period between ${ex-2} and ${ex+1}, around when you can sell (${ex}).`}</p>
@@ -965,10 +966,9 @@ const BTO_KM = 3;
 function btoNear(p){const pc=PINS[p.id];if(!pc)return [];const ex=exitYear(p);
   return BTO.map(b=>({b,k:km(pc,[b[6],b[5]])})).filter(o=>o.k<=BTO_KM&&o.b[3]>=ex-7&&o.b[3]<=ex-4).sort((a,b)=>a.k-b.k);}
 function btoTown(c){return MOPC_CODE[c]?tcase(MOPC_CODE[c]):c;}
-function mopPool(p){if(p._pool)return p._pool;const ex=exitYear(p),own=paTown(p),rows=[];
-  Object.keys(MOPC).forEach(t=>{const w=t===own?1:townKm(p,t)<=4?0.5:0;if(!w)return;let u=0;for(let y=ex-7;y<=ex-4;y++)u+=MOPC[t][y]||0;if(!u)return;
-    rows.push({n:`${tcase(t)}: HDB flats completed ${ex-7}–${ex-4}${w<1?", neighbouring town at half weight":""}`,type:"HDB MOP (records)",units:Math.round(u*w),ready:ex,c:w<1?"Likely":"Certain"});});
-  return p._pool=rows.sort((a,b)=>b.units-a.units);}
+// Buyer bank (v34): BTO flats within BTO_KM of the launch reaching their 5-year MOP around the sell date.
+function mopPool(p){if(p._pool)return p._pool;
+  return p._pool=btoNear(p).map(o=>({n:`${esc(o.b[0])} (${o.b[2]?"D"+o.b[2]+" · ":""}${btoTown(o.b[1])}), completed ${o.b[3]}, ${o.k.toFixed(1)}km away`,type:"HDB MOP (BTO ≤3km)",units:o.b[4],ready:o.b[3]+5,c:"Likely"}));}
 function realBank(p){const t=hdbTown(p);return t?Math.min(10,t.mopn/40):0;}
 function townAnchor(t){const k=t==="KALLANG/WHAMPOA"?"KALLANG":t==="CENTRAL AREA"?"DOWNTOWN CORE":t;return PA.areas.find(a=>a.n.toUpperCase()===k);}
 function townScore(t){return Math.round(Math.min(10,HDBR.towns[t].mopn/40)*10)/10;}
