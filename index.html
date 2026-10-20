@@ -1436,8 +1436,8 @@ if(location.hash==="#how")openHow();
   const open=trigger=>{if(!box.hidden)return;box.hidden=false;requestAnimationFrame(()=>box.classList.add("show"));shownThisVisit=true;track("waitlist_prompt_shown",{trigger});};
   const close=(why)=>{box.classList.remove("show");box.hidden=true;if(why){put({s:"dismissed",t:Date.now()});track("waitlist_dismissed",{how:why});}};
   const auto=trigger=>{if(shownThisVisit||blocked())return;open(trigger);};
-  setTimeout(()=>auto("timer_25s"),25000);
-  const ra=renderAll;renderAll=function(){ra();if(ROOMSEL&&!$("#verdict").closest("[hidden]"))setTimeout(()=>auto("first_verdict"),2500);};
+  // 40 seconds of use: count only time while the page is visible
+  let used=0;const tick=setInterval(()=>{if(document.visibilityState==="visible")used++;if(used>=40){clearInterval(tick);auto("used_40s");}},1000);
   btn.addEventListener("click",()=>{const v=get();if(v&&v.s==="joined"){box.hidden=false;box.classList.add("show");$("#wlBody").innerHTML='<h3>You\'re on the list</h3><p class="ok">Thanks. We\'ll be in touch.</p>';return;}open("header_button");$("#wlEmail").focus();});
   $("#wlX").addEventListener("click",()=>close("close_button"));
   $("#wlNo").addEventListener("click",()=>close("no_thanks"));
