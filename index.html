@@ -539,6 +539,7 @@ details summary{cursor:pointer;color:var(--muted);font-size:14px;margin-bottom:1
 
 <details class="deep" id="s3"><summary><span class="n">03</span><span class="dq">How does it compare with other launches?</span><span class="dsum" id="sum3"></span></summary>
 <div class="deepbody">
+  <div class="panel" id="trackCmp"></div>
   <div class="panel scroll rankbox">
     <p class="note" id="rankNote" style="margin:0 0 8px"></p>
     <table class="rank"><thead><tr><th>#</th><th>Project</th><th>Area</th><th class="num">Schools</th><th class="num">MRT/mall</th><th class="num">Buyers</th><th class="num">Few new condos</th><th class="num">Huat Score</th></tr></thead><tbody id="rankRows"></tbody></table>
@@ -839,7 +840,32 @@ function renderBank(p){
   const pill = {in:'<span class="pill in">IN</span>',out:'<span class="pill out">TOO LATE</span>',past:'<span class="pill past">ABSORBED</span>'};
   $("#bbRows").innerHTML = b.rows.map(r=>`<tr><td>${r.n}</td><td>${r.type}</td><td class="num">${r.units?fmt(r.units):"–"}</td><td class="num">${r.ready}</td><td>${pill[r.st]}</td><td>${conf(r.c)}</td></tr>`).join("");
 }
-function renderSens(p){
+// Resale track record of nearby comparable developments (v36): overall first, then by unit type.
+const tScore=t=>t&&t.n>=5?Math.max(0,Math.round((t.up-t.down)/t.n*100)/10):null;
+function profOf(k,b){const P=PROF[k];if(!P)return null;if(b){const x=P.b[b-1];return x?{n:x[0],up:x[1],flat:x[2],down:x[3],ref:!!x[4]}:{n:0,up:0,flat:0,down:0,ref:false};}return {n:P.a[0],up:P.a[1],flat:P.a[2],down:P.a[3]};}
+function renderTrackCmp(p){const el=$("#trackCmp");if(!el)return;const pc=PINS[p.id],rb=ROOMSEL,rn=rb?roomName(rb):"";
+  const nm=k=>(COMPS[k]&&COMPS[k].n)||(PROJECTS.find(q=>q.id===k)||{}).name||k;
+  const ll=k=>(COMPS[k]&&COMPS[k].ll)||PINS[k];
+  const ids=[...new Set([...(p.comps||[]),...PROJECTS.filter(q=>q.id!==p.id&&!!q.ec===!!p.ec&&PINS[q.id]&&PROF[q.id]&&PROF[q.id].a[0]>=10&&km(pc,PINS[q.id])<=3).map(q=>q.id)])].filter(k=>PROF[k]&&ll(k));
+  const rows=ids.map(k=>({k,d:km(pc,ll(k)),a:profOf(k),r:rb?profOf(k,rb):null,cmp:(p.comps||[]).includes(k)})).sort((x,y)=>(y.cmp-x.cmp)||(x.d-y.d)).slice(0,6);
+  const pc2=(a,n)=>n?Math.round(a/n*100)+"%":"–";
+  const cell=t=>t&&t.n?`<td class="num">${fmt(t.n)}</td><td class="num" style="color:var(--jade)">${pc2(t.up,t.n)}</td><td class="num" style="color:var(--red)">${pc2(t.down,t.n)}</td><td class="num"><b>${tScore(t)??"–"}</b></td>`:`<td class="num">0</td><td class="num">–</td><td class="num">–</td><td class="num">–</td>`;
+  const sum=f=>rows.reduce((o,r)=>{const t=f(r);if(t){o.n+=t.n;o.up+=t.up;o.flat+=t.flat;o.down+=t.down;}return o;},{n:0,up:0,flat:0,down:0});
+  const A=sum(r=>r.a),R=rb?sum(r=>r.r):null,own=profOf(p.id),ownR=rb?profOf(p.id,rb):null;
+  const line=(t,lab)=>t&&t.n?`<b>${lab}:</b> ${fmt(t.n)} resales and sub-sales, <b style="color:var(--jade)">${pc2(t.up,t.n)} sold 5%+ above launch price</b>, ${pc2(t.flat,t.n)} within 5%, <b style="color:var(--red)">${pc2(t.down,t.n)} below</b>. Resale score <b>${tScore(t)??"–"}</b>/10.`:`<b>${lab}:</b> no resales or sub-sales yet.`;
+  if(!rows.length){el.innerHTML=`<h3>Resale track record nearby</h3><p class="note" style="margin:0">No comparable development nearby has resales or sub-sales on record yet, so there is no track record to compare. ${own&&own.n?line(own,"This launch"):""}</p>`;return;}
+  el.innerHTML=`<h3>Resale track record nearby: overall, then ${rb?rn+" units":"by unit type"}</h3>
+   <p class="note" style="margin:0 0 4px">${line(A,`All units, ${rows.length} nearby development${rows.length===1?"":"s"}`)}</p>
+   ${rb?`<p class="note" style="margin:0 0 8px">${line(R,`${rn} units only`)}${R&&A.n&&R.n?` ${Math.abs(tScore(R)-tScore(A))>=1?`<b>${rn} units did ${tScore(R)>tScore(A)?"better":"worse"} than the overall picture.</b>`:`${rn} units tracked the overall picture.`}`:""}</p>`:`<p class="note" style="margin:0 0 8px">Pick a room type to see how that unit type did; results can differ a lot by size.</p>`}
+   <div class="scroll"><table class="rank"><thead><tr><th rowspan="2">Development</th><th class="num" rowspan="2">Distance</th><th class="num" colspan="4">All units</th>${rb?`<th class="num" colspan="4">${rn}</th>`:""}</tr>
+   <tr><th class="num">Resales</th><th class="num">5%+ above</th><th class="num">Below</th><th class="num">Score</th>${rb?`<th class="num">Resales</th><th class="num">5%+ above</th><th class="num">Below</th><th class="num">Score</th>`:""}</tr></thead>
+   <tbody>${rows.map(r=>`<tr><td>${esc(nm(r.k))}${r.cmp?' <span class="tag">comparable</span>':""}</td><td class="num">${r.d.toFixed(1)}km</td>${cell(r.a)}${rb?cell(r.r):""}</tr>`).join("")}
+   ${own&&own.n?`<tr class="sel"><td>${esc(p.name)} (this launch)</td><td class="num">–</td>${cell(own)}${rb?cell(ownR):""}</tr>`:""}</tbody></table></div>
+   <details class="sub"><summary>Every unit type, development by development</summary><div class="scroll" style="margin-top:8px"><table class="rank"><thead><tr><th>Development</th>${ROOMS.map(R=>`<th class="num">${R.l.replace(" or penthouse","+")}</th>`).join("")}</tr></thead>
+   <tbody>${rows.map(r=>`<tr><td>${esc(nm(r.k))}</td>${ROOMS.map(R=>{const t=profOf(r.k,R.b);return `<td class="num">${t.n?`${fmt(t.n)} · <span style="color:var(--jade)">${pc2(t.up,t.n)}</span>${t.down?` · <span style="color:var(--red)">${pc2(t.down,t.n)}↓</span>`:""}`:"–"}</td>`;}).join("")}</tr>`).join("")}</tbody></table>
+   <p class="note">Each cell: resales and sub-sales · share sold 5%+ above launch price · share sold below (↓).</p></div></details>
+   <p class="note">Resales and sub-sales since Oct 2021 (URA records) against each development's launch price, by unit size where its launch price for that size is known. "5%+ above" roughly covers stamp duty and agent fees, so it's the nearest to profitable; "below" lost money before costs. Resale score = 10 × (share 5%+ above − share below), shown with 5 or more transactions. Nearby means the comparables plus any same-type launch within 3km with 10+ resales. ${conf("Likely")}</p>`;}
+function renderSens(p){renderTrackCmp(p);
   const b = bank(p);
   const f = [["Schools ≤1km",p.schools.s],["MRT / mall ≤1km",p.mrt.s],["Buyer bank",b.s],["Supply gap",p.supply.s]];
   $("#factorBars").innerHTML = f.map(([l,v])=>`<div class="meter"><span>${l}</span><div class="bar"><i style="width:${v*10}%"></i></div><span class="num" style="font-family:var(--f-mono)">${v}</span></div>`).join("");
