@@ -15,11 +15,11 @@
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script>
-/* PostHog product analytics: runs on huatnex.vercel.app only. No cookies, no screen recordings. */
+/* PostHog product analytics and session replay: runs on huatnex.vercel.app only. No cookies; typed input is masked. */
 (function(){
   if (location.hostname !== "huatnex.vercel.app") return;
   var host = "https://us.i.posthog.com", ph = [];
-  ph._i = [["phc_rceiUcAFjjrkDyFcdKHmhGmTnSTmCGuoYBSW2tRCUqvZ", {"api_host": "https://us.i.posthog.com", "persistence": "sessionStorage", "disable_session_recording": true, "respect_dnt": true, "capture_pageview": true, "capture_pageleave": true, "person_profiles": "identified_only"}]];
+  ph._i = [["phc_rceiUcAFjjrkDyFcdKHmhGmTnSTmCGuoYBSW2tRCUqvZ", {"api_host": "https://us.i.posthog.com", "persistence": "sessionStorage", "session_recording": {"maskAllInputs": true}, "respect_dnt": true, "capture_pageview": true, "capture_pageleave": true, "person_profiles": "identified_only"}]];
   ph.people = []; ph.__SV = 1;
   ph.capture = function () { ph.push(["capture"].concat([].slice.call(arguments))); };
   window.posthog = ph;
@@ -360,7 +360,6 @@ details summary{cursor:pointer;color:var(--muted);font-size:14px;margin-bottom:1
 
 <details class="notice"><summary>Early preview: some numbers are still estimates</summary>
   <p>Launch and resale prices come from URA's transaction records. Room types are grouped by unit size, because URA doesn't record bedrooms. Some unit counts, the upgrade rate and a few planning figures are still HuatNex estimates.</p>
-  <p>Privacy: to improve this preview, we count visits and the steps people take on this page (which launch and room type they pick, which sections they open) with Vercel Analytics and PostHog. There are no cookies and no screen recordings, we don't collect names or contact details, and we respect your browser's Do Not Track setting.</p>
 </details>
 
 <div class="picker"><div class="chips" id="chips"></div></div>
