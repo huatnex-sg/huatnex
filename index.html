@@ -14,6 +14,20 @@
   window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
+<script>
+/* PostHog product analytics: runs on huatnex.vercel.app only. No cookies, no screen recordings. */
+(function(){
+  if (location.hostname !== "huatnex.vercel.app") return;
+  var host = "https://us.i.posthog.com", ph = [];
+  ph._i = [["phc_rceiUcAFjjrkDyFcdKHmhGmTnSTmCGuoYBSW2tRCUqvZ", {"api_host": "https://us.i.posthog.com", "persistence": "sessionStorage", "disable_session_recording": true, "respect_dnt": true, "capture_pageview": true, "capture_pageleave": true, "person_profiles": "identified_only"}]];
+  ph.people = []; ph.__SV = 1;
+  ph.capture = function () { ph.push(["capture"].concat([].slice.call(arguments))); };
+  window.posthog = ph;
+  var sc = document.createElement("script"); sc.async = true; sc.crossOrigin = "anonymous";
+  sc.src = host.replace(".i.posthog.com", "-assets.i.posthog.com") + "/static/array.js";
+  document.head.appendChild(sc);
+})();
+</script>
 <style>
 /* Layout: branded header + sticky launch picker, then four numbered analysis stages (a real sequence). HuatNex brand: coral, gold, navy on warm cream. */
 /* Single light theme by design: white backing with pastel features (client brief). */
@@ -346,6 +360,7 @@ details summary{cursor:pointer;color:var(--muted);font-size:14px;margin-bottom:1
 
 <details class="notice"><summary>Early preview: some numbers are still estimates</summary>
   <p>Launch and resale prices come from URA's transaction records. Room types are grouped by unit size, because URA doesn't record bedrooms. Some unit counts, the upgrade rate and a few planning figures are still HuatNex estimates.</p>
+  <p>Privacy: to improve this preview, we count visits and the steps people take on this page (which launch and room type they pick, which sections they open) with Vercel Analytics and PostHog. There are no cookies and no screen recordings, we don't collect names or contact details, and we respect your browser's Do Not Track setting.</p>
 </details>
 
 <div class="picker"><div class="chips" id="chips"></div></div>
@@ -1303,5 +1318,37 @@ $("#rgOpts").addEventListener("click",e=>{const b=e.target.closest(".rgopt");if(
 document.addEventListener("click",e=>{if(!e.target.closest("[data-room-change]"))return;applyRoom(null);renderAll();$("#roomGate").scrollIntoView({behavior:"smooth",block:"center"});});
 function renderAll(){ const p=cur(); renderChips(); renderBalance(p); focusPin(); renderMap(); if(!renderGate(p))return; renderBank(p); renderHdbReal(p); renderSens(p); renderPrice(p); renderVerdict(p); }
 renderSegments(); renderFactors(); renderWeights(); renderAll();
+// Usage tracking for the HuatNex experiment. track() does nothing unless the public site's build has loaded PostHog
+// (huatnex.vercel.app only). It sends launch and room choices and numbers entered in the forecast; never search text.
+const track=(ev,props)=>{try{const ph=window.posthog;if(ph&&typeof ph.capture==="function")ph.capture(ev,Object.assign({launch:sel,room:ROOMSEL?roomName(ROOMSEL):null},props||{}));}catch(e){}};
+(()=>{
+  const seen=new Set(), once=(k,ev,props)=>{if(seen.has(k))return;seen.add(k);track(ev,props);};
+  const info=()=>{const p=cur();return p?{launch_name:p.name,segment:p.seg,ec:!!p.ec}:{};};
+  const onScreen=el=>{if(!el||el.closest("[hidden]"))return false;const r=el.getBoundingClientRect();if(!r.height)return false;
+    const vis=Math.min(r.bottom,innerHeight)-Math.max(r.top,0);return vis>=Math.min(r.height,innerHeight)*0.4;};
+  const sawVerdict=()=>{if(!ROOMSEL||!onScreen($("#verdict")))return;const x=exitProj(cur());
+    once("v|"+sel+"|"+ROOMSEL,"verdict_viewed",Object.assign(info(),x?{forecast_gain_pct:Math.round((x.exit/x.psf-1)*100)}:{}));};
+  const sawTrack=()=>{if(ROOMSEL&&onScreen($("#trackRec")))once("t|"+sel+"|"+ROOMSEL,"benchmark_viewed",info());};
+  let lastSel=sel;
+  const ra=renderAll;
+  renderAll=function(){ra();
+    if(sel!==lastSel){lastSel=sel;track("launch_selected",info());}
+    if(!$("#roomGate").hidden)once("g|"+sel,"room_prompt_shown",info());
+    setTimeout(()=>{sawVerdict();sawTrack();},900);};
+  const ar=applyRoom;
+  applyRoom=function(b){const prev=ROOMSEL;ar(b);
+    if(b)track("room_type_chosen",Object.assign(info(),{changed_from:prev?roomName(prev):null}));
+    else if(prev)track("room_type_change_clicked",{room:roomName(prev)});};
+  const hp=hsPick;
+  hsPick=function(e){track("search_pick",{kind:e&&e.kind});return hp.apply(this,arguments);};
+  if("IntersectionObserver" in window){const io=new IntersectionObserver(()=>{sawVerdict();sawTrack();},{threshold:[0,0.4,1]});
+    ["#verdict","#trackRec"].forEach(q=>{const el=$(q);if(el)io.observe(el);});}
+  const SECT={s2:"buyers",s3:"compare",s4:"price"};
+  Object.keys(SECT).forEach(id=>{const d=$("#"+id);if(d)d.addEventListener("toggle",()=>{if(d.open){track("section_opened",{section:SECT[id]});setTimeout(sawTrack,600);}});});
+  document.addEventListener("click",e=>{if(e.target.closest("#howOpen,[data-how]"))track("guide_opened");});
+  $("#haircut").addEventListener("change",e=>track("growth_changed",{value_pct:+e.target.value}));
+  $("#entryPsf").addEventListener("change",e=>track("entry_price_changed",{value_psf:+e.target.value}));
+  $("#weights").addEventListener("change",e=>{const k=(e.target.id||"").replace(/^w-/,"");if(k)track("weights_changed",{factor:k,value:+e.target.value});});
+})();
 if(location.hash==="#how")openHow();
 </script>
