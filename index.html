@@ -386,7 +386,12 @@ body.mapfs .hovercard{z-index:60}
         <div class="legend" id="mapLegend" style="margin-top:6px"></div>
         <p class="note">The thick outlines are URA's market segments: CCR (prime core), RCR (city fringe) and OCR (suburbs). Hatched areas straddle CCR and RCR.</p>
       </details>
-      <details class="sub"><summary>Where the data comes from</summary><div class="src govsrc">
+      
+    </div>
+    <div class="panel dinfo" id="distInfo"></div>
+  </div>
+  <details class="sub expert"><summary>For the detail-minded</summary>
+    <details class="sub" open><summary>Where the data comes from</summary><div class="src govsrc">
 <p><b>Official government sources</b> (accessed 14 Oct 2026)</p>
 <ul>
 <li><b>Urban Redevelopment Authority (URA)</b>, via <a href="https://data.gov.sg" target="_blank" rel="noopener">data.gov.sg</a>: Amendment to Master Plan 2025 Land Use Layer (base map, coastline, zoning); Master Plan 2025 Planning Area Boundary (CCR, RCR and OCR frame); Master Plan 2025 Rail Station, Building (HDB blocks), SDCP Landed Housing Area, SDCP Urban Design Area (growth nodes) and Nature Reserve and National Park layers; Master Plan 2019 Land Use Layer (comparison only).</li>
@@ -400,11 +405,8 @@ body.mapfs .hovercard{z-index:60}
 <p>Some figures, such as school ballot demand, school affiliations and the latest EC tender bids, also draw on third-party sources compiled by HuatNex. You may request this list from the founder separately should you need to find out more.</p>
 <p>Launch prices, sales and prices today are medians from URA's transaction records. Total unit counts for ten hand-researched launches, the upgrade rate, launch prices from before 2021, malls, job hubs and which stations are not yet open are HuatNex estimates. "Coming soon" assumes land won after mid-April 2025 has not launched yet.</p>
 </div></details>
-    </div>
-    <div class="panel dinfo" id="distInfo"></div>
-  </div>
-  <details class="sub"><summary>Everything we check (factor index)</summary>
     <div class="panel scroll" style="margin-top:10px">
+      <h3 style="margin-top:0">Everything we check</h3>
       <p class="note" style="margin-top:0">What moves resale price, grouped by category.</p>
       <table><thead><tr><th>Category</th><th>Factor</th><th>Why it lifts (or drags) value</th><th>Effect</th><th>Map</th><th>Conf.</th></tr></thead><tbody id="factorRows"></tbody></table>
       <details class="sub"><summary>Postal districts by segment (reference)</summary><div class="segcols" id="segcols"></div></details>
@@ -427,93 +429,63 @@ body.mapfs .hovercard{z-index:60}
   </div>
 
   <section class="howsec">
-    <h3>The one question we answer</h3>
-    <p class="lead">Is this new launch likely to have grown in value by the time you can sell it without the extra stamp duty?</p>
-    <p>In Singapore, selling a private home within 4 years of buying it costs Seller's Stamp Duty. So we look ahead to that 4-year mark and ask whether the home is likely to be worth more by then, and whether there will be buyers ready to pay for it.</p>
+    <h3>What HuatNex does</h3>
+    <p class="lead">If you sell a new condo within 4 years, you pay extra stamp duty. So we ask: by year 4, is it likely to be worth more, and will there be buyers?</p>
   </section>
 
   <section class="howsec">
     <h3>How to use it</h3>
     <ol class="howsteps">
-      <li><b>Search.</b> Type a launch, an area, an MRT station or a school into "Huat are you looking at?".</li>
-      <li><b>Look at the map.</b> See where it is and what's around it: schools, MRT stations, malls, growth areas and new homes being built nearby.</li>
-      <li><b>Read the verdict.</b> A Huat Score out of 100 and five plain answers, each with a coloured dot.</li>
-      <li><b>Ask "Why?"</b> Every answer opens up to show the reasons, and then the full workings if you want them.</li>
+      <li><b>Search</b> for a launch, area, MRT station or school.</li>
+      <li><b>Pick a room type.</b> Prices and comparisons are for that size.</li>
+      <li><b>Read the score</b> and the five answers. Green is good, amber is so-so, red is a warning.</li>
+      <li><b>Tap "Why?"</b> to see the reasons.</li>
     </ol>
   </section>
 
   <section class="howsec">
-    <h3>The map and the three market segments</h3>
-    <p>URA splits Singapore's private homes into three segments. They're drawn as thick outlines on the map:</p>
-    <ul class="howlist">
-      <li><span class="seg CCR">CCR</span> <b>Prime core</b>: Orchard, Newton, Bukit Timah, the city centre and Sentosa. The most expensive homes.</li>
-      <li><span class="seg RCR">RCR</span> <b>City fringe</b>: the rest of the central region, such as Toa Payoh, Queenstown and Kallang.</li>
-      <li><span class="seg OCR">OCR</span> <b>Suburbs</b>: everything outside the central region, such as Tampines, Ang Mo Kio and Woodlands. This is where executive condominiums (ECs) are built.</li>
-    </ul>
-    <p>Green bubbles show the <b>buyer bank</b> in each HDB town: the bigger and greener the bubble, the more families sold flats that had just passed their 5-year minimum occupation last year. These are the likeliest condo upgraders. Hover a bubble for its score out of 10.</p>
-    <p>House-shaped markers show land the government has sold to developers. A filled marker means homes there are coming soon, usually 1 to 2 years after the land is sold. The segment counts at the top of the page are built from these land sales.</p>
-  </section>
-
-  <section class="howsec">
     <h3>The Huat Score</h3>
-    <p>The Huat Score rates a location out of 100 by mixing four ingredients. It ranks launches against each other. It is not a valuation or a probability.</p>
+    <p>A score out of 100 for the location. It compares launches with each other; it isn't a price or a promise. It mixes four things:</p>
     <div class="wbar" id="howWbar" aria-hidden="true"></div>
     <dl class="howdl">
-      <dt>Schools</dt><dd>Living within 1km of a primary school gives priority in the Primary 1 ballot, and families pay for that. Popular schools (oversubscribed in the Phase 2C ballot, or among the 50 most popular) count most, popular schools 1–2km away a little, and any other school within 1km a little.</dd>
-      <dt>MRT</dt><dd>Homes a short walk from a station hold value and rent more easily. A 5-minute walk scores highest. Planned stations count too, and we tell you when they're not open yet.</dd>
-      <dt>Buyers</dt><dd>Who could buy from you when you sell? Mostly families upgrading from HDB flats that have passed their 5-year minimum occupation. Half of this score comes from real HDB resale records for the area, and half from BTO flats within 3km that reach that 5-year mark around the time you'd sell.</dd>
-      <dt>Few new condos</dt><dd>Lots of new homes nearby means more competition for the same buyers. We count the homes on land sold to developers within 2km since 2021. The fewer there are, the higher the score.</dd>
+      <dt>Schools</dt><dd>A popular primary school within 1km helps, because it gives priority in the Primary 1 ballot.</dd>
+      <dt>MRT</dt><dd>A short walk to a station helps. Planned stations count too.</dd>
+      <dt>Buyers</dt><dd>HDB owners nearby who can sell their flat around when you can sell yours. They're your likely buyers.</dd>
+      <dt>Few new condos</dt><dd>Fewer new homes of your room type within 2km means less competition when you sell.</dd>
     </dl>
-    <p class="note">You can change how much each ingredient counts under "How does it compare with other launches?".</p>
+    <p class="note">You can change the mix under "How does it compare with other launches?".</p>
   </section>
 
   <section class="howsec">
-    <h3>How the five answers get their colours</h3>
-    <div class="scroll"><table class="howtab">
-      <thead><tr><th>Question</th><th><span class="dot good"></span> Green</th><th><span class="dot mid"></span> Amber</th><th><span class="dot bad"></span> Red</th></tr></thead>
-      <tbody>
-        <tr><td>Will there be buyers when you sell?</td><td>At least 1 likely buyer for every 2 competing homes</td><td>1 for every 2 to 4</td><td>Fewer than 1 for every 4</td></tr>
-        <tr><td>Good primary schools nearby?</td><td>A popular school within 1km</td><td>Other schools within 1km</td><td>No school within 1km</td></tr>
-        <tr><td>Easy to get to an MRT?</td><td>Within 500m</td><td>500m to 1km</td><td>Over 1km</td></tr>
-        <tr><td>Lots of new condos coming nearby?</td><td>Few nearby</td><td>Some</td><td>Many</td></tr>
-        <tr><td>What could it sell for?</td><td>15% or more above the launch price</td><td>5% to 15%</td><td>Under 5%</td></tr>
-      </tbody>
-    </table></div>
-    <p>The one-line takeaway follows the Huat Score: 75 or more is a strong location, 55 to 74 is decent with trade-offs, and below 55 is weaker.</p>
+    <h3>The price estimate</h3>
+    <p>We grow the launch price at the area's usual yearly rate over the last 10–12 years, and show a likely, good and bad case 4 years on. On 17 past launches, including Clavon and Parc Clematis, it was usually within 4% of the real price. Prices are before stamp duty and agent fees.</p>
+    <p>Room types are based on size, because URA doesn't record bedrooms: 1-bed up to 600 sq ft, 2-bed 601–850, 3-bed 851–1,200 (incl. 3-bed + study), 4-bed 1,201–1,600 (incl. 4-bed + study), 5-bed above that.</p>
   </section>
 
   <section class="howsec">
-    <h3>How we estimate the selling price</h3>
-    <p>We start from the launch price and grow it at the long-run price trend of its market segment (prime core, city fringe or suburbs): the average yearly growth of URA's price index over the last 10 and 12 years. We project 4 years ahead and show a middle case, a good case and a bad case. The Huat Score doesn't change the price forecast, because in testing it barely explained which launches did better.</p>
-    <p>We also show the nearby launches of the same room type that grew the most since they launched, using URA's records of what buyers actually paid, and how many of their resales sold above or below the launch price. They are a cross-check, not the forecast.</p>
-    <p>You choose a room type first, and every price is for that room type: the launch price, today's price and the similar launches we compare with. URA records floor area, not bedrooms, so we group units by size: 1-bedroom up to 600 sq ft, 2-bedroom 601–850, 3-bedroom 851–1,200, 4-bedroom 1,201–1,600, and 5-bedroom or penthouse above that. If fewer than two nearby launches have enough sales of that room type, we fall back to whole-project prices and say so.</p>
-    <p>The price is before stamp duty, agent fees and loan interest, which all eat into your gain.</p>
-    <p><b>How it did on past launches.</b> We tested 17 launches from 2018 to 2022 whose 4-year mark has passed, including Clavon and Parc Clematis, using only what was known on launch day. Forecasting from the last 4 years of prices missed by about 10% in a typical case: too low for 2018–2020 launches, which caught the post-Covid boom, and too high for 2021–2022 launches. Using the last 10–12 years of prices, which is what this page now does, missed by about 4%, and 16 of the 17 forecasts landed within 10%. All 17 grew more slowly than their market segment's price index, by about 2 points a year, so buying at launch has carried a premium. Of 3,030 resales and sub-sales at these 17 projects since Oct 2021, 2,960 sold at least 5% above the launch price, 45 within 5% and 25 below it. Location scores barely explained which launches did better. These are early results from one market cycle.</p>
+    <h3>Reading the map</h3>
+    <ul class="howlist">
+      <li><span class="seg CCR">CCR</span> <b>Prime core</b>: Orchard, Bukit Timah, the city. <span class="seg RCR">RCR</span> <b>City fringe</b>: Toa Payoh, Queenstown, Kallang. <span class="seg OCR">OCR</span> <b>Suburbs</b>: Tampines, Woodlands and the like.</li>
+      <li><b>Green bubbles:</b> HDB towns where owners are selling to upgrade. Bigger and greener means more buyers.</li>
+      <li><b>House shapes:</b> land sold to developers. Filled means new homes are coming soon.</li>
+    </ul>
   </section>
 
   <section class="howsec">
     <h3>How sure are we?</h3>
-    <p>Wherever a figure appears in the workings, a small tag tells you how solid it is:</p>
-    <div class="legend"><span><span class="conf Certain">Certain</span> from official records or hard evidence</span><span><span class="conf Likely">Likely</span> a strong inference from good data</span><span><span class="conf Guessing">Guessing</span> an estimate we still need to confirm</span></div>
-    <p>Maps, zoning, MRT stations, schools, land sales, HDB resale prices and condo launch prices come from official records. Some unit counts and planning figures are still HuatNex estimates during this early preview.</p>
-  </section>
-
-  <section class="howsec">
-    <h3>Where the data comes from</h3>
-    <p>Official sources from URA, HDB, MOE and SLA, listed under "Where the data comes from" below the map. Some figures, such as school ballot demand, also draw on third-party sources compiled by HuatNex. You may request this list from the founder separately should you need to find out more.</p>
+    <div class="legend"><span><span class="conf Certain">Certain</span> official records</span><span><span class="conf Likely">Likely</span> a strong estimate</span><span><span class="conf Guessing">Guessing</span> still to confirm</span></div>
+    <p>Our data comes from URA, HDB, MOE and SLA, listed under "For the detail-minded" below the map. Some figures, such as school ballot demand, also draw on third-party sources compiled by HuatNex. You may request this list from the founder separately should you need to find out more.</p>
   </section>
 
   <section class="howsec howlimits">
     <h3>What HuatNex is not</h3>
     <ul class="howlist">
-      <li>It is not a valuation, and the Huat Score is not a probability.</li>
-      <li>It is not financial advice. It is a guide to help Singaporeans evaluate new launches; make financial and investment decisions with licensed professionals, such as CEA-registered property agents.</li>
-      <li>It is an MVP, so the database is incomplete. We will keep building it and adding features if there is demand.</li>
-      <li>Past price growth does not guarantee future growth, and interest rates, cooling measures and the wider economy can change the picture.</li>
-      <li>It is an early preview. For launches from late 2021 and 2022, whose 4-year window has passed, we now show what prices actually did next to our forecast. A full test of the scoring rules across all of them is next.</li>
+      <li>Not a valuation, and not financial advice. Check with a CEA-registered property agent before you decide.</li>
+      <li>Not complete: this is an early version, and some data is still missing. We'll add more if people find it useful.</li>
+      <li>Not a guarantee: past growth doesn't promise future growth. Interest rates, cooling measures and the economy can change things.</li>
     </ul>
   </section>
-  <p class="note howfoot">Method version 18 · last updated 16 October 2026.</p>
+  <p class="note howfoot">Method version 20 · last updated 21 October 2026.</p>
 </aside>
 
 
@@ -1136,6 +1108,7 @@ function renderDistInfo(d){
     <details class="sub"><summary>What's within 1km</summary>
     ${Object.keys(near).map(k=>`<p style="margin:6px 0"><b style="font-size:15px">${lab[k]}: ${near[k].length}</b><br><span style="font-size:15px">${near[k].join(k==="school"?"<br>":", ")||'<span class="note">none mapped</span>'}</span></p>`).join("")}
     <p class="note">Straight-line distances from the launch pin ${conf("Likely")}. School and station positions are official; launch pins are HuatNex placements.</p></details>
+    ${LU.stats[p.id]||MP.stats[p.id]?`<details class="sub expert"><summary>For the detail-minded</summary>`:""}
     ${(()=>{const m=LU.stats[p.id];if(!m)return"";return `<details class="sub"><summary>Zoning around it</summary>
     <table style="font-size:15px"><tbody>
       <tr><td>Residential-zoned land ≤1km</td><td class="num">${m.res_ha} ha · ${m.res_pct}%</td></tr>
@@ -1155,7 +1128,8 @@ function renderDistInfo(d){
       <tr><td>Landed housing area ≤1km</td><td class="num">${m.lha_ha_1km} ha</td></tr>
       <tr><td>Nearest growth node</td><td class="num">${m.node.n} · ${fmt(m.node.m)}m</td></tr>
       <tr><td>Nature reserve / national park</td><td class="num">${(m.nature_m/1000).toFixed(1)} km</td></tr>
-    </tbody></table></details>`;})()}`;
+    </tbody></table></details>`;})()}
+    ${LU.stats[p.id]||MP.stats[p.id]?`</details>`:""}`;
   });
   document.querySelectorAll("#distInfo .lrow").forEach(b=>b.onclick=()=>{sel=b.dataset.p;mapDist=null;renderAll();});
 }
