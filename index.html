@@ -15,11 +15,11 @@
 </script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script>
-/* PostHog product analytics and session replay: runs on huatnex.vercel.app only. No cookies; typed input is masked. */
+/* PostHog product analytics and session replay: runs on huatnex.vercel.app only. No cookies. */
 (function(){
   if (location.hostname !== "huatnex.vercel.app") return;
   var host = "https://us.i.posthog.com", ph = [];
-  ph._i = [["phc_rceiUcAFjjrkDyFcdKHmhGmTnSTmCGuoYBSW2tRCUqvZ", {"api_host": "https://us.i.posthog.com", "persistence": "sessionStorage", "session_recording": {"maskAllInputs": true}, "respect_dnt": true, "capture_pageview": true, "capture_pageleave": true, "person_profiles": "identified_only"}]];
+  ph._i = [["phc_rceiUcAFjjrkDyFcdKHmhGmTnSTmCGuoYBSW2tRCUqvZ", {"api_host": "https://us.i.posthog.com", "persistence": "sessionStorage", "session_recording": {"maskAllInputs": false}, "respect_dnt": true, "capture_pageview": true, "capture_pageleave": true, "person_profiles": "identified_only"}]];
   ph.people = []; ph.__SV = 1;
   ph.capture = function () { ph.push(["capture"].concat([].slice.call(arguments))); };
   window.posthog = ph;
