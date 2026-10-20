@@ -2,7 +2,7 @@
 
 An early-preview web page that helps buyers judge whether a Singapore new-launch condo or EC is likely to grow in value by the time it can be sold without Seller's Stamp Duty.
 
-Live site: https://huatnex-sg.github.io/huatnex/
+Live site: https://huatnex.vercel.app/ (Vercel deploys automatically from the `main` branch of this repo)
 
 ## Data sources
 - Urban Redevelopment Authority (URA): Master Plan 2025 and 2019 layers, Government Land Sales, private residential transactions, private residential price index. Contains information from URA.
