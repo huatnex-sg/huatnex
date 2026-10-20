@@ -291,18 +291,14 @@ details summary{cursor:pointer;color:var(--muted);font-size:16px;margin-bottom:1
 #map{width:100%;height:auto;display:block;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
 #map.dragging{cursor:grabbing}
 .mapwrap{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--line)}
-.mapbig{display:none;width:100%;margin:0 0 10px;align-items:center;justify-content:center;gap:8px;font:700 16px var(--f-display);color:#fff;background:var(--accent);border:0;border-radius:14px;padding:12px 14px;cursor:pointer}
-.mapbig span{font:600 13px var(--f-body);opacity:.9}
-@media (max-width:700px){.mapbig{display:flex;flex-wrap:wrap}}
-.fsx,.rothint,.fsbar{display:none}
-.mapwrap.fs{position:fixed;inset:0;z-index:50;border-radius:0;border:0;background:var(--water);display:flex;align-items:center;justify-content:center}
-.mapwrap.fs #map{width:100%;height:100%}
-.mapwrap.fs .fsx{display:grid;place-items:center;position:absolute;top:10px;left:10px;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:26px;line-height:1;color:var(--ink);cursor:pointer;box-shadow:0 2px 8px rgba(92,111,168,.18)}
-.mapwrap.fs .fsbar:not([hidden]){display:flex;position:absolute;left:10px;right:10px;bottom:12px;gap:10px;align-items:center;justify-content:space-between;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;font:700 15px var(--f-display);color:var(--head);box-shadow:0 6px 18px rgba(92,111,168,.2)}
-.fsbar button{font:700 15px var(--f-display);color:#fff;background:var(--accent);border:0;border-radius:10px;padding:9px 12px;cursor:pointer;white-space:nowrap}
-@media (orientation:portrait) and (max-width:700px){.mapwrap.fs .rothint{display:block;position:absolute;top:14px;left:64px;right:56px;margin:0;text-align:center;background:var(--gold-soft);border:1px solid #F6DEB0;border-radius:12px;padding:8px 10px;font:600 14px var(--f-body);color:var(--seg-ocr-fg)}}
-body.mapfs{overflow:hidden}
-body.mapfs .hovercard{z-index:60}
+.zoomctl button{width:40px;height:40px}
+.panpad{position:absolute;left:10px;bottom:10px;display:grid;grid-template-columns:repeat(3,40px);grid-template-rows:repeat(3,40px);gap:2px;pointer-events:none}
+.panpad .pan{pointer-events:auto;width:40px;height:40px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:12px;display:grid;place-items:center;cursor:pointer;box-shadow:0 1px 3px rgba(92,111,168,.15);opacity:.92}
+.panpad .pan:hover{background:#F3F5FB}
+.panpad [data-pan=up]{grid-column:2;grid-row:1}.panpad [data-pan=left]{grid-column:1;grid-row:2}.panpad [data-pan=right]{grid-column:3;grid-row:2}.panpad [data-pan=down]{grid-column:2;grid-row:3}
+@media (max-width:700px){.zoomctl button,.panpad .pan{width:44px;height:44px}.panpad{position:static;display:flex;justify-content:center;gap:10px;padding:8px 0;background:var(--surface);border-top:1px solid var(--line)}.panpad .pan{opacity:1}}
+.maphint{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:rgba(59,68,96,.88);color:#fff;font:600 15px var(--f-body);padding:10px 14px;border-radius:12px;pointer-events:none;text-align:center;max-width:80%}
+#map:focus-visible{outline:3px solid var(--accent-2);outline-offset:-3px}
 .zoomctl{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:6px}
 .zoomctl button{width:34px;height:34px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:50%;font:600 18.5px var(--f-mono);cursor:pointer;display:grid;place-items:center;box-shadow:var(--shadow)}
 .zoomctl button:hover{border-color:var(--accent);color:var(--accent)}
@@ -373,14 +369,12 @@ body.mapfs .hovercard{z-index:60}
         <button class="chip" id="mm-segment" aria-pressed="false">Colour by segment</button>
         <button class="chip" id="mm-opp" aria-pressed="false">Colour by opportunity</button>
       </div>
-      <button class="mapbig" id="mapBig" type="button"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Open the big map <span>best with your phone sideways</span></button>
       <div class="mapwrap"><svg id="map" viewBox="0 0 960 560" role="img" aria-label="Map of Singapore land use and planning areas with new launch pins. Scroll or pinch to zoom, drag to pan."><rect width="960" height="560" fill="var(--water)"/><g id="luG"></g><g id="dyn"></g></svg>
-        <div class="zoomctl"><button id="zIn" aria-label="Zoom in">+</button><button id="zOut" aria-label="Zoom out">−</button><button id="zReset" aria-label="Reset view" style="font-size:14px">⤢</button><button id="zFull" aria-label="Big map" title="Big map"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
-        <button class="fsx" id="fsX" type="button" aria-label="Close big map">×</button>
-        <p class="rothint" aria-hidden="true">Turn your phone sideways for a bigger map</p>
-        <div class="fsbar" id="fsBar" hidden><span id="fsName"></span><button type="button" id="fsGo">See the verdict ›</button></div>
+        <div class="zoomctl"><button id="zIn" aria-label="Zoom in">+</button><button id="zOut" aria-label="Zoom out">−</button><button id="zReset" aria-label="Show all of Singapore" style="font-size:14px">⤢</button></div>
+        <div class="panpad" role="group" aria-label="Move the map"><button class="pan" data-pan="up" aria-label="Move map up"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 9l4-4 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="pan" data-pan="left" aria-label="Move map left"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M9 3L5 7l4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="pan" data-pan="right" aria-label="Move map right"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M5 3l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="pan" data-pan="down" aria-label="Move map down"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 5l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
+        <div class="maphint" id="mapHint" aria-live="polite" hidden></div>
         <div class="zoomlvl" id="zLvl">1.0×</div></div>
-      <p class="note" style="margin:6px 0 0">Scroll or pinch to zoom, drag to pan. Hover a pin for buyers vs supply.</p>
+      <p class="note" style="margin:6px 0 0">Pinch, double-tap or press + to zoom in. Drag to move, or use the arrows. Tap a pin for details.</p>
       <details class="sub"><summary>Map layers and legend</summary>
         <div class="toggle" role="group" aria-label="Map layers" id="layerToggles" style="margin-top:10px"></div>
         <div class="legend" id="mapLegend" style="margin-top:6px"></div>
@@ -1187,24 +1181,46 @@ function queueMap(){if(mapQ)return;mapQ=true;requestAnimationFrame(()=>{mapQ=fal
 function applyView(){VIEW.w=Math.min(MAPW,Math.max(MAPW/ZMAX,VIEW.w));const h=VIEW.w*MAPH/MAPW;
   VIEW.x=Math.min(MAPW-VIEW.w,Math.max(0,VIEW.x));VIEW.y=Math.min(MAPH-h,Math.max(0,VIEW.y));
   $("#map").setAttribute("viewBox",`${VIEW.x.toFixed(2)} ${VIEW.y.toFixed(2)} ${VIEW.w.toFixed(2)} ${h.toFixed(2)}`);
-  const k=MAPW/VIEW.w;$("#zLvl").textContent=k.toFixed(1)+"×";if(Math.abs(k-ZK)>1e-3){ZK=k;queueMap();}}
+  const k=MAPW/VIEW.w;$("#zLvl").textContent=k.toFixed(1)+"×";if(Math.abs(k-ZK)>1e-3){ZK=k;queueMap();}setTouch();}
 function svgPt(cx,cy){const r=$("#map").getBoundingClientRect();const h=VIEW.w*MAPH/MAPW;return [VIEW.x+(cx-r.left)/r.width*VIEW.w,VIEW.y+(cy-r.top)/r.height*h];}
 function zoomAt(f,px,py){const nw=Math.min(MAPW,Math.max(MAPW/ZMAX,VIEW.w*f));const q=nw/VIEW.w;const h=VIEW.w*MAPH/MAPW;
   VIEW.x=px-(px-VIEW.x)*q;VIEW.y=py-(py-VIEW.y)*q;VIEW.w=nw;applyView();}
 function zoomCenter(f){const h=VIEW.w*MAPH/MAPW;zoomAt(f,VIEW.x+VIEW.w/2,VIEW.y+h/2);}
 const mapEl=$("#map");
-mapEl.addEventListener("wheel",e=>{e.preventDefault();const [px,py]=svgPt(e.clientX,e.clientY);zoomAt(Math.exp(e.deltaY*0.0015),px,py);},{passive:false});
-const ptrs=new Map();let dragMoved=false,pinchD=null,downAt=null;
-mapEl.addEventListener("pointerdown",e=>{ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});if(ptrs.size===1){downAt={x:e.clientX,y:e.clientY};dragMoved=false;}
+// v42: wheel zooms only with Ctrl/Cmd (a trackpad pinch sends Ctrl); otherwise the page scrolls and a hint shows
+let hintT=null;const mapHint=(t,ms=1600)=>{const h=$("#mapHint");if(!h)return;h.textContent=t;h.hidden=false;clearTimeout(hintT);hintT=setTimeout(()=>{h.hidden=true;},ms);};
+const MAC=/Mac|iPhone|iPad/.test(navigator.platform||navigator.userAgent);
+mapEl.addEventListener("wheel",e=>{if(!(e.ctrlKey||e.metaKey)){mapHint(MAC?"Hold ⌘ and scroll to zoom the map":"Hold Ctrl and scroll to zoom the map");return;}
+  e.preventDefault();const [px,py]=svgPt(e.clientX,e.clientY);zoomAt(Math.exp(e.deltaY*0.0025),px,py);},{passive:false});
+// phones: at the whole-island view a one-finger swipe scrolls the page; once zoomed in, one finger drags the map
+function setTouch(){const m=document.getElementById("map");if(m)m.style.touchAction=ZK>1.05?"none":"pan-y";}
+setTouch();
+const ptrs=new Map();let dragMoved=false,pinchD=null,downAt=null,vel={x:0,y:0,t:0},glide=null,lastTap=null;
+const stopGlide=()=>{if(glide){cancelAnimationFrame(glide);glide=null;}};
+mapEl.addEventListener("pointerdown",e=>{stopGlide();ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});if(ptrs.size===1){downAt={x:e.clientX,y:e.clientY};dragMoved=false;}
   if(ptrs.size===2){const [a,b]=[...ptrs.values()];pinchD=Math.hypot(a.x-b.x,a.y-b.y);}});
 mapEl.addEventListener("pointermove",e=>{if(!ptrs.has(e.pointerId))return;const prev=ptrs.get(e.pointerId),now={x:e.clientX,y:e.clientY};ptrs.set(e.pointerId,now);
   const r=mapEl.getBoundingClientRect();
   if(ptrs.size===1){if(!dragMoved&&downAt&&Math.hypot(now.x-downAt.x,now.y-downAt.y)>4){dragMoved=true;mapEl.classList.add("dragging");try{mapEl.setPointerCapture(e.pointerId);}catch(_){}}
-    if(dragMoved){const h=VIEW.w*MAPH/MAPW;VIEW.x-=(now.x-prev.x)/r.width*VIEW.w;VIEW.y-=(now.y-prev.y)/r.height*h;applyView();}}
+    if(dragMoved){const h=VIEW.w*MAPH/MAPW,dx=(now.x-prev.x)/r.width*VIEW.w,dy=(now.y-prev.y)/r.height*h;VIEW.x-=dx;VIEW.y-=dy;applyView();
+      const t=performance.now(),dt=Math.max(1,t-(vel.t||t-16));vel={x:0.8*vel.x+0.2*dx/dt,y:0.8*vel.y+0.2*dy/dt,t};}}
   else if(ptrs.size===2&&pinchD){const [a,b]=[...ptrs.values()];const d=Math.hypot(a.x-b.x,a.y-b.y);if(d>0){const [px,py]=svgPt((a.x+b.x)/2,(a.y+b.y)/2);zoomAt(pinchD/d,px,py);pinchD=d;dragMoved=true;}}});
-const endPtr=e=>{ptrs.delete(e.pointerId);if(ptrs.size<2)pinchD=null;if(ptrs.size===0)mapEl.classList.remove("dragging");};
+const endPtr=e=>{const wasDrag=dragMoved&&ptrs.size===1;ptrs.delete(e.pointerId);if(ptrs.size<2)pinchD=null;if(ptrs.size>0)return;mapEl.classList.remove("dragging");
+  // glide after a flick
+  if(wasDrag&&e.type==="pointerup"&&performance.now()-vel.t<80&&Math.hypot(vel.x,vel.y)>0.02&&!matchMedia("(prefers-reduced-motion: reduce)").matches){
+    let vx=vel.x*14,vy=vel.y*14;const step=()=>{vx*=0.88;vy*=0.88;VIEW.x-=vx;VIEW.y-=vy;applyView();if(Math.hypot(vx,vy)>0.05)glide=requestAnimationFrame(step);else glide=null;};glide=requestAnimationFrame(step);}
+  vel={x:0,y:0,t:0};
+  // double tap to zoom in (touch)
+  if(e.type==="pointerup"&&e.pointerType==="touch"&&!dragMoved){const t=performance.now();
+    if(lastTap&&t-lastTap.t<320&&Math.hypot(e.clientX-lastTap.x,e.clientY-lastTap.y)<30){const [px,py]=svgPt(e.clientX,e.clientY);zoomAt(0.5,px,py);lastTap=null;}else lastTap={t,x:e.clientX,y:e.clientY};}};
 mapEl.addEventListener("pointerup",endPtr);mapEl.addEventListener("pointercancel",endPtr);
 mapEl.addEventListener("dblclick",e=>{e.preventDefault();const [px,py]=svgPt(e.clientX,e.clientY);zoomAt(0.5,px,py);});
+const panBy=(fx,fy)=>{stopGlide();const h=VIEW.w*MAPH/MAPW;VIEW.x+=fx*VIEW.w;VIEW.y+=fy*h;applyView();};
+const PANS={up:[0,-0.25],down:[0,0.25],left:[-0.25,0],right:[0.25,0]};
+document.querySelectorAll(".panpad .pan").forEach(b=>b.addEventListener("click",()=>{const [fx,fy]=PANS[b.dataset.pan];if(ZK<1.05)zoomCenter(0.6);else panBy(fx,fy);}));
+mapEl.setAttribute("tabindex","0");
+mapEl.addEventListener("keydown",e=>{const k=e.key;const m={ArrowUp:"up",ArrowDown:"down",ArrowLeft:"left",ArrowRight:"right"}[k];
+  if(m){e.preventDefault();const [fx,fy]=PANS[m];panBy(fx/2,fy/2);}else if(k==="+"||k==="="){e.preventDefault();zoomCenter(0.7);}else if(k==="-"||k==="_"){e.preventDefault();zoomCenter(1/0.7);}else if(k==="0"){e.preventDefault();VIEW={x:0,y:0,w:MAPW};applyView();}});
 $("#zIn").onclick=()=>zoomCenter(0.6);$("#zOut").onclick=()=>zoomCenter(1/0.6);$("#zReset").onclick=()=>{VIEW={x:0,y:0,w:MAPW};applyView();};
 function focusPin(){if(ZK<1.2)return;const pc=PINS[sel];if(!pc)return;const [x,y]=P(pc);const h=VIEW.w*MAPH/MAPW;VIEW.x=x-VIEW.w/2;VIEW.y=y-h/2;applyView();}
 $("#luG").innerHTML=`<image class="lu-light" href="data:image/png;base64,${LU.png.light}" x="0" y="0" width="960" height="560" preserveAspectRatio="none"/><image class="lu-dark" href="data:image/png;base64,${LU.png.dark}" x="0" y="0" width="960" height="560" preserveAspectRatio="none"/>`;
@@ -1470,19 +1486,6 @@ const track=(ev,props)=>{try{const ph=window.posthog;if(ph&&typeof ph.capture===
   $("#weights").addEventListener("change",e=>{const k=(e.target.id||"").replace(/^w-/,"");if(k)track("weights_changed",{factor:k,value:+e.target.value});});
 })();
 if(location.hash==="#how")openHow();
-// Big map (v40): a full-screen overlay, so it works on every phone; tap a pin, then "See the verdict".
-(()=>{const mw=document.querySelector(".mapwrap");if(!mw)return;let pinTap=false;
-  const open=trigger=>{mw.classList.add("fs");document.body.classList.add("mapfs");$("#fsBar").hidden=true;setTimeout(applyView,50);track("map_fullscreen_opened",{trigger});};
-  const close=()=>{mw.classList.remove("fs");document.body.classList.remove("mapfs");$("#fsBar").hidden=true;setTimeout(applyView,50);};
-  $("#mapBig").addEventListener("click",()=>open("phone_button"));
-  $("#zFull").addEventListener("click",()=>mw.classList.contains("fs")?close():open("map_button"));
-  $("#fsX").addEventListener("click",close);
-  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&mw.classList.contains("fs"))close();});
-  $("#map").addEventListener("click",e=>{const pin=e.target.closest("[data-p]");pinTap=!!pin&&!/^[gt]:/.test(pin.dataset.p);},true);
-  const ra=renderAll;renderAll=function(){ra();if(!mw.classList.contains("fs")||!pinTap)return;pinTap=false;const p=cur();
-    $("#fsName").textContent=`${p.name} · Huat Score ${score(p)}`;$("#fsBar").hidden=false;};
-  $("#fsGo").addEventListener("click",()=>{close();const t=$("#roomGate").hidden?$("#s0"):$("#roomGate");t.scrollIntoView({behavior:"smooth",block:"start"});});
-})();
 // Waitlist prompt: public site only (needs PostHog). Shows by itself; visitors opt out with "No thanks" or ×.
 (()=>{const ph=()=>window.posthog;
   // start only once PostHog has really loaded, so no sign-up is ever queued into a library that never arrives
