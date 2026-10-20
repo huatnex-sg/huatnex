@@ -18,13 +18,13 @@
 /* PostHog product analytics and session replay: runs on huatnex.vercel.app only. No cookies. */
 (function(){
   if (location.hostname !== "huatnex.vercel.app") return;
-  var host = "https://us.i.posthog.com", ph = [];
-  ph._i = [["phc_rceiUcAFjjrkDyFcdKHmhGmTnSTmCGuoYBSW2tRCUqvZ", {"api_host": "https://us.i.posthog.com", "persistence": "sessionStorage", "session_recording": {"maskAllInputs": false}, "respect_dnt": true, "capture_pageview": true, "capture_pageleave": true, "person_profiles": "identified_only"}]];
+  var ph = [];
+  ph._i = [["phc_rceiUcAFjjrkDyFcdKHmhGmTnSTmCGuoYBSW2tRCUqvZ", {"api_host": "/ingest", "ui_host": "https://us.posthog.com", "persistence": "sessionStorage", "session_recording": {"maskAllInputs": false, "maskInputOptions": {"email": true}}, "respect_dnt": true, "capture_pageview": true, "capture_pageleave": true, "person_profiles": "identified_only"}]];
   ph.people = []; ph.__SV = 1;
-  ph.capture = function () { ph.push(["capture"].concat([].slice.call(arguments))); };
+  ["capture", "identify"].forEach(function (m) { ph[m] = function () { ph.push([m].concat([].slice.call(arguments))); }; });
   window.posthog = ph;
   var sc = document.createElement("script"); sc.async = true; sc.crossOrigin = "anonymous";
-  sc.src = host.replace(".i.posthog.com", "-assets.i.posthog.com") + "/static/array.js";
+  sc.src = "/ingest/static/array.js";
   document.head.appendChild(sc);
 })();
 </script>
@@ -213,6 +213,27 @@ details.q[open]>summary::after{content:"Hide"}
 .why .more{display:inline-block;margin-top:8px;font:700 12.5px var(--f-display);color:var(--seg-rcr-fg);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 .howbtn{display:inline-flex;align-items:center;gap:8px;font:700 13.5px var(--f-display);color:var(--head);background:#F3F5FB;border:1px solid #DDE4F4;border-radius:999px;padding:6px 14px 6px 6px;cursor:pointer}
 .howbtn:hover{background:#E8EDF9}
+
+/* Waitlist prompt (public site only) */
+.hdr-r{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.wlbtn{font:700 13.5px var(--f-display);color:#fff;background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:8px 16px;cursor:pointer}
+.wlbtn:hover{background:#DD6F5C}
+.wl{position:fixed;right:20px;bottom:20px;z-index:30;width:360px;max-width:calc(100vw - 32px);background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px 20px 16px;box-shadow:0 16px 44px rgba(92,111,168,.22);transform:translateY(16px);opacity:0;transition:transform .25s,opacity .25s}
+.wl.show{transform:none;opacity:1}
+.wl h3{margin:0 28px 6px 0;font:700 17px var(--f-display);color:var(--head)}
+.wl p{margin:0 0 10px;font-size:14px;color:var(--ink)}
+.wl form{display:flex;gap:8px;flex-wrap:wrap}
+.wl input{flex:1 1 180px;min-width:0;font:15px var(--f-body);padding:10px 12px;border:1px solid #DDE4F4;border-radius:12px;color:var(--ink)}
+.wl input:focus{outline:2px solid var(--accent-2);outline-offset:1px}
+.wl .go{font:700 14px var(--f-display);color:#fff;background:var(--accent);border:0;border-radius:12px;padding:10px 16px;cursor:pointer}
+.wl .x{position:absolute;top:10px;right:12px;width:30px;height:30px;border:0;background:none;font-size:22px;line-height:1;color:var(--muted);cursor:pointer;border-radius:50%}
+.wl .x:hover{background:#F3F5FB}
+.wl .no{background:none;border:0;padding:0;margin-top:8px;font:600 13px var(--f-body);color:var(--muted);text-decoration:underline;cursor:pointer}
+.wl .fine{font-size:12px;color:var(--muted);margin:8px 0 0}
+.wl .msg{font-size:13px;margin:6px 0 0;color:var(--red)}
+.wl .ok{font:700 15px var(--f-display);color:var(--jade);margin:4px 0 0}
+@media (max-width:520px){.wl{left:16px;right:16px;bottom:16px;width:auto}}
+@media (prefers-reduced-motion:reduce){.wl{transition:none}}
 .howbtn .ico{width:26px;height:26px;border-radius:50%;background:#fff;border:1px solid #C9D5F0;display:grid;place-items:center;font:800 14px var(--f-display);color:var(--accent)}
 @media (max-width:520px){.howbtn .lbl{display:none}.howbtn{padding:6px}}
 .howlink{background:none;border:0;padding:0;margin-left:6px;font:700 14px var(--f-display);color:var(--seg-rcr-fg);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
@@ -296,8 +317,21 @@ details summary{cursor:pointer;color:var(--muted);font-size:14px;margin-bottom:1
       <p class="tagline">Property Insights. Prosperous Choices.</p>
     </div>
   </div>
-  <button class="howbtn" id="howOpen" aria-haspopup="dialog" aria-controls="howPanel" title="How HuatNex works"><span class="ico" aria-hidden="true">?</span><span class="lbl">How HuatNex works</span></button>
+  <div class="hdr-r"><button class="wlbtn" id="wlOpen" type="button" hidden>Join waitlist</button>
+  <button class="howbtn" id="howOpen" aria-haspopup="dialog" aria-controls="howPanel" title="How HuatNex works"><span class="ico" aria-hidden="true">?</span><span class="lbl">How HuatNex works</span></button></div>
 </header>
+<div class="wl" id="wl" role="dialog" aria-labelledby="wlT" hidden>
+  <button class="x" type="button" id="wlX" aria-label="Close">×</button>
+  <div id="wlBody">
+    <h3 id="wlT">Help us build the full HuatNex</h3>
+    <p>This is an early MVP. Better property data costs money, and before we raise seed funding we want to know how many people would use HuatNex. Your interest helps us decide how much data to buy and which features to build next.</p>
+    <p>Join the waitlist and we'll tell you when the full version opens.</p>
+    <form id="wlForm" novalidate><input type="email" id="wlEmail" name="email" autocomplete="email" placeholder="you@example.com" aria-label="Email address" required><button class="go" type="submit">Join waitlist</button></form>
+    <p class="msg" id="wlMsg" hidden></p>
+    <p class="fine">We'll only email you about HuatNex. Unsubscribe anytime.</p>
+    <button class="no" type="button" id="wlNo">No thanks</button>
+  </div>
+</div>
 
 <div class="hero">
   <div>
@@ -1373,4 +1407,31 @@ const track=(ev,props)=>{try{const ph=window.posthog;if(ph&&typeof ph.capture===
   $("#weights").addEventListener("change",e=>{const k=(e.target.id||"").replace(/^w-/,"");if(k)track("weights_changed",{factor:k,value:+e.target.value});});
 })();
 if(location.hash==="#how")openHow();
+// Waitlist prompt: public site only (needs PostHog). Shows by itself; visitors opt out with "No thanks" or ×.
+(()=>{const ph=()=>window.posthog;
+  // start only once PostHog has really loaded, so no sign-up is ever queued into a library that never arrives
+  const wait=n=>{const p=ph();if(p&&p.__loaded)start();else if(p&&n>0)setTimeout(()=>wait(n-1),500);};wait(60);
+  function start(){
+  const box=$("#wl"),btn=$("#wlOpen"),KEY="hx_wl";btn.hidden=false;
+  const get=()=>{try{return JSON.parse(localStorage.getItem(KEY)||"null");}catch(e){return null;}};
+  const put=v=>{try{localStorage.setItem(KEY,JSON.stringify(v));}catch(e){}};
+  let shownThisVisit=false;
+  const blocked=()=>{const v=get();if(!v)return false;if(v.s==="joined")return true;return v.s==="dismissed"&&Date.now()-v.t<7*864e5;};
+  const open=trigger=>{if(!box.hidden)return;box.hidden=false;requestAnimationFrame(()=>box.classList.add("show"));shownThisVisit=true;track("waitlist_prompt_shown",{trigger});};
+  const close=(why)=>{box.classList.remove("show");box.hidden=true;if(why){put({s:"dismissed",t:Date.now()});track("waitlist_dismissed",{how:why});}};
+  const auto=trigger=>{if(shownThisVisit||blocked())return;open(trigger);};
+  setTimeout(()=>auto("timer_25s"),25000);
+  const ra=renderAll;renderAll=function(){ra();if(ROOMSEL&&!$("#verdict").closest("[hidden]"))setTimeout(()=>auto("first_verdict"),2500);};
+  btn.addEventListener("click",()=>{const v=get();if(v&&v.s==="joined"){box.hidden=false;box.classList.add("show");$("#wlBody").innerHTML='<h3>You\'re on the list</h3><p class="ok">Thanks. We\'ll be in touch.</p>';return;}open("header_button");$("#wlEmail").focus();});
+  $("#wlX").addEventListener("click",()=>close("close_button"));
+  $("#wlNo").addEventListener("click",()=>close("no_thanks"));
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!box.hidden)close("escape");});
+  $("#wlForm").addEventListener("submit",e=>{e.preventDefault();const em=$("#wlEmail").value.trim().toLowerCase(),msg=$("#wlMsg");
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)){msg.textContent="Please enter a valid email address.";msg.hidden=false;return;}
+    try{const p=ph();if(typeof p.identify==="function")p.identify(em,{email:em,waitlist:true});
+      track("waitlist_signed_up",{email:em});}catch(err){msg.textContent="Sorry, that didn't go through. Please try again in a moment.";msg.hidden=false;return;}
+    put({s:"joined",t:Date.now()});
+    $("#wlBody").innerHTML='<h3>You\'re on the list</h3><p class="ok">Thanks. We\'ll email you when the full HuatNex opens.</p>';setTimeout(()=>{box.classList.remove("show");box.hidden=true;},4000);});
+  }
+})();
 </script>
