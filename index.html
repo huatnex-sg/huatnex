@@ -404,7 +404,7 @@ details summary{cursor:pointer;color:var(--muted);font-size:14px;margin-bottom:1
     <p>The Huat Score rates a location out of 100 by mixing four ingredients. It ranks launches against each other. It is not a valuation or a probability.</p>
     <div class="wbar" id="howWbar" aria-hidden="true"></div>
     <dl class="howdl">
-      <dt>Schools</dt><dd>Living within 1km of a primary school gives priority in the Primary 1 ballot, and families pay for that. Top schools (SAP or affiliated to a secondary school) count most, popular schools next, and any other school a little.</dd>
+      <dt>Schools</dt><dd>Living within 1km of a primary school gives priority in the Primary 1 ballot, and families pay for that. Popular schools (oversubscribed in the Phase 2C ballot, or among the 50 most popular) count most, popular schools 1–2km away a little, and any other school within 1km a little.</dd>
       <dt>MRT</dt><dd>Homes a short walk from a station hold value and rent more easily. A 5-minute walk scores highest. Planned stations count too, and we tell you when they're not open yet.</dd>
       <dt>Buyers</dt><dd>Who could buy from you when you sell? Mostly families upgrading from HDB flats that have passed their 5-year minimum occupation. Half of this score comes from real HDB resale records for the area, and half from flats due to reach that 5-year mark around the time you'd sell.</dd>
       <dt>Few new condos</dt><dd>Lots of new homes nearby means more competition for the same buyers. We count the homes on land sold to developers within 2km since 2021. The fewer there are, the higher the score.</dd>
@@ -418,7 +418,7 @@ details summary{cursor:pointer;color:var(--muted);font-size:14px;margin-bottom:1
       <thead><tr><th>Question</th><th><span class="dot good"></span> Green</th><th><span class="dot mid"></span> Amber</th><th><span class="dot bad"></span> Red</th></tr></thead>
       <tbody>
         <tr><td>Will there be buyers when you sell?</td><td>At least 1 likely buyer for every 2 competing homes</td><td>1 for every 2 to 4</td><td>Fewer than 1 for every 4</td></tr>
-        <tr><td>Good primary schools nearby?</td><td>A top school within 1km</td><td>Other schools within 1km</td><td>No school within 1km</td></tr>
+        <tr><td>Good primary schools nearby?</td><td>A popular school within 1km</td><td>Other schools within 1km</td><td>No school within 1km</td></tr>
         <tr><td>Easy to get to an MRT?</td><td>Within 500m</td><td>500m to 1km</td><td>Over 1km</td></tr>
         <tr><td>Lots of new condos coming nearby?</td><td>Few nearby</td><td>Some</td><td>Many</td></tr>
         <tr><td>What could it sell for?</td><td>15% or more above the launch price</td><td>5% to 15%</td><td>Under 5%</td></tr>
@@ -1060,9 +1060,8 @@ function renderDistInfo(d){
   document.querySelectorAll("#distInfo .lrow").forEach(b=>b.onclick=()=>{sel=b.dataset.p;mapDist=null;renderAll();});
 }
 const FACTORS=[
- ["Education","Top primary ≤1km (SAP or affiliated)","Priority in the Phase 2C ballot for homes within 1km; families pay up and hold. Scored from MOE school locations",'+',"Yes (MOE)","Certain"],
- ["Education","Top primary 1–2km","Smaller ballot edge; weaker premium",'+',"Yes (MOE)","Likely"],
- ["Education","Popular primary ≤1km","Oversubscribed in the 2026 Phase 2C ballot, or among the 50 most popular schools over 2020–25 (third-party data)",'+',"Yes","Certain"],
+ ["Education","Popular primary ≤1km","Priority in the Phase 2C ballot for homes within 1km at a school families compete for: oversubscribed in the 2026 Phase 2C ballot, or among the 50 most popular over 2020–25 (third-party data). Families pay up and hold. Scored from MOE school locations",'+',"Yes (MOE)","Certain"],
+ ["Education","Popular primary 1–2km","Smaller ballot edge; weaker premium",'+',"Yes (MOE)","Likely"],
  ["Education","Phase 2C ballot band","If citizens within 1km all got in, a 1km home effectively guarantees a place; if the ballot hit <1km, it only improves the odds",'+',"Factor scan","Certain"],
  ["Education","Parent search interest","2025 parent search-interest list (third-party); no method published, so shown as a flag only",'+',"Tooltip","Guessing"],
  ["Education","Any primary ≤1km","Basic family convenience; small premium on its own",'+',"Yes (MOE)","Likely"],
@@ -1101,12 +1100,12 @@ $("#upRate").oninput = e => { UP_RATE = Math.max(0,+e.target.value||0); const p=
 // Score schools factor from MOE school locations
 PROJECTS.forEach(p=>{const pc=PINS[p.id];if(!pc)return;
   const d=SCH.map(sc=>({sc,k:km(pc,[sc.lon,sc.lat])}));
-  const top1=d.filter(x=>x.sc.top&&x.k<=1),top2=d.filter(x=>x.sc.top&&x.k>1&&x.k<=2),all1=d.filter(x=>x.k<=1);
-  const pop1=all1.filter(x=>!x.sc.top&&x.sc.pop),oth1=all1.filter(x=>!x.sc.top&&!x.sc.pop);
-  const s=Math.min(10,Math.round((2+3*top1.length+1*top2.length+1*pop1.length+0.5*oth1.length)*2)/2);
+  const pop1=d.filter(x=>x.sc.pop&&x.k<=1),pop2=d.filter(x=>x.sc.pop&&x.k>1&&x.k<=2),all1=d.filter(x=>x.k<=1);
+  const oth1=all1.filter(x=>!x.sc.pop);
+  const s=Math.min(10,Math.round((2+3*pop1.length+1*pop2.length+0.5*oth1.length)*2)/2);
   const safe=all1.filter(x=>x.sc.p1&&x.sc.p1.band==="safe1km").map(x=>x.sc.n),hot=all1.filter(x=>x.sc.p1&&x.sc.p1.band==="ballot1km").map(x=>x.sc.n);
   const nm=a=>a.sort((x,y)=>x.k-y.k).map(x=>`${x.sc.n} (${(x.k*1000).toFixed(0)}m${x.sc.sap?", SAP":""}${x.sc.aff?", affiliated":""})`).join("; ");
-  p.schools={s,c:"Likely",txt:`${top1.length} top ${top1.length===1?"primary":"primaries"} within 1km${top1.length?": "+nm(top1):""}. ${all1.length} primary ${all1.length===1?"school":"schools"} within 1km in total (${pop1.length} other popular); ${top2.length} top ${top2.length===1?"primary":"primaries"} 1–2km away.${safe.length?` In 2026 Phase 2C, citizens within 1km all got into ${safe.join(", ")}.`:""}${hot.length?` ${hot.join(", ")} balloted even within 1km.`:""} Locations: MOE and OneMap. Ballot demand and popularity: third-party data.`};});
+  p.schools={s,c:"Likely",txt:`${pop1.length} popular ${pop1.length===1?"primary":"primaries"} within 1km${pop1.length?": "+nm(pop1):""}. ${all1.length} primary ${all1.length===1?"school":"schools"} within 1km in total; ${pop2.length} popular ${pop2.length===1?"primary":"primaries"} 1–2km away.${safe.length?` In 2026 Phase 2C, citizens within 1km all got into ${safe.join(", ")}.`:""}${hot.length?` ${hot.join(", ")} balloted even within 1km.`:""} Locations: MOE and OneMap. Ballot demand and popularity: third-party data.`};});
 
 // Zoom and pan
 const MAPW=960,MAPH=560,ZMAX=10;let VIEW={x:0,y:0,w:MAPW};let mapQ=false;
@@ -1289,7 +1288,7 @@ function schoolsNear(p){const pc=PINS[p.id];const d=SCH.map(sc=>({sc,k:km(pc,[sc
 function renderVerdict(p){const el=$("#verdict");if(!el)return;
   const sc=score(p),x=balance(p),ex=exitYear(p),e=exitProj(p),m=MP.stats[p.id],A=PA.areas.find(a=>a.c===PA.pin_pa[p.id]);
   const tier=sc>=75?"Strong location for value growth":sc>=55?"Decent location, with trade-offs":"Weaker location for value growth";
-  const near=schoolsNear(p),top=near.filter(z=>z.sc.top),pop=near.filter(z=>!z.sc.top&&z.sc.pop);
+  const near=schoolsNear(p),pop=near.filter(z=>z.sc.pop);
   const ballot=z=>z.sc.p1?(z.sc.p1.band==="ballot1km"?"last year even families within 1km had to ballot":z.sc.p1.band==="safe1km"?"last year every citizen within 1km got a place":"it wasn't oversubscribed last year"):"no recent ballot data";
   const walk=mm=>Math.max(1,Math.round(mm/80));
   const rn=realNow(p),done=rn&&ssdDone(p);const gain=done?((rn.psf/p.psf)**(4/Math.max(0.5,NOWF-p.launch-(p.lm-1)/12))-1)*100:e?(e.exit/e.psf-1)*100:null;
@@ -1297,9 +1296,9 @@ function renderVerdict(p){const el=$("#verdict");if(!el)return;
    {k:"buyers",q:"Will there be buyers when you sell?",c:x.v[0],
     a:x.v[0]==="good"?"Likely yes. More likely buyers than competing homes.":x.v[0]==="mid"?"Some, but there will be plenty of competition.":"Not many. Lots of similar homes will be for sale at the same time.",
     w:`When you can sell without the extra stamp duty (${ex}), about ${fmt(x.buyers)} nearby HDB households may be ready to upgrade, while about ${fmt(x.sup)} other private homes compete for them.${(()=>{const t=hdbTown(p);if(!t)return"";const tn=t.name.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase());return t.mopn?` In the past year, ${fmt(t.mopn)} flats in ${tn} that had just passed their 5-year minimum occupation were resold, typically for ${money(t.mopmed)}. That cash is what upgraders bring.`:` In the past year, no flats that had just passed their 5-year minimum occupation were resold in ${tn}, so few local upgraders are cashing out.`;})()}`,go:"s2"},
-   {k:"schools",q:"Good primary schools nearby?",c:top.length?"good":(pop.length||near.length)?"mid":"bad",
-    a:top.length?`Yes. ${top[0].sc.n} is ${Math.round(top[0].k*1000)}m away.`:pop.length?`Popular schools nearby, but no top-tier one within 1km.`:near.length?"There are schools within 1km, but none are in high demand.":"No primary school within 1km.",
-    w:near.length?near.slice(0,3).map(z=>`${z.sc.n}${z.sc.top?" (top school)":""} is ${Math.round(z.k*1000)}m away; ${ballot(z)}.`).join(" "):"Living within 1km of a school gives priority in the Primary 1 ballot, which many families pay for.",go:"s1"},
+   {k:"schools",q:"Good primary schools nearby?",c:pop.length?"good":near.length?"mid":"bad",
+    a:pop.length?`Yes. ${pop[0].sc.n}, a popular school, is ${Math.round(pop[0].k*1000)}m away.`:near.length?"There are schools within 1km, but none are in high demand.":"No primary school within 1km.",
+    w:near.length?near.slice(0,3).map(z=>`${z.sc.n}${z.sc.pop?" (popular)":""} is ${Math.round(z.k*1000)}m away; ${ballot(z)}.`).join(" "):"Living within 1km of a school gives priority in the Primary 1 ballot, which many families pay for.",go:"s1"},
    {k:"mrt",q:"Easy to get to an MRT?",c:m?(m.nearest.m<=500?"good":m.nearest.m<=1000?"mid":"bad"):"mid",
     a:m?(m.nearest.m<=500?`Yes. ${m.nearest.n}${m.nearest.f?" (opening later)":""} is about a ${walk(m.nearest.m)}-minute walk.`:m.nearest.m<=1000?`About a ${walk(m.nearest.m)}-minute walk to ${m.nearest.n}.`:`Not really. The nearest station is over 1km away.`):"Unknown.",
     w:m?(m.nearest.f?`${m.nearest.n} is a future station. Until it opens, the nearest working MRT is ${m.nearest_open.n}, about ${fmt(m.nearest_open.m)}m away.`:`Homes close to MRT stations tend to hold value and rent more easily.`):"",go:"s1"},
