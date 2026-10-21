@@ -262,6 +262,29 @@ details.q[open]>summary::after{content:"Hide"}
 .fb .fbfoot{position:sticky;bottom:0;background:#fff;padding:10px 0 16px;margin-top:4px;box-shadow:0 -8px 12px -8px rgba(92,111,168,.18)}
 .fb .ok{font-size:16px}
 .fblink{margin:8px 0 0}
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.tbtn{min-height:42px;font:700 15px var(--f-display);color:var(--accent);background:#fff;border:1px solid #C9D5F0;border-radius:999px;padding:8px 14px;cursor:pointer;touch-action:manipulation}
+.tbtn:hover{background:#F3F5FB}.tbtn[aria-expanded="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.tbtn .soon{font:600 12px var(--f-body);background:#FFF3DC;color:#8A5A12;border-radius:999px;padding:2px 7px;margin-left:4px}
+.tbtn[aria-expanded="true"] .soon{background:#fff}
+.tpanel{margin-top:12px;max-width:640px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.tpanel p{margin:0 0 8px;font-size:16px}
+.tpanel .ok{color:var(--jade);font-weight:600}
+.schform label{display:block;font:700 15px var(--f-display);color:var(--head);margin-bottom:6px}
+.schrow{display:flex;gap:8px;flex-wrap:wrap}
+.schrow input{flex:1 1 160px;min-width:0;font:17px var(--f-body);padding:10px 12px;border:1px solid #DDE4F4;border-radius:12px;letter-spacing:.06em}
+.schrow input:focus{outline:2px solid var(--accent-2);outline-offset:1px}
+.tpanel .go{min-height:44px;font:700 16px var(--f-display);color:#fff;background:var(--accent);border:0;border-radius:999px;padding:8px 18px;cursor:pointer}
+#schOut{margin-top:10px}
+#schOut h4{margin:10px 0 6px;font:700 16px var(--f-display);color:var(--head)}
+.sch1{border-top:1px solid var(--line);padding:8px 0}
+.sch1 .nm{font-weight:700}.sch1 .d{color:var(--muted);font-size:14px;margin-left:6px}
+.sch1 .tg{display:inline-block;font:600 12px var(--f-body);border-radius:999px;padding:1px 7px;margin-left:4px;background:#EEF2FB;color:var(--head)}
+.sch1 .tg.pop{background:#FDE7E1;color:#B5462F}
+.risk{display:inline-block;font:700 13px var(--f-body);border-radius:999px;padding:2px 8px;margin-right:6px}
+.risk.H{background:#FBE2DC;color:#B23A26}.risk.M{background:#FFF0D6;color:#8A5A12}.risk.L{background:#E3F4EC;color:#1F6B4A}
+.sch1 .p1{font-size:14px;margin-top:3px}
+.schl{background:none;border:0;padding:0;color:var(--accent);font:600 15px var(--f-body);cursor:pointer;text-decoration:underline}
 .caveat .signoff{font:700 19px var(--f-display);color:var(--accent);margin:0 0 8px}
 @media (max-width:520px){.wl.fb{max-height:85vh}}
 .cmp .sub{font-size:15px;color:var(--muted);margin:0 0 12px}
@@ -423,6 +446,23 @@ details summary{cursor:pointer;color:var(--muted);font-size:16px;margin-bottom:1
       <ul id="hsList" class="hs-list" role="listbox" hidden></ul>
     </form>
     <p class="note hs-msg" id="hsMsg">Try The Orie, Tampines, an MRT station or a school.</p>
+    <div class="tools" role="group" aria-label="Tools">
+      <button type="button" class="tbtn" id="tSch" aria-expanded="false" aria-controls="schTool">Schools within 1km of a postal code</button>
+      <button type="button" class="tbtn" id="tVal" aria-expanded="false" aria-controls="valTool">Check a resale home's value <span class="soon">Coming soon</span></button>
+    </div>
+    <div class="tpanel" id="schTool" hidden>
+      <form id="schForm" class="schform" novalidate autocomplete="off">
+        <label for="schPc">Your postal code</label>
+        <div class="schrow"><input id="schPc" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="e.g. 529536"><button type="submit" class="go">Find schools</button></div>
+      </form>
+      <div id="schOut" aria-live="polite"></div>
+    </div>
+    <div class="tpanel" id="valTool" hidden>
+      <p><b>Coming soon.</b> Type in a resale condo or HDB flat and see how its price compares with recent sales nearby.</p>
+      <p>It needs paid data, so we're checking who wants it first.</p>
+      <div class="schrow"><button type="button" class="go" id="valWant">I'd use this</button><button type="button" class="tbtn" id="valWl">Join the waitlist</button></div>
+      <p class="ok" id="valMsg" hidden></p>
+    </div>
   </div>
   <div class="dots" aria-hidden="true"><i style="background:#F4A890"></i><i style="background:#EDC37E"></i><i style="background:#8DA2D6"></i></div>
 </div>
@@ -1130,7 +1170,7 @@ function renderMap(){
       <circle cx="${x}" cy="${y}" r="${r}" fill="${on?"var(--ink)":"var(--surface)"}" stroke="${on?segFill[p.seg]:tier}" stroke-width="${2.5*g}"/>
       <text x="${x}" y="${y+3.5*g}" text-anchor="middle" style="font:600 ${(on?9.5:8)*g}px var(--f-mono);fill:${on?"var(--bg)":"var(--ink)"}">${sc}</text></g>`;
     if(on)s+=`<text class="pl" x="${x+r+6*g}" y="${y-r-2*g}" style="font-size:${12*g}px;stroke-width:${4*g}px">${esc(p.name)}</text>`;}
-  if(FOCUSPT){const r=9*g;s+=`<circle cx="${FOCUSPT.x}" cy="${FOCUSPT.y}" r="${r}" fill="var(--accent)" fill-opacity=".18" stroke="var(--accent)" stroke-width="3" vector-effect="non-scaling-stroke" pointer-events="none"/><text class="pl" x="${FOCUSPT.x+r+6*g}" y="${FOCUSPT.y-r}" style="font-size:${12*g}px;stroke-width:${4*g}px">${esc(FOCUSPT.label)}</text>`;}
+  if(FOCUSPT){const r=9*g;if(FOCUSPT.ring)s+=`<circle cx="${FOCUSPT.x}" cy="${FOCUSPT.y}" r="${FOCUSPT.ring*2000/111}" fill="var(--accent)" fill-opacity=".06" stroke="var(--accent)" stroke-width="1.6" stroke-dasharray="5 4" vector-effect="non-scaling-stroke" pointer-events="none"/>`;s+=`<circle cx="${FOCUSPT.x}" cy="${FOCUSPT.y}" r="${r}" fill="var(--accent)" fill-opacity=".18" stroke="var(--accent)" stroke-width="3" vector-effect="non-scaling-stroke" pointer-events="none"/><text class="pl" x="${FOCUSPT.x+r+6*g}" y="${FOCUSPT.y-r}" style="font-size:${12*g}px;stroke-width:${4*g}px">${esc(FOCUSPT.label)}</text>`;}
   if(ZK<1.5)s+=`<line x1="840" y1="530" x2="930" y2="530" stroke="var(--ink)" stroke-width="2"/><text x="885" y="522" text-anchor="middle" style="font:500 10px var(--f-mono);fill:var(--muted)">5 km</text>`;
   $("#dyn").innerHTML=s;
   $("#mm-lu").setAttribute("aria-pressed",mapMode==="lu");$("#mm-segment").setAttribute("aria-pressed",mapMode==="segment");$("#mm-opp").setAttribute("aria-pressed",mapMode==="opp");
@@ -1528,6 +1568,43 @@ function renderGate(p){const ok=ROOMSEL&&roomOK(p,ROOMSEL);const g=$("#roomGate"
   return false;}
 $("#rgOpts").addEventListener("click",e=>{const b=e.target.closest(".rgopt");if(!b||b.disabled)return;applyRoom(+b.dataset.b);renderAll();$("#s0").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});});
 document.addEventListener("click",e=>{if(!e.target.closest("[data-room-change]"))return;applyRoom(null);renderAll();$("#roomGate").scrollIntoView({behavior:"smooth",block:"center"});});
+// v51: tools under the search. School finder (real MOE locations + last year's Phase 2C) and a "coming soon" valuation.
+(()=>{const tb=(b,pnl,tool)=>{b.addEventListener("click",()=>{const open=pnl.hidden;["#schTool","#valTool"].forEach(q=>{$(q).hidden=true;});
+    ["#tSch","#tVal"].forEach(q=>$(q).setAttribute("aria-expanded","false"));if(open){pnl.hidden=false;b.setAttribute("aria-expanded","true");track("tool_opened",{tool});
+      if(tool==="school_finder")setTimeout(()=>$("#schPc").focus(),50);}});};
+  tb($("#tSch"),$("#schTool"),"school_finder");tb($("#tVal"),$("#valTool"),"resale_value");
+  const RISK={ballot1km:["H","High","even citizens within 1km had to ballot"],safe1km:["M","Medium","citizens within 1km all got in; those farther away balloted"],open:["L","Low","no ballot was needed in Phase 2C"]};
+  const geo=async pc=>{const sch=SCH.find(z=>z.pc===pc);if(sch)return {lat:sch.lat,lon:sch.lon,addr:sch.n};
+    const q=`?searchVal=${pc}&returnGeom=Y&getAddrDetails=Y&pageNum=1`;
+    for(const u of ["/onemap/search"+q,"https://www.onemap.gov.sg/api/common/elastic/search"+q]){
+      try{const r=await fetch(u);if(!r.ok)continue;const j=await r.json();const h=(j.results||[]).find(x=>x.POSTAL===pc)||(j.results||[])[0];
+        if(h&&h.LATITUDE)return {lat:+h.LATITUDE,lon:+h.LONGITUDE,addr:(h.ADDRESS||h.SEARCHVAL||pc).replace(/ SINGAPORE \d{6}$/,"")};if(j.results)return null;}catch(e){}}
+    throw new Error("lookup");};
+  const tags=z=>`${z.pop?'<span class="tg pop">Popular</span>':""}${z.sap?'<span class="tg">SAP</span>':""}${z.gep?'<span class="tg">GEP</span>':""}${z.aff?'<span class="tg">Affiliated</span>':""}`;
+  const row=o=>{const z=o.sc,R=z.p1&&RISK[z.p1.band];return `<div class="sch1"><span class="nm">${esc(z.n)}</span><span class="d">${o.k<1?Math.round(o.k*1000/10)*10+"m":o.k.toFixed(1)+"km"}</span>${tags(z)}
+    ${R?`<div class="p1"><span class="risk ${R[0]}">${R[1]} ballot risk</span>Last year ${R[2]}${z.p1.vac?` (${z.p1.app} applied for ${z.p1.vac} places)`:""}.</div>`:""}</div>`;};
+  $("#schForm").addEventListener("submit",async e=>{e.preventDefault();const pc=$("#schPc").value.replace(/\D/g,""),out=$("#schOut");
+    if(!/^\d{6}$/.test(pc)){out.innerHTML='<p>Please type the 6-digit postal code, for example 529536.</p>';return;}
+    out.innerHTML="<p>Looking up "+pc+"…</p>";let g;
+    try{g=await geo(pc);}catch(err){out.innerHTML="<p>We couldn't look up postal codes just now. Try again in a minute, or search a launch, MRT station or school above.</p>";track("school_finder_used",{postal_sector:pc.slice(0,2),ok:false});return;}
+    if(!g){out.innerHTML="<p>We couldn't find that postal code. Please check it and try again.</p>";track("school_finder_used",{postal_sector:pc.slice(0,2),ok:false,not_found:true});return;}
+    const pt=[g.lon,g.lat],d=SCH.map(sc=>({sc,k:km(pt,[sc.lon,sc.lat])})).sort((a,b)=>a.k-b.k);
+    const in1=d.filter(o=>o.k<=1),pop2=d.filter(o=>o.k>1&&o.k<=2&&o.sc.pop),L=PROJECTS.filter(p=>PINS[p.id]).map(p=>({p,k:km(pt,PINS[p.id])})).filter(o=>o.k<=1).sort((a,b)=>a.k-b.k).slice(0,4);
+    const hi=in1.filter(o=>o.sc.p1&&o.sc.p1.band==="ballot1km").length;
+    out.innerHTML=`<h4>${esc(g.addr)}</h4>
+      <p>${in1.length?`<b>${in1.length} primary school${in1.length===1?"":"s"}</b> within 1km${in1.filter(o=>o.sc.pop).length?`, ${in1.filter(o=>o.sc.pop).length} of them popular`:""}.`:"No primary school within 1km."}</p>
+      ${in1.map(row).join("")}
+      ${pop2.length?`<h4>Popular schools 1–2km away</h4>${pop2.map(row).join("")}`:""}
+      ${L.length?`<h4>New launches within 1km</h4><p>${L.map(o=>`<button type="button" class="schl" data-sch-go="${o.p.id}">${esc(o.p.name)}</button> (Huat Score ${score(o.p)})`).join(", ")}</p>`:""}
+      <p class="note">Distances are to each school's main building, as the crow flies. MOE measures from your home to the school's boundary, so check OneMap's school query before you rely on it. Ballot results are from the 2026 Primary 1 registration.</p>`;
+    const [x,y]=P(pt);FOCUSPT={x,y,label:pc,ring:1};zoomTo(x,y,6);renderMap();
+    track("school_finder_used",{postal_sector:pc.slice(0,2),ok:true,found:in1.length,popular_1km:in1.filter(o=>o.sc.pop).length,high_risk_1km:hi});});
+  $("#schOut").addEventListener("click",e=>{const b=e.target.closest("[data-sch-go]");if(!b)return;sel=b.dataset.schGo;mapDist=null;renderAll();
+    $("#s1").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});});
+  $("#valWant").addEventListener("click",()=>{track("feature_interest",{feature:"resale_value",action:"want"});const m=$("#valMsg");m.hidden=false;m.textContent="Thanks, noted. Join the waitlist and we'll tell you when it's ready.";});
+  $("#valWl").addEventListener("click",()=>{track("feature_interest",{feature:"resale_value",action:"waitlist"});const w=$("#wlOpen");
+    if(w&&!w.hidden)w.click();else{const m=$("#valMsg");m.hidden=false;m.textContent="Thanks, noted.";}});
+})();
 // v44: nearest projects with actual market transactions of the same room type, suggested after a room type is picked
 const ymFrac=(y,m)=>y+((m||6)-1)/12;
 function cmpPool(p,b){const pc=PINS[p.id];if(!pc||!b)return [];const out=[];
@@ -1568,8 +1645,11 @@ function cmpHTML(p,b,L){const rn=roomName(b),ex=exitYear(p),e=exitProj(p),MONS=[
     $("#cmpBody").innerHTML=cmpHTML(p,b,L);box.hidden=false;requestAnimationFrame(()=>box.classList.add("show"));shownAt=Date.now();
     track("compare_prompt_shown",{suggested:L.map(o=>o.name),nearest_km:+L[0].k.toFixed(1)});};
   window.cmpShow=show;
-  $("#rgOpts").addEventListener("click",e=>{const b=e.target.closest(".rgopt");if(!b||b.disabled)return;
-    const wl=$("#wl"),fb=$("#fb"),busy=()=>(wl&&!wl.hidden)||(fb&&!fb.hidden);setTimeout(()=>{if(busy()){const t=setInterval(()=>{if(!busy()){clearInterval(t);show();}},1000);return;}show();},1200);});
+  // v52: 3 seconds after "What could it sell for?" is opened
+  const s4=$("#s4");let s4T=null;
+  if(s4)s4.addEventListener("toggle",()=>{clearTimeout(s4T);if(!s4.open)return;
+    const wl=$("#wl"),fb=$("#fb"),busy=()=>(wl&&!wl.hidden)||(fb&&!fb.hidden);
+    s4T=setTimeout(()=>{if(!s4.open)return;if(busy()){const t=setInterval(()=>{if(!s4.open){clearInterval(t);return;}if(!busy()){clearInterval(t);show();}},1000);return;}show();},3000);});
   $("#cmpX").addEventListener("click",()=>close("close_button"));
   box.addEventListener("click",e=>{if(e.target.id==="cmpNo"){close("close_link");return;}
     const g=e.target.closest("[data-cmp-go]");if(!g)return;const id=g.dataset.cmpGo,to=PROJECTS.find(q=>q.id===id);
