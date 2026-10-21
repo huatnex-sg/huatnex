@@ -249,6 +249,7 @@ details.q[open]>summary::after{content:"Hide"}
 .cmp .cc .go{margin-top:8px;font:700 15px var(--f-display);color:var(--accent);background:none;border:1px solid #C9D5F0;border-radius:999px;padding:7px 14px;cursor:pointer}
 .cmp .cc .go:hover{background:#F3F5FB}
 .cmp .fine{font-size:13px;color:var(--muted);margin:4px 0 8px}
+.cmp .devtag{display:inline-block;font:600 13px var(--f-body);color:#8A5A12;background:#FFF3DC;border-radius:999px;padding:1px 8px;white-space:nowrap}
 @media (max-width:520px){.wl.cmp{max-height:75vh}}
 @media (prefers-reduced-motion:reduce){.wl{transition:none}}
 .howbtn .ico{width:26px;height:26px;border-radius:50%;background:#fff;border:1px solid #C9D5F0;display:grid;place-items:center;font:800 16px var(--f-display);color:var(--accent)}
@@ -1497,11 +1498,12 @@ function cmpHTML(p,b,L){const rn=roomName(b),ex=exitYear(p),e=exitProj(p),MONS=[
     <p>${p.upcoming?"Launching":"Launched"} ${launchTxt(p)}${p.psf?` at <b>$${fmt(Math.round(p.psf))} psf</b>`:""} (${rn}).</p>
     ${e?`<p>Our estimate: about <b>$${fmt(Math.round(e.exit/10)*10)} psf</b> by ${ex} (${e.exit>=e.psf?"+":""}${Math.round((e.exit/e.psf-1)*100)}%).</p>`:""}</div>`;
   const card=o=>{const yrs=Math.max(0.5,NOWF-o.t),tot=o.now/o.lp-1,g=Math.pow(o.now/o.lp,1/yrs)-1,pr=o.pr&&o.pr.n>=3?o.pr:null;
-    const pace=p.psf?p.psf*Math.pow(1+g,SSD_YEARS):null;
+    const dev=o.src==="developer",pace=p.psf&&!dev?p.psf*Math.pow(1+g,SSD_YEARS):null;
     return `<div class="cc"><h4>${esc(o.name)} <small>${o.k<0.05?"next door":o.k.toFixed(1)+"km away"}</small></h4>
-    <p>Launched ${when(o)} at $${fmt(Math.round(o.lp))} psf. Today about $${fmt(Math.round(o.now))} psf${o.room?"":" (whole project)"}.</p>
+    <p>Launched ${when(o)} at $${fmt(Math.round(o.lp))} psf. Today about $${fmt(Math.round(o.now))} psf${o.room?"":" (whole project)"}${dev?` <span class="devtag">developer price, not resale</span>`:""}.</p>
     <p><span class="big${tot<0?" dn":""}">${tot>=0?"+":""}${Math.round(tot*100)}%</span> in ${yrs<1.5?yrs.toFixed(1):Math.round(yrs)} years, about ${(g*100).toFixed(1)}% a year.</p>
     <p class="fine">Price today from ${basis(o)}${o.room?`, ${rn} units`:""}.${pr?` Since 2021, ${pr.up} of ${pr.n} resales sold 5%+ above the launch price${pr.down?`, ${pr.down} below it`:""}.`:""}</p>
+    ${dev?`<p class="fine">Few or no resales yet. Developers keep prices steady while they still have units to sell, so this isn't a market price.</p>`:""}
     ${pace?`<p class="pace">If ${esc(p.name)} grows at this pace: about <b>$${fmt(Math.round(pace/10)*10)} psf</b> by ${ex}.</p>`:""}
     ${o.open?`<button class="go" type="button" data-cmp-go="${o.id}">See ${esc(o.name)} ›</button>`:""}</div>`;};
   return `<h3 id="cmpT">How did prices nearby really move?</h3>
