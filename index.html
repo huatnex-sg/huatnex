@@ -237,6 +237,26 @@ details.q[open]>summary::after{content:"Hide"}
 .wl .ok{font:700 17px var(--f-display);color:var(--jade);margin:4px 0 0}
 @media (max-width:520px){.wl{left:16px;right:16px;bottom:16px;width:auto}}
 .wl.cmp{width:420px;max-height:calc(100vh - 40px);overflow:auto}
+.fbbtn{display:inline-flex;align-items:center;gap:6px;font:700 15.5px var(--f-display);color:var(--accent);background:#fff;border:1px solid #C9D5F0;border-radius:999px;padding:7px 14px;cursor:pointer;min-height:40px}
+.fbbtn:hover{background:#F3F5FB}
+@media (max-width:520px){.fbbtn .lbl{display:none}.fbbtn{padding:7px 10px}}
+.wl.fb{width:540px;max-height:calc(100vh - 110px);overflow:auto;z-index:31;padding-bottom:0}
+.fb .fbsub{font-size:15px;color:var(--muted);margin:0 0 6px}
+.fb .fbq{margin:12px 0 6px;font:700 16px var(--f-display);color:var(--head)}
+.fb .fbq span{font:500 13px var(--f-body);color:var(--muted);margin-left:4px}
+.fb .fbrow{display:flex;flex-wrap:wrap;gap:8px}
+.fb .fbo{min-height:44px;padding:8px 14px;font:600 15px var(--f-body);color:var(--ink);background:#fff;border:1.5px solid #C9D5F0;border-radius:999px;cursor:pointer;transition:background .12s,border-color .12s,color .12s;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.fb .fbo:hover{border-color:var(--accent-2)}
+.fb .fbo[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.fb .fbrate .fbo{width:48px;padding:0;justify-content:center;font:700 17px var(--f-display)}
+.fb .fbends{display:flex;justify-content:space-between;width:272px;max-width:100%;font-size:13px;color:var(--muted);margin-top:4px}
+.fb textarea{width:100%;box-sizing:border-box;font:15px var(--f-body);padding:10px 12px;border:1px solid #DDE4F4;border-radius:12px;color:var(--ink);resize:vertical}
+.fb textarea:focus{outline:2px solid var(--accent-2);outline-offset:1px}
+.fb .fbsend{width:100%;min-height:46px}
+.fb .fbfoot{position:sticky;bottom:0;background:#fff;padding:10px 0 16px;margin-top:4px;box-shadow:0 -8px 12px -8px rgba(92,111,168,.18)}
+.fb .ok{font-size:16px}
+.fblink{margin:8px 0 0}
+@media (max-width:520px){.wl.fb{max-height:85vh}}
 .cmp .sub{font-size:15px;color:var(--muted);margin:0 0 12px}
 .cmp .cc{border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:0 0 10px}
 .cmp .cc.me{background:#F6F8FD}
@@ -343,7 +363,7 @@ details summary{cursor:pointer;color:var(--muted);font-size:16px;margin-bottom:1
       <p class="tagline">Property Insights. Prosperous Choices.</p>
     </div>
   </div>
-  <div class="hdr-r"><button class="wlbtn" id="wlOpen" type="button" hidden>Join waitlist</button>
+  <div class="hdr-r"><button class="fbbtn" id="fbOpen" type="button" hidden aria-haspopup="dialog"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v10H9l-5 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span class="lbl">Feedback</span></button><button class="wlbtn" id="wlOpen" type="button" hidden>Join waitlist</button>
   <button class="howbtn" id="howOpen" aria-haspopup="dialog" aria-controls="howPanel" title="How HuatNex works"><span class="ico" aria-hidden="true">?</span><span class="lbl">How HuatNex works</span></button></div>
 </header>
 <div class="wl" id="wl" role="dialog" aria-labelledby="wlT" hidden>
@@ -357,6 +377,26 @@ details summary{cursor:pointer;color:var(--muted);font-size:16px;margin-bottom:1
     <p class="msg" id="wlMsg" hidden></p>
     <p class="fine">We'll only email you about HuatNex. Unsubscribe anytime.</p>
     <button class="no" type="button" id="wlNo">No thanks</button>
+  </div>
+</div>
+
+<div class="wl fb" id="fb" role="dialog" aria-labelledby="fbT" hidden>
+  <button class="x" type="button" id="fbX" aria-label="Close">×</button>
+  <div id="fbBody">
+    <h3 id="fbT">Help us make HuatNex better</h3>
+    <p class="fbsub">Tap what fits. Everything is optional.</p>
+    <p class="fbq">How useful was HuatNex today?</p>
+    <div class="fbrow fbrate"><button type="button" class="fbo" data-q="rating" data-v="1" aria-pressed="false">1</button><button type="button" class="fbo" data-q="rating" data-v="2" aria-pressed="false">2</button><button type="button" class="fbo" data-q="rating" data-v="3" aria-pressed="false">3</button><button type="button" class="fbo" data-q="rating" data-v="4" aria-pressed="false">4</button><button type="button" class="fbo" data-q="rating" data-v="5" aria-pressed="false">5</button></div>
+    <div class="fbends"><span>Not useful</span><span>Very useful</span></div>
+    <p class="fbq">What's not working yet? <span>Pick any</span></p>
+    <div class="fbrow"><button type="button" class="fbo" data-q="not_working" data-v="hard_to_understand" aria-pressed="false">Hard to understand</button><button type="button" class="fbo" data-q="not_working" data-v="missing_launch_or_data" aria-pressed="false">The launch or data I want is missing</button><button type="button" class="fbo" data-q="not_working" data-v="numbers_look_wrong" aria-pressed="false">Numbers don't look right</button></div>
+    <p class="fbq">What should we build next? <span>Pick one</span></p>
+    <div class="fbrow"><button type="button" class="fbo" data-q="build_next" data-v="resale_condo_check" aria-pressed="false">Check a resale condo</button><button type="button" class="fbo" data-q="build_next" data-v="rent_and_yield" aria-pressed="false">Rent and rental yield</button><button type="button" class="fbo" data-q="build_next" data-v="more_launches_and_ecs" aria-pressed="false">More launches and ECs</button></div>
+    <p class="fbq">Would you pay for the full version? <span>Pick one</span></p>
+    <div class="fbrow"><button type="button" class="fbo" data-q="would_pay" data-v="yes_monthly" aria-pressed="false">Yes, monthly</button><button type="button" class="fbo" data-q="would_pay" data-v="yes_per_report" aria-pressed="false">Yes, per report</button><button type="button" class="fbo" data-q="would_pay" data-v="only_if_free" aria-pressed="false">Only if free</button><button type="button" class="fbo" data-q="would_pay" data-v="not_sure" aria-pressed="false">Not sure</button></div>
+    <p class="fbq"><label for="fbTxt">Anything else? <span>Optional</span></label></p>
+    <textarea id="fbTxt" rows="2" maxlength="1000" placeholder="Tell us in your own words"></textarea>
+    <div class="fbfoot"><button class="go fbsend" type="button" id="fbSend">Send</button></div>
   </div>
 </div>
 
@@ -590,7 +630,7 @@ details summary{cursor:pointer;color:var(--muted);font-size:16px;margin-bottom:1
     </div>
   </details>
 </div></details>
-<footer class="caveat"><p><b>About HuatNex.</b> HuatNex helps Singaporeans size up new condo launches. It's a guide, not financial advice: check with a CEA-registered property agent before you decide. This is an early version, so some data is still missing. We'll add more if people find it useful.</p></footer>
+<footer class="caveat"><p><b>About HuatNex.</b> HuatNex helps Singaporeans size up new condo launches. It's a guide, not financial advice: check with a CEA-registered property agent before you decide. This is an early version, so some data is still missing. We'll add more if people find it useful.</p><p class="fblink" id="fbFootWrap" hidden><button type="button" class="howlink" id="fbFoot">Tell us what to improve</button></p></footer>
 </div>
 <script>
 const SSD_YEARS = 4; // purchases from 4 Jul 2025
@@ -1522,7 +1562,7 @@ function cmpHTML(p,b,L){const rn=roomName(b),ex=exitYear(p),e=exitProj(p),MONS=[
     track("compare_prompt_shown",{suggested:L.map(o=>o.name),nearest_km:+L[0].k.toFixed(1)});};
   window.cmpShow=show;
   $("#rgOpts").addEventListener("click",e=>{const b=e.target.closest(".rgopt");if(!b||b.disabled)return;
-    const wl=$("#wl");setTimeout(()=>{if(wl&&!wl.hidden){const t=setInterval(()=>{if(wl.hidden){clearInterval(t);show();}},1000);return;}show();},1200);});
+    const wl=$("#wl"),fb=$("#fb"),busy=()=>(wl&&!wl.hidden)||(fb&&!fb.hidden);setTimeout(()=>{if(busy()){const t=setInterval(()=>{if(!busy()){clearInterval(t);show();}},1000);return;}show();},1200);});
   $("#cmpX").addEventListener("click",()=>close("close_button"));
   box.addEventListener("click",e=>{if(e.target.id==="cmpNo"){close("close_link");return;}
     const g=e.target.closest("[data-cmp-go]");if(!g)return;const id=g.dataset.cmpGo,to=PROJECTS.find(q=>q.id===id);
@@ -1565,6 +1605,31 @@ const track=(ev,props)=>{try{const ph=window.posthog;if(ph&&typeof ph.capture===
   $("#weights").addEventListener("change",e=>{const k=(e.target.id||"").replace(/^w-/,"");if(k)track("weights_changed",{factor:k,value:+e.target.value});});
 })();
 if(location.hash==="#how")openHow();
+// Feedback (v47): public site only (answers go to PostHog). Never opens by itself.
+(()=>{const ph=()=>window.posthog;const wait=n=>{const p=ph();if(p&&p.__loaded)start();else if(p&&n>0)setTimeout(()=>wait(n-1),500);};wait(60);
+  function start(){const box=$("#fb"),btn=$("#fbOpen"),body=$("#fbBody"),blank=body.innerHTML;btn.hidden=false;$("#fbFootWrap").hidden=false;
+    let A={},sent=false,openedAt=0;
+    const answered=()=>Object.keys(A).filter(k=>Array.isArray(A[k])?A[k].length:A[k]!=null).length+($("#fbTxt")&&$("#fbTxt").value.trim()?1:0);
+    const open=from=>{if(!box.hidden)return;body.innerHTML=blank;A={};sent=false;const c=$("#cmp");if(c&&!c.hidden){c.classList.remove("show");c.hidden=true;}
+      box.hidden=false;requestAnimationFrame(()=>box.classList.add("show"));openedAt=Date.now();track("feedback_opened",{from});};
+    const close=how=>{if(box.hidden)return;box.classList.remove("show");box.hidden=true;
+      if(!sent)track("feedback_closed_unsent",{how,answered:answered(),seconds_open:Math.round((Date.now()-openedAt)/1000)});};
+    btn.addEventListener("click",e=>{e.stopPropagation();box.hidden?open("header_button"):close("header_button");});
+    $("#fbFoot").addEventListener("click",e=>{e.stopPropagation();open("footer_link");});
+    $("#fbX").addEventListener("click",()=>close("close_button"));
+    document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!box.hidden)close("escape");});
+    document.addEventListener("pointerdown",e=>{if(!box.hidden&&!box.contains(e.target)&&!btn.contains(e.target)&&e.target.id!=="fbFoot")close("tap_outside");});
+    box.addEventListener("click",e=>{const o=e.target.closest(".fbo");
+      if(o){const q=o.dataset.q,v=o.dataset.v,on=o.getAttribute("aria-pressed")!=="true";
+        if(q==="not_working"){A[q]=A[q]||[];A[q]=on?[...A[q],v]:A[q].filter(x=>x!==v);o.setAttribute("aria-pressed",String(on));return;}
+        box.querySelectorAll(`.fbo[data-q="${q}"]`).forEach(b=>b.setAttribute("aria-pressed","false"));
+        if(on){o.setAttribute("aria-pressed","true");A[q]=q==="rating"?+v:v;}else A[q]=null;return;}
+      if(e.target.id==="fbSend"){const t=$("#fbTxt").value.trim();sent=true;
+        const p=cur();track("feedback_submitted",{rating:A.rating??null,not_working:A.not_working||[],build_next:A.build_next??null,would_pay:A.would_pay??null,
+          comment:t||null,answered:answered(),launch_name:p?p.name:null});
+        body.innerHTML='<h3>Thank you</h3><p class="ok">This helps us decide what to build next.</p>';setTimeout(()=>{if(sent){box.classList.remove("show");box.hidden=true;}},2000);}});
+  }
+})();
 // Waitlist prompt: public site only (needs PostHog). Shows by itself; visitors opt out with "No thanks" or ×.
 (()=>{const ph=()=>window.posthog;
   // start only once PostHog has really loaded, so no sign-up is ever queued into a library that never arrives
@@ -1577,7 +1642,7 @@ if(location.hash==="#how")openHow();
   const blocked=()=>{const v=get();if(!v)return false;if(v.s==="joined")return true;return v.s==="dismissed"&&Date.now()-v.t<7*864e5;};
   const open=trigger=>{if(!box.hidden)return;box.hidden=false;requestAnimationFrame(()=>box.classList.add("show"));shownThisVisit=true;track("waitlist_prompt_shown",{trigger});};
   const close=(why)=>{box.classList.remove("show");box.hidden=true;if(why){put({s:"dismissed",t:Date.now()});track("waitlist_dismissed",{how:why});}};
-  const auto=trigger=>{if(shownThisVisit||blocked())return;const c=$("#cmp");if(c&&!c.hidden){setTimeout(()=>auto(trigger),2000);return;}open(trigger);};
+  const auto=trigger=>{if(shownThisVisit||blocked())return;const c=$("#cmp"),f=$("#fb");if((c&&!c.hidden)||(f&&!f.hidden)){setTimeout(()=>auto(trigger),2000);return;}open(trigger);};
   // 40 seconds of use: count only time while the page is visible
   let used=0;const tick=setInterval(()=>{if(document.visibilityState==="visible")used++;if(used>=40){clearInterval(tick);auto("used_40s");}},1000);
   btn.addEventListener("click",()=>{const v=get();if(v&&v.s==="joined"){box.hidden=false;box.classList.add("show");$("#wlBody").innerHTML='<h3>You\'re on the list</h3><p class="ok">Thanks. We\'ll be in touch.</p>';return;}open("header_button");$("#wlEmail").focus();});
