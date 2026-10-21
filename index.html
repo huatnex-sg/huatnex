@@ -1490,7 +1490,9 @@ function cmpPool(p,b){const pc=PINS[p.id];if(!pc||!b)return [];const out=[];
   Object.entries(COMPS0).forEach(([k,c])=>{if(c.src==="ura"||!c.ll||!!c.ec!==!!p.ec||!c.now||!c.lp)return;
     const ly=Math.floor(c.launch+1e-6),lm=Math.round((c.launch-ly)*12)+1;
     out.push({id:k,name:c.n,k:km(pc,c.ll),t:c.launch,lm,ly,lp:c.lp,now:c.now,src:"recent",n:c.nN||0,room:false,open:false,pr:profOf(k,b)});});
-  return out.sort((a,b)=>a.k-b.k).slice(0,2);}
+  out.sort((a,b)=>a.k-b.k);const top=out.slice(0,2),dev=o=>o.src==="developer";
+  if(top.length&&top.every(dev)){const r=out.find(o=>!dev(o));if(r){r.swap=true;top[top.length===2?1:top.length]=r;}}
+  return top;}
 function cmpHTML(p,b,L){const rn=roomName(b),ex=exitYear(p),e=exitProj(p),MONS=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
   const when=o=>`${o.lm?MONS[o.lm-1]+" ":""}${o.ly}`;
   const basis=o=>o.src==="resale"?`${o.n} resales and sub-sales in the last 12 months`:o.src==="developer"?"the developer's latest sales":o.src==="resale (few)"?`only ${o.n} resale${o.n===1?"":"s"} in the last 12 months`:`${o.n?o.n+" ":""}recent sales, whole project`;
@@ -1500,6 +1502,7 @@ function cmpHTML(p,b,L){const rn=roomName(b),ex=exitYear(p),e=exitProj(p),MONS=[
   const card=o=>{const yrs=Math.max(0.5,NOWF-o.t),tot=o.now/o.lp-1,g=Math.pow(o.now/o.lp,1/yrs)-1,pr=o.pr&&o.pr.n>=3?o.pr:null;
     const dev=o.src==="developer",pace=p.psf&&!dev?p.psf*Math.pow(1+g,SSD_YEARS):null;
     return `<div class="cc"><h4>${esc(o.name)} <small>${o.k<0.05?"next door":o.k.toFixed(1)+"km away"}</small></h4>
+    ${o.swap?`<p class="fine">Farther away, but it has resale prices. The nearer projects don't yet.</p>`:""}
     <p>Launched ${when(o)} at $${fmt(Math.round(o.lp))} psf. Today about $${fmt(Math.round(o.now))} psf${o.room?"":" (whole project)"}${dev?` <span class="devtag">developer price, not resale</span>`:""}.</p>
     <p><span class="big${tot<0?" dn":""}">${tot>=0?"+":""}${Math.round(tot*100)}%</span> in ${yrs<1.5?yrs.toFixed(1):Math.round(yrs)} years, about ${(g*100).toFixed(1)}% a year.</p>
     <p class="fine">Price today from ${basis(o)}${o.room?`, ${rn} units`:""}.${pr?` Since 2021, ${pr.up} of ${pr.n} resales sold 5%+ above the launch price${pr.down?`, ${pr.down} below it`:""}.`:""}</p>
@@ -1507,7 +1510,7 @@ function cmpHTML(p,b,L){const rn=roomName(b),ex=exitYear(p),e=exitProj(p),MONS=[
     ${pace?`<p class="pace">If ${esc(p.name)} grows at this pace: about <b>$${fmt(Math.round(pace/10)*10)} psf</b> by ${ex}.</p>`:""}
     ${o.open?`<button class="go" type="button" data-cmp-go="${o.id}">See ${esc(o.name)} ›</button>`:""}</div>`;};
   return `<h3 id="cmpT">How did prices nearby really move?</h3>
-    <p class="sub">The ${L.length===1?"nearest project":L.length+" nearest projects"} with real ${rn} sales, compared with ${esc(p.name)}.</p>
+    <p class="sub">${L.some(o=>o.swap)?`The nearest project with real ${rn} sales, and the nearest with resale prices`:`The ${L.length===1?"nearest project":L.length+" nearest projects"} with real ${rn} sales`}, compared with ${esc(p.name)}.</p>
     ${me}${L.map(card).join("")}
     <p class="fine">Past growth doesn't promise future growth. Prices are before stamp duty and fees.</p>
     <button class="no" type="button" id="cmpNo">Close</button>`;}
