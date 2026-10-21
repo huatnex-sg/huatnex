@@ -236,6 +236,20 @@ details.q[open]>summary::after{content:"Hide"}
 .wl .msg{font-size:15px;margin:6px 0 0;color:var(--red)}
 .wl .ok{font:700 17px var(--f-display);color:var(--jade);margin:4px 0 0}
 @media (max-width:520px){.wl{left:16px;right:16px;bottom:16px;width:auto}}
+.wl.cmp{width:420px;max-height:calc(100vh - 40px);overflow:auto}
+.cmp .sub{font-size:15px;color:var(--muted);margin:0 0 12px}
+.cmp .cc{border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:0 0 10px}
+.cmp .cc.me{background:#F6F8FD}
+.cmp .cc h4{margin:0 0 4px;font:700 17px var(--f-display);color:var(--head);display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.cmp .cc h4 small{font:600 14px var(--f-body);color:var(--muted);white-space:nowrap}
+.cmp .cc p{margin:0 0 4px;font-size:15px}
+.cmp .cc .big{font:700 17px var(--f-display);color:var(--jade)}
+.cmp .cc .big.dn{color:#C0503E}
+.cmp .cc .pace{background:#EEF7F2;border-radius:10px;padding:8px 10px;margin-top:8px}
+.cmp .cc .go{margin-top:8px;font:700 15px var(--f-display);color:var(--accent);background:none;border:1px solid #C9D5F0;border-radius:999px;padding:7px 14px;cursor:pointer}
+.cmp .cc .go:hover{background:#F3F5FB}
+.cmp .fine{font-size:13px;color:var(--muted);margin:4px 0 8px}
+@media (max-width:520px){.wl.cmp{max-height:75vh}}
 @media (prefers-reduced-motion:reduce){.wl{transition:none}}
 .howbtn .ico{width:26px;height:26px;border-radius:50%;background:#fff;border:1px solid #C9D5F0;display:grid;place-items:center;font:800 16px var(--f-display);color:var(--accent)}
 @media (max-width:520px){.howbtn .lbl{display:none}.howbtn{padding:6px}}
@@ -343,6 +357,11 @@ details summary{cursor:pointer;color:var(--muted);font-size:16px;margin-bottom:1
     <p class="fine">We'll only email you about HuatNex. Unsubscribe anytime.</p>
     <button class="no" type="button" id="wlNo">No thanks</button>
   </div>
+</div>
+
+<div class="wl cmp" id="cmp" role="dialog" aria-labelledby="cmpT" hidden>
+  <button class="x" type="button" id="cmpX" aria-label="Close">×</button>
+  <div id="cmpBody"></div>
 </div>
 
 <div class="hero">
@@ -1461,6 +1480,51 @@ function renderGate(p){const ok=ROOMSEL&&roomOK(p,ROOMSEL);const g=$("#roomGate"
   return false;}
 $("#rgOpts").addEventListener("click",e=>{const b=e.target.closest(".rgopt");if(!b||b.disabled)return;applyRoom(+b.dataset.b);renderAll();$("#s0").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});});
 document.addEventListener("click",e=>{if(!e.target.closest("[data-room-change]"))return;applyRoom(null);renderAll();$("#roomGate").scrollIntoView({behavior:"smooth",block:"center"});});
+// v44: nearest projects with actual market transactions of the same room type, suggested after a room type is picked
+const ymFrac=(y,m)=>y+((m||6)-1)/12;
+function cmpPool(p,b){const pc=PINS[p.id];if(!pc||!b)return [];const out=[];
+  PROJECTS.forEach(q=>{if(q.id===p.id||!PINS[q.id]||!!q.ec!==!!p.ec||q.upcoming||!q.roomData||!q.psf||!(q.launchYM<=202410))return;
+    const r=realNow(q);if(!r)return;
+    out.push({id:q.id,name:q.name,k:km(pc,PINS[q.id]),t:ymFrac(q.launch,q.lm),lm:q.lm,ly:q.launch,lp:q.psf,now:r.psf,src:r.src,n:r.n,room:true,open:true,pr:profOf(q.id,b)});});
+  Object.entries(COMPS0).forEach(([k,c])=>{if(c.src==="ura"||!c.ll||!!c.ec!==!!p.ec||!c.now||!c.lp)return;
+    const ly=Math.floor(c.launch+1e-6),lm=Math.round((c.launch-ly)*12)+1;
+    out.push({id:k,name:c.n,k:km(pc,c.ll),t:c.launch,lm,ly,lp:c.lp,now:c.now,src:"recent",n:c.nN||0,room:false,open:false,pr:profOf(k,b)});});
+  return out.sort((a,b)=>a.k-b.k).slice(0,2);}
+function cmpHTML(p,b,L){const rn=roomName(b),ex=exitYear(p),e=exitProj(p),MONS=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const when=o=>`${o.lm?MONS[o.lm-1]+" ":""}${o.ly}`;
+  const basis=o=>o.src==="resale"?`${o.n} resales and sub-sales in the last 12 months`:o.src==="developer"?"the developer's latest sales":o.src==="resale (few)"?`only ${o.n} resale${o.n===1?"":"s"} in the last 12 months`:`${o.n?o.n+" ":""}recent sales, whole project`;
+  const me=`<div class="cc me"><h4>${esc(p.name)} <small>Your pick</small></h4>
+    <p>${p.upcoming?"Launching":"Launched"} ${launchTxt(p)}${p.psf?` at <b>$${fmt(Math.round(p.psf))} psf</b>`:""} (${rn}).</p>
+    ${e?`<p>Our estimate: about <b>$${fmt(Math.round(e.exit/10)*10)} psf</b> by ${ex} (${e.exit>=e.psf?"+":""}${Math.round((e.exit/e.psf-1)*100)}%).</p>`:""}</div>`;
+  const card=o=>{const yrs=Math.max(0.5,NOWF-o.t),tot=o.now/o.lp-1,g=Math.pow(o.now/o.lp,1/yrs)-1,pr=o.pr&&o.pr.n>=3?o.pr:null;
+    const pace=p.psf?p.psf*Math.pow(1+g,SSD_YEARS):null;
+    return `<div class="cc"><h4>${esc(o.name)} <small>${o.k<0.05?"next door":o.k.toFixed(1)+"km away"}</small></h4>
+    <p>Launched ${when(o)} at $${fmt(Math.round(o.lp))} psf. Today about $${fmt(Math.round(o.now))} psf${o.room?"":" (whole project)"}.</p>
+    <p><span class="big${tot<0?" dn":""}">${tot>=0?"+":""}${Math.round(tot*100)}%</span> in ${yrs<1.5?yrs.toFixed(1):Math.round(yrs)} years, about ${(g*100).toFixed(1)}% a year.</p>
+    <p class="fine">Price today from ${basis(o)}${o.room?`, ${rn} units`:""}.${pr?` Since 2021, ${pr.up} of ${pr.n} resales sold 5%+ above the launch price${pr.down?`, ${pr.down} below it`:""}.`:""}</p>
+    ${pace?`<p class="pace">If ${esc(p.name)} grows at this pace: about <b>$${fmt(Math.round(pace/10)*10)} psf</b> by ${ex}.</p>`:""}
+    ${o.open?`<button class="go" type="button" data-cmp-go="${o.id}">See ${esc(o.name)} ›</button>`:""}</div>`;};
+  return `<h3 id="cmpT">How did prices nearby really move?</h3>
+    <p class="sub">The ${L.length===1?"nearest project":L.length+" nearest projects"} with real ${rn} sales, compared with ${esc(p.name)}.</p>
+    ${me}${L.map(card).join("")}
+    <p class="fine">Past growth doesn't promise future growth. Prices are before stamp duty and fees.</p>
+    <button class="no" type="button" id="cmpNo">Close</button>`;}
+(()=>{const box=$("#cmp"),seen=new Set();let shownAt=0;
+  const close=how=>{if(box.hidden)return;box.classList.remove("show");box.hidden=true;if(how)track("compare_dismissed",{how,seconds_open:Math.round((Date.now()-shownAt)/1000)});};
+  const show=()=>{const p=cur(),b=ROOMSEL;if(!p||!b||!roomOK(p,b))return;const key=p.id+"|"+b;if(seen.has(key))return;
+    const L=cmpPool(p,b);if(!L.length)return;seen.add(key);
+    $("#cmpBody").innerHTML=cmpHTML(p,b,L);box.hidden=false;requestAnimationFrame(()=>box.classList.add("show"));shownAt=Date.now();
+    track("compare_prompt_shown",{suggested:L.map(o=>o.name),nearest_km:+L[0].k.toFixed(1)});};
+  window.cmpShow=show;
+  $("#rgOpts").addEventListener("click",e=>{const b=e.target.closest(".rgopt");if(!b||b.disabled)return;
+    const wl=$("#wl");setTimeout(()=>{if(wl&&!wl.hidden){const t=setInterval(()=>{if(wl.hidden){clearInterval(t);show();}},1000);return;}show();},1200);});
+  $("#cmpX").addEventListener("click",()=>close("close_button"));
+  box.addEventListener("click",e=>{if(e.target.id==="cmpNo"){close("close_link");return;}
+    const g=e.target.closest("[data-cmp-go]");if(!g)return;const id=g.dataset.cmpGo,to=PROJECTS.find(q=>q.id===id);
+    track("compare_suggestion_opened",{to:to?to.name:id});close(null);sel=id;mapDist=null;renderAll();
+    $("#s0").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!box.hidden)close("escape");});
+})();
 function renderAll(){ const p=cur(); renderChips(); renderBalance(p); focusPin(); renderMap(); if(!renderGate(p))return; renderBank(p); renderHdbReal(p); renderSens(p); renderPrice(p); renderVerdict(p); }
 renderSegments(); renderFactors(); renderWeights(); renderAll();
 // Usage tracking for the HuatNex experiment. track() does nothing unless the public site's build has loaded PostHog
@@ -1508,7 +1572,7 @@ if(location.hash==="#how")openHow();
   const blocked=()=>{const v=get();if(!v)return false;if(v.s==="joined")return true;return v.s==="dismissed"&&Date.now()-v.t<7*864e5;};
   const open=trigger=>{if(!box.hidden)return;box.hidden=false;requestAnimationFrame(()=>box.classList.add("show"));shownThisVisit=true;track("waitlist_prompt_shown",{trigger});};
   const close=(why)=>{box.classList.remove("show");box.hidden=true;if(why){put({s:"dismissed",t:Date.now()});track("waitlist_dismissed",{how:why});}};
-  const auto=trigger=>{if(shownThisVisit||blocked())return;open(trigger);};
+  const auto=trigger=>{if(shownThisVisit||blocked())return;const c=$("#cmp");if(c&&!c.hidden){setTimeout(()=>auto(trigger),2000);return;}open(trigger);};
   // 40 seconds of use: count only time while the page is visible
   let used=0;const tick=setInterval(()=>{if(document.visibilityState==="visible")used++;if(used>=40){clearInterval(tick);auto("used_40s");}},1000);
   btn.addEventListener("click",()=>{const v=get();if(v&&v.s==="joined"){box.hidden=false;box.classList.add("show");$("#wlBody").innerHTML='<h3>You\'re on the list</h3><p class="ok">Thanks. We\'ll be in touch.</p>';return;}open("header_button");$("#wlEmail").focus();});
