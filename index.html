@@ -581,7 +581,7 @@ details summary{cursor:pointer;color:var(--muted);font-size:16px;margin-bottom:1
     <h3>Reading the map</h3>
     <ul class="howlist">
       <li><span class="seg CCR">CCR</span> <b>Prime core</b>: Orchard, Bukit Timah, the city. <span class="seg RCR">RCR</span> <b>City fringe</b>: Toa Payoh, Queenstown, Kallang. <span class="seg OCR">OCR</span> <b>Suburbs</b>: Tampines, Woodlands and the like.</li>
-      <li><b>Green number tags:</b> each HDB town's buyer bank score out of 10. Darker means more owners selling to upgrade. The green outline around a launch's BTO estates is its 3km buyer zone.</li>
+      <li><b>Green town tags and dashed outlines:</b> each HDB town's buyer bank score out of 10, for the whole town. Darker means more owners selling to upgrade. The green outline around a launch's BTO estates is its 3km buyer zone.</li>
       <li><b>House shapes:</b> land sold to developers. Filled means new homes are coming soon.</li>
     </ul>
   </section>
@@ -1177,12 +1177,16 @@ function renderMap(){
     MP.nodes.forEach(n=>{const [x,y]=P([n.lon,n.lat]);s+=`<text x="${x}" y="${y}" text-anchor="middle" pointer-events="none" style="font:700 ${(ZK<1.8?13:10.5)*g}px var(--f-display);fill:#94661D;paint-order:stroke;stroke:#fff;stroke-width:${3.5*g}px;stroke-linejoin:round">✦${ZK<1.8?"":" "+esc(n.n)}</text>`;});}
   if(LAYERS.supply.on){const T=supplyPA(),n=T._n;PA.areas.forEach(a=>{const x=T[a.c];if(!x)return;const tier=x.rank<=n/3?"gap":x.rank>2*n/3?"heavy":"";if(!tier)return;
       s+=`<path d="${a.d}" fill="${tier==="gap"?"#5BAE92":"#E8806E"}" fill-opacity=".32" stroke="${tier==="gap"?"#3E9A7A":"#C4523F"}" stroke-width="1.2" vector-effect="non-scaling-stroke" pointer-events="none"/>`;});}
+    // v62: HDB town areas for the buyer bank, tinted by score, under the other symbols
+    if(LAYERS.bank.on)Object.keys(HDBR.towns).forEach(t=>{const A=townAnchor(t);if(!A||!A.d)return;const sc=townScore(t);
+      s+=`<path d="${A.d}" fill="#3E9A7A" fill-opacity="${(0.04+sc/10*0.16).toFixed(3)}" stroke="#2F7D62" stroke-width="1.1" stroke-dasharray="4 3" vector-effect="non-scaling-stroke" pointer-events="none"/>`;});
     for(const t of ["mall","mrt","school"]){ if(!LAYERS[t].on)continue;
     for(const p of POIS.filter(q=>q[0]===t)){const [x,y]=P([p[2],p[3]]);s+=`<g><title>${esc(p[1])} [${p[4]}]</title>${glyph(t,x,y,p[5]==="future",p[6])}</g>`;}}
   if(LAYERS.bank.on)Object.keys(HDBR.towns).forEach(t=>{const A=townAnchor(t);if(!A)return;const T=HDBR.towns[t],sc=townScore(t);
     // v61: fixed-size square score tag (no size scaling, so it doesn't read as an area or radius)
-    const w=24*g,h=15*g,dark=sc>=6,fill=dark?"#2F7D62":sc>=3?"#8FCDB5":"#D6EEE4";
-    s+=`<g class="pin bankb" data-p="t:${t}"><rect x="${A.lx-w/2}" y="${A.ly-h/2}" width="${w}" height="${h}" rx="${3*g}" fill="${fill}" stroke="#1F5E49" stroke-width="1" vector-effect="non-scaling-stroke"/><text x="${A.lx}" y="${A.ly+4*g}" text-anchor="middle" pointer-events="none" style="font:700 ${10.5*g}px var(--f-display);fill:${dark?"#fff":"#1F5E49"}">${sc}</text></g>`;});
+    const tn=t.split("/")[0].toLowerCase().replace(/\b\w/g,c=>c.toUpperCase()),lab=`${tn} ${sc}`;
+    const w=(lab.length*6.1+10)*g,h=15*g,dark=sc>=6,fill=dark?"#2F7D62":sc>=3?"#8FCDB5":"#D6EEE4";
+    s+=`<g class="pin bankb" data-p="t:${t}"><rect x="${A.lx-w/2}" y="${A.ly-h/2}" width="${w}" height="${h}" rx="${3*g}" fill="${fill}" stroke="#1F5E49" stroke-width="1" vector-effect="non-scaling-stroke"/><text x="${A.lx}" y="${A.ly+4*g}" text-anchor="middle" pointer-events="none" style="font:700 ${10*g}px var(--f-display);fill:${dark?"#fff":"#1F5E49"}">${esc(tn)} ${sc}</text></g>`;});
   if(LAYERS.bank.on){const P0=PROJECTS.find(q=>q.id===sel);if(P0&&PINS[sel]){const nb=btoNear(P0),band=2*BTO_KM*2000/111;
     const dOf=b=>b[8]&&b[8].length>=3?"M"+b[8].map(c=>P(c).map(v=>v.toFixed(1)).join(",")).join("L")+"Z":null;
     // one soft band 3km wide around the counted estates' edges (a wide round-jointed stroke = the outline grown by 3km)
@@ -1218,7 +1222,7 @@ function renderMap(){
   const glyphLeg=(LAYERS.school.on?`<span><b>Primary schools</b></span><span style="margin-left:-4px">↳ <svg width="12" height="12" viewBox="0 0 12 12"><rect x="2" y="2" width="8" height="8" fill="var(--school)" fill-opacity=".4" stroke="var(--school)" stroke-width="1.2"/></svg> Popular (Phase 2C oversubscribed or top-50 popularity)</span>`:"")
    +(LAYERS.mrt.on?`<span><svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="4.5" fill="var(--ink)"/></svg> MRT station (dashed = future)</span>`:"")
    +(LAYERS.mall.on?`<span><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6,1L11,10L1,10Z" fill="var(--ochre)"/></svg> Mall</span>`:"")
-   +(LAYERS.bank.on?`<span><svg width="22" height="14" viewBox="0 0 22 14"><rect x="1" y="1" width="20" height="12" rx="3" fill="#2F7D62" stroke="#1F5E49"/><text x="11" y="10.5" text-anchor="middle" style="font:700 9px var(--f-display);fill:#fff">7</text></svg> Buyer bank score of each HDB town (0–10): darker = more HDB upgraders cashing out. Tap for details</span><span style="margin-left:-4px">↳ <svg width="16" height="12" viewBox="0 0 16 12"><rect x="0" y="0" width="16" height="12" rx="4" fill="#3E9A7A" opacity=".18"/><path d="M5 3L11 4L10 9L4 8Z" fill="#3E9A7A" fill-opacity=".6" stroke="#1F5E49"/></svg> BTO estates whose owners can sell when you can; the green outline is the 3km buyer zone around them</span>`:"")
+   +(LAYERS.bank.on?`<span><svg width="22" height="14" viewBox="0 0 22 14"><rect x="1" y="1" width="20" height="12" rx="3" fill="#2F7D62" stroke="#1F5E49"/><text x="11" y="10.5" text-anchor="middle" style="font:700 9px var(--f-display);fill:#fff">7</text></svg> Buyer bank score of each HDB town (0–10), shown on the town's dashed outline: darker = more HDB upgraders cashing out. Tap for details</span><span style="margin-left:-4px">↳ <svg width="16" height="12" viewBox="0 0 16 12"><rect x="0" y="0" width="16" height="12" rx="4" fill="#3E9A7A" opacity=".18"/><path d="M5 3L11 4L10 9L4 8Z" fill="#3E9A7A" fill-opacity=".6" stroke="#1F5E49"/></svg> BTO estates whose owners can sell when you can; the green outline is the 3km buyer zone around them</span>`:"")
    +(LAYERS.supply.on?`<span><span class="sw" style="background:#5BAE92;opacity:.6"></span>Supply gap: little new private supply</span><span><span class="sw" style="background:#E8806E;opacity:.6"></span>Supply pressure: heavy new private supply</span>`:"")
    +`<span style="flex-basis:100%;height:0"></span>`
    +`<span><svg width="44" height="12" viewBox="0 0 44 12"><circle cx="6" cy="6" r="4.5" fill="#E8806E"/><circle cx="21" cy="6" r="4.5" fill="#EBBB6E"/><circle cx="36" cy="6" r="4.5" fill="#C3C7D1"/></svg> Condo and EC launches since Nov 2021: Huat Score 75+, 55–74, below 55 (zoom in to see scores)</span>`
