@@ -224,7 +224,8 @@ details.q[open]>summary::after{content:"Hide"}
 .howbtn:hover{background:#E8EDF9}
 
 /* Waitlist prompt (public site only) */
-.hdr-r{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.hdr-r{display:flex;gap:8px;align-items:center;flex-wrap:wrap;flex:1 1 auto}
+.hdr-r .fbbtn{margin-left:auto}
 .wlbtn{font:700 15.5px var(--f-display);color:#fff;background:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:8px 16px;cursor:pointer}
 .wlbtn:hover{background:#DD6F5C}
 .wl{position:fixed;right:20px;bottom:20px;z-index:30;width:360px;max-width:calc(100vw - 32px);background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px 20px 16px;box-shadow:0 16px 44px rgba(92,111,168,.22);transform:translateY(16px);opacity:0;transition:transform .25s,opacity .25s}
@@ -393,8 +394,7 @@ details summary{cursor:pointer;color:var(--muted);font-size:16px;margin-bottom:1
       <p class="tagline">Property Insights. Prosperous Choices.</p>
     </div>
   </div>
-  <div class="hdr-r"><button class="fbbtn" id="fbOpen" type="button" hidden aria-haspopup="dialog"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v10H9l-5 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span class="lbl">Feedback</span></button><button class="wlbtn" id="wlOpen" type="button" hidden>Join waitlist</button>
-  <button class="howbtn" id="howOpen" aria-haspopup="dialog" aria-controls="howPanel" title="How HuatNex works"><span class="ico" aria-hidden="true">?</span><span class="lbl">How HuatNex works</span></button></div>
+  <div class="hdr-r"><button class="howbtn" id="howOpen" aria-haspopup="dialog" aria-controls="howPanel" title="How HuatNex works"><span class="ico" aria-hidden="true">?</span><span class="lbl">How HuatNex works</span></button><button class="wlbtn" id="wlOpen" type="button" hidden>Join waitlist</button><button class="fbbtn" id="fbOpen" type="button" hidden aria-haspopup="dialog"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v10H9l-5 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span class="lbl">Feedback</span></button></div>
 </header>
 <div class="wl" id="wl" role="dialog" aria-labelledby="wlT" hidden>
   <button class="x" type="button" id="wlX" aria-label="Close">×</button>
