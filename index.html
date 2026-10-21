@@ -1692,7 +1692,7 @@ function cmpPool(p,b){const pc=PINS[p.id];if(!pc||!b)return [];const out=[];
     out.push({id:k,name:c.n,k:km(pc,c.ll),t:c.launch,lm,ly,lp:c.lp,now:c.now,src:"recent",n:c.nN||0,room:false,open:false,pr:profOf(k,b)});});
   OLDIDX.forEach((o,i)=>{if(!o.lon||!!o.ec!==!!p.ec)return;const k=km(pc,[o.lon,o.lat]);if(k>6)return;const ok=t=>t&&t.now.n>=5&&t.y0.n>=5;let t=oldTrend(o,b),room=true;if(!ok(t)){t=oldTrend(o,0);room=false;}if(!ok(t))return;
     out.push({id:"old:"+i,name:o.nm,k,t:t.y0.y+1,lm:0,ly:t.y0.y,lp:t.y0.p,now:t.now.p,src:"resale",n:t.now.n,room,open:false,old:o,pr:null});});
-  out.sort((a,b)=>a.k-b.k);const top=out.slice(0,2),dev=o=>o.src==="developer";
+  out.sort((a,b)=>a.k-b.k);const dev=o=>o.src==="developer";const L1=out.find(o=>!o.old),O1=out.find(o=>o.old);const top=[L1,O1].filter(Boolean);for(const o of out){if(top.length>=2)break;if(!top.includes(o))top.push(o);}top.sort((a,b)=>a.k-b.k);
   if(top.length&&top.every(dev)){const r=out.find(o=>!dev(o));if(r){r.swap=true;top[top.length===2?1:top.length]=r;}}
   return top;}
 function cmpHTML(p,b,L){const rn=roomName(b),ex=exitYear(p),e=exitProj(p),MONS=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -1709,10 +1709,10 @@ function cmpHTML(p,b,L){const rn=roomName(b),ex=exitYear(p),e=exitProj(p),MONS=[
     <p><span class="big${tot<0?" dn":""}">${tot>=0?"+":""}${Math.round(tot*100)}%</span> in ${yrs<1.5?yrs.toFixed(1):Math.round(yrs)} years, about ${(g*100).toFixed(1)}% a year.</p>
     <p class="fine">Price today from ${basis(o)}${o.room?`, ${rn} units`:""}.${pr?` Since 2021, ${pr.up} of ${pr.n} resales sold 5%+ above the launch price${pr.down?`, ${pr.down} below it`:""}.`:""}</p>
     ${dev?`<p class="fine">Few or no resales yet. Developers keep prices steady while they still have units to sell, so this isn't a market price.</p>`:""}
-    ${pace?`<p class="pace">If ${esc(p.name)} grows at this pace: about <b>$${fmt(Math.round(pace/10)*10)} psf</b> by ${ex}.</p>`:""}
+    ${pace?`<p class="pace">If ${esc(p.name)} grows at this pace: about <b>$${fmt(Math.round(pace/10)*10)} psf</b> by ${ex}.${o.old?" Treat this as a high case: older condos rose strongly from 2022.":""}</p>`:""}
     ${o.open?`<button class="go" type="button" data-cmp-go="${o.id}">See ${esc(o.name)} ›</button>`:""}</div>`;};
   return `<h3 id="cmpT">How did prices nearby really move?</h3>
-    <p class="sub">${L.some(o=>o.swap)?`The nearest project with real ${rn} sales, and the nearest with resale prices`:`The ${L.length===1?"nearest project":L.length+" nearest projects"} with real ${rn} sales`}, compared with ${esc(p.name)}.</p>
+    <p class="sub">${L.some(o=>o.swap)?`The nearest project with real ${rn} sales, and the nearest with resale prices`:L.length===2&&L.some(o=>o.old)&&L.some(o=>!o.old)?`The nearest launch and the nearest older condo with real ${rn} sales`:`The ${L.length===1?"nearest project":L.length+" nearest projects"} with real ${rn} sales`}, compared with ${esc(p.name)}.</p>
     ${me}${L.map(card).join("")}
     <p class="fine">Past growth doesn't promise future growth. Prices are before stamp duty and fees.</p>
     <button class="no" type="button" id="cmpNo">Close</button>`;}
