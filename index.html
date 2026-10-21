@@ -1,9 +1,15 @@
 <!doctype html>
 <html lang="en">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="HuatNex MVP: Singapore new-launch condo and EC insights from official URA, HDB, MOE and SLA data. Early preview, not financial advice.">
+<meta name="description" content="Huat Your Way through Right Property Insights. HuatNex MVP: Singapore new-launch condo and EC insights from official URA, HDB, MOE and SLA data. Early preview, not financial advice.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://huatnex.vercel.app/">
+<meta property="og:site_name" content="HuatNex">
+<meta property="og:title" content="HuatNex: Huat Your Way through Right Property Insights.">
+<meta property="og:description" content="Is a new condo likely to grow in value by year 4? Free early preview for Singapore launches, built on official URA, HDB, MOE and SLA data.">
+<meta name="twitter:card" content="summary">
 <meta charset="utf-8">
-<title>HuatNex MVP</title>
+<title>HuatNex · Huat Your Way through Right Property Insights</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&family=DM+Mono:wght@400;500&display=swap">
 <script>
@@ -256,6 +262,7 @@ details.q[open]>summary::after{content:"Hide"}
 .fb .fbfoot{position:sticky;bottom:0;background:#fff;padding:10px 0 16px;margin-top:4px;box-shadow:0 -8px 12px -8px rgba(92,111,168,.18)}
 .fb .ok{font-size:16px}
 .fblink{margin:8px 0 0}
+.caveat .signoff{font:700 19px var(--f-display);color:var(--accent);margin:0 0 8px}
 @media (max-width:520px){.wl.fb{max-height:85vh}}
 .cmp .sub{font-size:15px;color:var(--muted);margin:0 0 12px}
 .cmp .cc{border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:0 0 10px}
@@ -630,7 +637,7 @@ details summary{cursor:pointer;color:var(--muted);font-size:16px;margin-bottom:1
     </div>
   </details>
 </div></details>
-<footer class="caveat"><p><b>About HuatNex.</b> HuatNex helps Singaporeans size up new condo launches. It's a guide, not financial advice: check with a CEA-registered property agent before you decide. This is an early version, so some data is still missing. We'll add more if people find it useful.</p><p class="fblink" id="fbFootWrap" hidden><button type="button" class="howlink" id="fbFoot">Tell us what to improve</button></p></footer>
+<footer class="caveat"><p class="signoff">Huat Your Way through Right Property Insights.</p><p><b>About HuatNex.</b> HuatNex helps Singaporeans size up new condo launches. It's a guide, not financial advice: check with a CEA-registered property agent before you decide. This is an early version, so some data is still missing. We'll add more if people find it useful.</p><p class="fblink" id="fbFootWrap" hidden><button type="button" class="howlink" id="fbFoot">Tell us what to improve</button></p></footer>
 </div>
 <script>
 const SSD_YEARS = 4; // purchases from 4 Jul 2025
@@ -1644,7 +1651,10 @@ if(location.hash==="#how")openHow();
   const close=(why)=>{box.classList.remove("show");box.hidden=true;if(why){put({s:"dismissed",t:Date.now()});track("waitlist_dismissed",{how:why});}};
   const auto=trigger=>{if(shownThisVisit||blocked())return;const c=$("#cmp"),f=$("#fb");if((c&&!c.hidden)||(f&&!f.hidden)){setTimeout(()=>auto(trigger),2000);return;}open(trigger);};
   // 40 seconds of use: count only time while the page is visible
-  let used=0;const tick=setInterval(()=>{if(document.visibilityState==="visible")used++;if(used>=40){clearInterval(tick);auto("used_40s");}},1000);
+  // v49: count only quiet seconds: page visible, no comparison or feedback pop-up open, and 10s since one closed
+  let used=0,quietSince=0;const other=()=>["#cmp","#fb"].some(q=>{const e=$(q);return e&&!e.hidden;});
+  const tick=setInterval(()=>{const now=Date.now();if(other()){quietSince=now;return;}
+    if(document.visibilityState==="visible"&&now-quietSince>=10000)used++;if(used>=40){clearInterval(tick);auto("used_40s");}},1000);
   btn.addEventListener("click",()=>{const v=get();if(v&&v.s==="joined"){box.hidden=false;box.classList.add("show");$("#wlBody").innerHTML='<h3>You\'re on the list</h3><p class="ok">Thanks. We\'ll be in touch.</p>';return;}open("header_button");$("#wlEmail").focus();});
   $("#wlX").addEventListener("click",()=>close("close_button"));
   $("#wlNo").addEventListener("click",()=>close("no_thanks"));
