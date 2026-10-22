@@ -24,6 +24,7 @@
 /* PostHog product analytics and session replay: runs on huatnex.vercel.app only. No cookies. */
 (function(){
   if (location.hostname !== "huatnex.vercel.app") return;
+  window.HX_PH = {key: "phc_rceiUcAFjjrkDyFcdKHmhGmTnSTmCGuoYBSW2tRCUqvZ", capture: "/ingest/i/v0/e/"};  // v68: waitlist sign-ups sent directly
   var ph = [];
   ph._i = [["phc_rceiUcAFjjrkDyFcdKHmhGmTnSTmCGuoYBSW2tRCUqvZ", {"api_host": "/ingest", "ui_host": "https://us.posthog.com", "persistence": "sessionStorage", "session_recording": {"maskAllInputs": false, "maskInputOptions": {"email": true}}, "respect_dnt": true, "capture_pageview": true, "capture_pageleave": true, "person_profiles": "identified_only"}]];
   ph.people = []; ph.__SV = 1;
@@ -1897,7 +1898,7 @@ if(location.hash==="#how")openHow();
 // Waitlist prompt: public site only (needs PostHog). Shows by itself; visitors opt out with "No thanks" or ×.
 (()=>{const ph=()=>window.posthog;
   // start only once PostHog has really loaded, so no sign-up is ever queued into a library that never arrives
-  const wait=n=>{const p=ph();if(p&&p.__loaded)start();else if(p&&n>0)setTimeout(()=>wait(n-1),500);};wait(60);
+  const wait=n=>{const p=ph();if(p&&p.__loaded)start();else if(p&&n>0)setTimeout(()=>wait(n-1),500);else if(window.HX_PH)start();};wait(8);
   function start(){
   const box=$("#wl"),btn=$("#wlOpen"),KEY="hx_wl";btn.hidden=false;
   const get=()=>{try{return JSON.parse(localStorage.getItem(KEY)||"null");}catch(e){return null;}};
@@ -1918,10 +1919,20 @@ if(location.hash==="#how")openHow();
   document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!box.hidden)close("escape");});
   $("#wlForm").addEventListener("submit",e=>{e.preventDefault();const em=$("#wlEmail").value.trim().toLowerCase(),msg=$("#wlMsg");
     if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(em)){msg.textContent="Please enter a valid email address.";msg.hidden=false;return;}
-    try{const p=ph();if(typeof p.identify==="function")p.identify(em,{email:em,waitlist:true});
-      track("waitlist_signed_up",{email:em});}catch(err){msg.textContent="Sorry, that didn't go through. Please try again in a moment.";msg.hidden=false;return;}
-    put({s:"joined",t:Date.now()});
-    $("#wlBody").innerHTML='<h3>You\'re on the list</h3><p class="ok">Thanks. We\'ll email you when the full HuatNex opens.</p>';setTimeout(()=>{box.classList.remove("show");box.hidden=true;},4000);});
+    // v68: send the sign-up straight to PostHog and confirm only when it is received
+    const go=$("#wlForm .go"),fail=()=>{msg.textContent="Sorry, that didn't go through. Please check your connection and try again.";msg.hidden=false;go.disabled=false;go.textContent="Join waitlist";};
+    const H=window.HX_PH;if(!H){fail();return;}
+    msg.hidden=true;go.disabled=true;go.textContent="Joining…";
+    let did=em;try{const p=ph();if(p&&p.__loaded&&typeof p.get_distinct_id==="function")did=p.get_distinct_id()||em;}catch(e){}
+    const ctl=window.AbortController?new AbortController():null,to=setTimeout(()=>ctl&&ctl.abort(),10000);
+    fetch(H.capture,{method:"POST",headers:{"Content-Type":"application/json"},keepalive:true,signal:ctl?ctl.signal:undefined,
+      body:JSON.stringify({api_key:H.key,event:"waitlist_signed_up",distinct_id:did,timestamp:new Date().toISOString(),
+        properties:{email:em,launch:sel,room:ROOMSEL?roomName(ROOMSEL):null,$current_url:location.href,source:"direct",$set:{email:em,waitlist:true}}})})
+    .then(r=>{clearTimeout(to);if(!r.ok)throw new Error("status "+r.status);
+      try{const p=ph();if(p&&p.__loaded&&typeof p.identify==="function")p.identify(em,{email:em,waitlist:true});}catch(e){}
+      put({s:"joined",t:Date.now()});
+      $("#wlBody").innerHTML='<h3>You\'re on the list</h3><p class="ok">Thanks. We\'ll email you when the full HuatNex opens.</p>';setTimeout(()=>{box.classList.remove("show");box.hidden=true;},4000);})
+    .catch(()=>{clearTimeout(to);fail();});});
   }
 })();
 </script>
