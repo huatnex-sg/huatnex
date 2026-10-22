@@ -244,6 +244,18 @@ details.q[open]>summary::after{content:"Hide"}
 .wl .ok{font:700 17px var(--f-display);color:var(--jade);margin:4px 0 0}
 @media (max-width:520px){.wl{left:16px;right:16px;bottom:16px;width:auto}}
 .wl.cmp{width:420px;max-height:calc(100vh - 40px);overflow:auto}
+.shr{position:fixed;right:20px;bottom:20px;z-index:29}
+.shr[hidden]{display:none}
+.shr-btn{display:inline-flex;align-items:center;gap:8px;font:700 16px var(--f-display);color:#fff;background:var(--head);border:0;border-radius:999px;padding:10px 18px;cursor:pointer;min-height:48px;box-shadow:0 6px 18px rgba(92,111,168,.35)}
+.shr-btn:hover{filter:brightness(.95)}
+.shr-menu{position:absolute;right:0;bottom:58px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:8px;box-shadow:0 16px 44px rgba(92,111,168,.25);display:grid;gap:2px;width:236px}
+.shr-menu[hidden]{display:none}
+.shr-menu .hd{font:600 13px var(--f-mono);color:var(--muted);padding:6px 12px 4px}
+.shr-menu a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;font:600 16px var(--f-display);color:var(--ink);text-decoration:none;min-height:44px}
+.shr-menu a:hover,.shr-menu a:focus-visible{background:#F3F5FB}
+.shr-menu svg{width:24px;height:24px;flex:none}
+body{padding-bottom:84px}
+@media (max-width:520px){.shr{right:16px;bottom:16px}}
 .bline{margin:22px 0 8px;padding:20px 22px;border-radius:18px;background:linear-gradient(135deg,var(--accent-soft),var(--gold-soft));border:2px solid var(--accent);box-shadow:var(--shadow);display:grid;grid-template-columns:1fr auto;gap:10px 20px;align-items:center}
 .bline .bl-k{grid-column:1/-1;margin:0;font:700 13px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--seg-rcr-fg)}
 .bline h3{margin:0 0 4px;font:700 22px var(--f-display);color:var(--head)}
@@ -706,6 +718,10 @@ details summary{cursor:pointer;color:var(--muted);font-size:16px;margin-bottom:1
   <div><h3 id="blT">How did prices nearby really move?</h3><p class="bl-sub" id="blSub"></p></div>
   <button class="bl-go" type="button" id="blGo">See real price moves ›</button>
 </section>
+<div class="shr" id="shr">
+  <div class="shr-menu" id="shrMenu" role="menu" hidden><div class="hd" id="shrHd">Share HuatNex</div><a href="#" target="_blank" rel="noopener" data-net="whatsapp"><svg viewBox="0 0 24 24" role="img" aria-hidden="true"><path fill="#25D366" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>WhatsApp</a><a href="#" target="_blank" rel="noopener" data-net="telegram"><svg viewBox="0 0 24 24" role="img" aria-hidden="true"><path fill="#26A5E4" d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>Telegram</a><a href="#" target="_blank" rel="noopener" data-net="facebook"><svg viewBox="0 0 24 24" role="img" aria-hidden="true"><path fill="#0866FF" d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg>Facebook</a><a href="#" target="_blank" rel="noopener" data-net="reddit"><svg viewBox="0 0 24 24" role="img" aria-hidden="true"><path fill="#FF4500" d="M12 0C5.373 0 0 5.373 0 12c0 3.314 1.343 6.314 3.515 8.485l-2.286 2.286C.775 23.225 1.097 24 1.738 24H12c6.627 0 12-5.373 12-12S18.627 0 12 0Zm4.388 3.199c1.104 0 1.999.895 1.999 1.999 0 1.105-.895 2-1.999 2-.946 0-1.739-.657-1.947-1.539v.002c-1.147.162-2.032 1.15-2.032 2.341v.007c1.776.067 3.4.567 4.686 1.363.473-.363 1.064-.58 1.707-.58 1.547 0 2.802 1.254 2.802 2.802 0 1.117-.655 2.081-1.601 2.531-.088 3.256-3.637 5.876-7.997 5.876-4.361 0-7.905-2.617-7.998-5.87-.954-.447-1.614-1.415-1.614-2.538 0-1.548 1.255-2.802 2.803-2.802.645 0 1.239.218 1.712.585 1.275-.79 2.881-1.291 4.64-1.365v-.01c0-1.663 1.263-3.034 2.88-3.207.188-.911.993-1.595 1.959-1.595Zm-8.085 8.376c-.784 0-1.459.78-1.506 1.797-.047 1.016.64 1.429 1.426 1.429.786 0 1.371-.369 1.418-1.385.047-1.017-.553-1.841-1.338-1.841Zm7.406 0c-.786 0-1.385.824-1.338 1.841.047 1.017.634 1.385 1.418 1.385.785 0 1.473-.413 1.426-1.429-.046-1.017-.721-1.797-1.506-1.797Zm-3.703 4.013c-.974 0-1.907.048-2.77.135-.147.015-.241.168-.183.305.483 1.154 1.622 1.964 2.953 1.964 1.33 0 2.47-.81 2.953-1.964.057-.137-.037-.29-.184-.305-.863-.087-1.795-.135-2.769-.135Z"/></svg>Reddit</a></div>
+  <button class="shr-btn" id="shrBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="shrMenu"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="6" cy="12" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="19" r="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.2 10.9l7.6-4.3M8.2 13.1l7.6 4.3" stroke="currentColor" stroke-width="2"/></svg>Share</button>
+</div>
 <footer class="caveat"><p class="signoff">Huat Your Way with the Right Property Insights.</p><p><b>About HuatNex.</b> HuatNex is not a listing marketplace. It is an integrated decision framework, informed by local socio-cultural and terrain appreciation. It helps Singaporeans size up new condo launches. It's a guide, not financial advice: check with a CEA-registered property agent before you decide. This is an early version, so some data is still missing. We'll add more if people find it useful.</p><p class="fblink" id="fbFootWrap" hidden><button type="button" class="howlink" id="fbFoot">Tell us what to improve</button></p></footer>
 </div>
 <script>
@@ -1744,6 +1760,22 @@ function cmpHTML(p,b,L){const rn=roomName(b),ex=exitYear(p),e=exitProj(p),MONS=[
     ${me}${L.map(card).join("")}
     <p class="fine">Past growth doesn't promise future growth. Prices are before stamp duty and fees.</p>
     <button class="no" type="button" id="cmpNo">Close</button>`;}
+// v64: floating Share button
+(()=>{const w=$("#shr"),btn=$("#shrBtn"),m=$("#shrMenu"),BASE="https://huatnex.vercel.app/";
+  const target=()=>{const p=cur(),b=ROOMSEL,ok=p&&b&&roomOK(p,b);
+    return ok?{q:`l=${encodeURIComponent(p.id)}&r=${b}`,hd:`Share ${p.name}, ${roomName(b)}`,t:`Is ${p.name} (${roomName(b)}) likely to grow in value? HuatNex's take:`,title:`Is ${p.name} likely to grow in value? HuatNex's take`}
+      :{q:"",hd:"Share HuatNex",t:"HuatNex: is that new condo likely to grow in value? Check it here:",title:"HuatNex: is that Singapore new launch likely to grow in value?"};};
+  const url=(T,net)=>BASE+"?"+(T.q?T.q+"&":"")+`utm_source=${net}&utm_medium=share`;
+  const fill=()=>{const T=target();$("#shrHd").textContent=T.hd;m.querySelectorAll("a[data-net]").forEach(a=>{const n=a.dataset.net,u=encodeURIComponent(url(T,n)),t=encodeURIComponent(T.t);
+    a.href=n==="whatsapp"?`https://wa.me/?text=${t}%20${u}`:n==="telegram"?`https://t.me/share/url?url=${u}&text=${t}`:n==="facebook"?`https://www.facebook.com/sharer/sharer.php?u=${u}`:`https://www.reddit.com/submit?url=${u}&title=${encodeURIComponent(T.title)}`;});};
+  const set=open=>{m.hidden=!open;btn.setAttribute("aria-expanded",open);if(open){fill();track("share_opened");}};
+  btn.addEventListener("click",e=>{e.stopPropagation();set(m.hidden);});
+  m.addEventListener("click",e=>{const a=e.target.closest("a[data-net]");if(!a)return;track("share_clicked",{network:a.dataset.net});setTimeout(()=>set(false),100);});
+  document.addEventListener("click",e=>{if(!m.hidden&&!w.contains(e.target))set(false);});
+  document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!m.hidden){set(false);btn.focus();}});
+  const busy=["#wl","#fb","#cmp","#howPanel"].map(s=>$(s)).filter(Boolean),upd=()=>{const b=busy.some(el=>!el.hidden);w.hidden=b;if(b)m.hidden=true;};
+  const mo=new MutationObserver(upd);busy.forEach(el=>mo.observe(el,{attributes:true,attributeFilter:["hidden"]}));upd();
+})();
 (()=>{const box=$("#cmp"),seen=new Set();let shownAt=0;
   const close=how=>{if(box.hidden)return;box.classList.remove("show");box.hidden=true;if(how)track("compare_dismissed",{how,seconds_open:Math.round((Date.now()-shownAt)/1000)});};
   const show=via=>{const p=cur(),b=ROOMSEL;if(!p||!b||!roomOK(p,b))return;const key=p.id+"|"+b;if(seen.has(key)&&via!=="bottom_line")return;
@@ -1770,6 +1802,9 @@ function renderBline(p){const el=$("#bline");if(!el)return;const b=ROOMSEL,L=p&&
   $("#blSub").innerHTML=`Real ${roomName(b)} sales nearby: ${L.map(one).join(" · ")}. See what that pace means for ${esc(p.name)}.`;}
 function renderAll(){ const p=cur(); renderChips(); renderBalance(p); focusPin(); renderMap(); {const bl=$("#bline");if(bl)bl.hidden=true;} if(!renderGate(p))return; renderBank(p); renderHdbReal(p); renderSens(p); renderPrice(p); renderVerdict(p); renderBline(p); }
 renderSegments(); renderFactors(); renderWeights(); renderAll();
+// v64: shared links (?l=<launch>&r=<room>) open on that launch and room
+(()=>{try{const q=new URLSearchParams(location.search),l=q.get("l"),r=+q.get("r");const p=l&&PROJECTS.find(x=>x.id===l);if(!p)return;
+  sel=l;mapDist=null;if(r&&roomOK(p,r))applyRoom(r);renderAll();}catch(e){}})();
 // Usage tracking for the HuatNex experiment. track() does nothing unless the public site's build has loaded PostHog
 // (huatnex.vercel.app only). It sends launch and room choices and numbers entered in the forecast; never search text.
 const track=(ev,props)=>{try{const ph=window.posthog;if(ph&&typeof ph.capture==="function")ph.capture(ev,Object.assign({launch:sel,room:ROOMSEL?roomName(ROOMSEL):null},props||{}));}catch(e){}};
