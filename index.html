@@ -243,6 +243,16 @@ details.q[open]>summary::after{content:"Hide"}
 .wl .msg{font-size:15px;margin:6px 0 0;color:var(--red)}
 .wl .ok{font:700 17px var(--f-display);color:var(--jade);margin:4px 0 0}
 @media (max-width:520px){.wl{left:16px;right:16px;bottom:16px;width:auto}}
+/* v66: waitlist box, bright pastel so it stands out */
+#wl.wl{background:linear-gradient(140deg,#FFE1D6 0%,#FFF0C7 55%,#E3E9FF 100%);border:2px solid var(--accent-2);box-shadow:0 18px 48px rgba(232,128,110,.30),0 0 0 6px rgba(253,235,230,.65);transform:translateY(16px) scale(.96)}
+#wl.wl.show{transform:none;animation:wlPop .45s cubic-bezier(.2,1.4,.4,1)}
+@keyframes wlPop{0%{transform:translateY(16px) scale(.94)}100%{transform:none}}
+#wl h3{color:#C4553F;font-size:21px}
+#wl input{background:#fff;border-color:#F4C8BC}
+#wl .go{box-shadow:0 4px 14px rgba(232,128,110,.4)}
+#wl .x:hover{background:rgba(255,255,255,.7)}
+#wl .fine,#wl .no{color:#6E6A80}
+@media (prefers-reduced-motion:reduce){#wl.wl.show{animation:none}}
 .wl.cmp{width:420px;max-height:calc(100vh - 40px);overflow:auto}
 .shr{position:fixed;right:20px;bottom:20px;z-index:29}
 .shr[hidden]{display:none}
@@ -262,7 +272,6 @@ body{padding-bottom:84px}
 .bline p.bl-sub{margin:0;font-size:16px;color:var(--ink)}
 .bline .bl-go{min-height:52px;font:700 17px var(--f-display);color:#fff;background:var(--accent);border:0;border-radius:999px;padding:12px 24px;cursor:pointer;white-space:nowrap;box-shadow:0 4px 14px rgba(232,128,110,.35)}
 .bline .bl-go:hover{filter:brightness(.95)}
-.bline[hidden]{display:none}
 .bline[hidden]{display:none}
 @media (max-width:640px){.bline{grid-template-columns:1fr;padding:16px}.bline .bl-go{width:100%}}
 .fbbtn{display:inline-flex;align-items:center;gap:6px;font:700 15.5px var(--f-display);color:var(--accent);background:#fff;border:1px solid #C9D5F0;border-radius:999px;padding:7px 14px;cursor:pointer;min-height:40px}
@@ -1623,6 +1632,7 @@ function renderVerdict(p){const el=$("#verdict");if(!el)return;
   const near=schoolsNear(p),pop=near.filter(z=>z.sc.pop);
   const ballot=z=>z.sc.p1?(z.sc.p1.band==="ballot1km"?"last year even families within 1km had to ballot":z.sc.p1.band==="safe1km"?"last year every citizen within 1km got a place":"it wasn't oversubscribed last year"):"no recent ballot data";
   const walk=mm=>Math.max(1,Math.round(mm/80));
+  const RM=realMoves(p,ROOMSEL);
   const rn=realNow(p),done=rn&&ssdDone(p);const gain=done?((rn.psf/p.psf)**(4/Math.max(0.5,NOWF-p.launch-(p.lm-1)/12))-1)*100:e?(e.exit/e.psf-1)*100:null;
   const Q=[
    {k:"buyers",q:"Will there be buyers when you sell?",c:x.v[0],
@@ -1637,17 +1647,18 @@ function renderVerdict(p){const el=$("#verdict");if(!el)return;
    {k:"supply",q:"Lots of new condos coming nearby?",c:p.supply.s>=7?"good":p.supply.s>=4?"mid":"bad",
     a:p.supply.s>=7?"Not many. That helps prices.":p.supply.s>=4?"Some. Prices may face competition.":"Yes, many. That can hold prices back.",
     w:`${p.supply.txt}.${LU.stats[p.id]&&LU19[p.id]&&(LU.stats[p.id].res_ha-LU19[p.id].res_ha)>5?" The government has also zoned more land for housing nearby since 2019.":""}`,go:"s2"},
-   {k:"price",q:"What could it sell for?",c:gain==null?"mid":gain>=15?"good":gain>=5?"mid":"bad",
-    a:done?`Its 4-year window has passed. It now sells for about $${fmt(rn.psf)} psf, versus $${fmt(p.psf)} at launch (${rn.psf>=p.psf?"+":""}${((rn.psf/p.psf-1)*100).toFixed(0)}%).`:e?`About $${fmt(Math.round(e.exit/10)*10)} psf in ${ex}, versus $${fmt(e.psf)} psf at launch (${gain>=0?"+":""}${gain.toFixed(0)}%).`:p.psf?"No forecast yet.":"Not priced yet. The developer hasn't announced prices.",
-    w:(()=>{let n=0,u=0,d=0;p.comps.forEach(k=>{const t=trackRec(k);if(t){n+=t.n;u+=t.up;d+=t.down;}});return n?`At similar nearby launches, ${fmt(u)} of ${fmt(n)} resales made money and ${fmt(d)} lost money. `:"";})()+(done?`Based on ${nowLabel(rn)} (URA). Before stamp duty and agent fees.`:`We grow the launch price at the area's usual rate, about ${(longRun(p)*100).toFixed(1)}% a year. On past launches this was usually within 4% of the real price. Before stamp duty and agent fees.`),go:"s4"}];
+   {k:"price",q:"How did prices nearby really move?",c:RM.g==null?"mid":RM.g>=0.04?"good":RM.g>=0.015?"mid":"bad",
+    a:RM.L.length?`${RM.txt}.`:`No nearby project has real ${roomName(ROOMSEL)} sales to compare yet.`,
+    fc:done?`Its 4-year window has passed. It now sells for about $${fmt(rn.psf)} psf, versus $${fmt(p.psf)} at launch (${rn.psf>=p.psf?"+":""}${((rn.psf/p.psf-1)*100).toFixed(0)}%).`:e?`About $${fmt(Math.round(e.exit/10)*10)} psf in ${ex}, versus $${fmt(e.psf)} psf at launch (${gain>=0?"+":""}${gain.toFixed(0)}%).`:p.psf?"No forecast yet.":"Not priced yet. The developer hasn't announced prices.",
+    w:(RM.L.length?`Real sales at the nearest ${RM.L.length===1?"project":"projects"} with ${roomName(ROOMSEL)} units, launch (or 2021) price to today. `:"")+(()=>{let n=0,u=0,d=0;p.comps.forEach(k=>{const t=trackRec(k);if(t){n+=t.n;u+=t.up;d+=t.down;}});return n?`At similar nearby launches, ${fmt(u)} of ${fmt(n)} resales made money and ${fmt(d)} lost money. `:"";})()+(RM.L.length?"Before stamp duty and agent fees.":done?`Based on ${nowLabel(rn)} (URA). Before stamp duty and agent fees.`:`We grow the launch price at the area's usual rate, about ${(longRun(p)*100).toFixed(1)}% a year. On past launches this was usually within 4% of the real price. Before stamp duty and agent fees.`),go:RM.L.length?"cmp":"s4"}];
   keepOpen(el,()=>{el.innerHTML=`<div class="vhead"><div><h2>${esc(p.name)}</h2><p class="note" style="margin:2px 0 0">${A?esc(A.n)+" · ":""}${p.seg==="CCR"?"prime core (CCR)":p.seg==="RCR"?"city fringe (RCR)":"suburbs (OCR)"}${p.ec?" · executive condominium":""} · ${p.upcoming?"launching soon":"launched "+launchTxt(p)}</p>
     <p class="note" style="margin:6px 0 0">Room type: <b>${roomName(ROOMSEL)}</b>${p.roomData?` · $${fmt(p.psf)} psf at launch · ${fmt(p.roomSold)} sold so far`:p.upcoming?" · not priced yet":""} <button class="howlink" type="button" data-room-change>Change</button></p></div>
     <div class="vscore"><b>${sc}</b><span>Huat Score / 100</span></div></div>
     <p class="vline">${tier}. <button class="howlink" type="button" data-how>How is this worked out?</button></p>
-    ${Q.map(q=>`<details class="q" data-k="${q.k}"><summary><span class="dot ${q.c}"></span><span class="qq">${q.q}</span><span class="qa">${q.a}</span></summary><div class="why">${q.w}<br><button class="more" data-go="${q.go}">Show the full workings</button></div></details>`).join("")}`;});
-  el.querySelectorAll(".more").forEach(b=>b.onclick=()=>{const t=$("#"+b.dataset.go);if(t.tagName==="DETAILS")t.open=true;t.scrollIntoView({behavior:"smooth",block:"start"});});
+    ${Q.map(q=>`<details class="q" data-k="${q.k}"><summary><span class="dot ${q.c}"></span><span class="qq">${q.q}</span><span class="qa">${q.a}</span></summary><div class="why">${q.w}<br><button class="more" data-go="${q.go}">${q.go==="cmp"?"Compare them side by side":"Show the full workings"}</button></div></details>`).join("")}`;});
+  el.querySelectorAll(".more").forEach(b=>b.onclick=()=>{if(b.dataset.go==="cmp"){window.cmpShow&&cmpShow("verdict");return;}const t=$("#"+b.dataset.go);if(t.tagName==="DETAILS")t.open=true;t.scrollIntoView({behavior:"smooth",block:"start"});});
   const sw={good:"Likely yes",mid:"Some, with competition",bad:"Not many"};
-  $("#sum2").textContent=Q[0].a;$("#sum3").textContent=`Ranked #${[...PROJECTS].sort((a,b)=>score(b)-score(a)).findIndex(q=>q.id===p.id)+1} of ${PROJECTS.length} tracked launches on location.`;$("#sum4").textContent=Q[4].a;
+  $("#sum2").textContent=Q[0].a;$("#sum3").textContent=`Ranked #${[...PROJECTS].sort((a,b)=>score(b)-score(a)).findIndex(q=>q.id===p.id)+1} of ${PROJECTS.length} tracked launches on location.`;$("#sum4").textContent=Q[4].fc;
 }
 // "How HuatNex works" guide
 const howPanel=$("#howPanel"),howOv=$("#howOv");let howReturn=null;
@@ -1778,10 +1789,10 @@ function cmpHTML(p,b,L){const rn=roomName(b),ex=exitYear(p),e=exitProj(p),MONS=[
 })();
 (()=>{const box=$("#cmp"),seen=new Set();let shownAt=0;
   const close=how=>{if(box.hidden)return;box.classList.remove("show");box.hidden=true;if(how)track("compare_dismissed",{how,seconds_open:Math.round((Date.now()-shownAt)/1000)});};
-  const show=via=>{const p=cur(),b=ROOMSEL;if(!p||!b||!roomOK(p,b))return;const key=p.id+"|"+b;if(seen.has(key)&&via!=="bottom_line")return;
+  const show=via=>{const p=cur(),b=ROOMSEL;if(!p||!b||!roomOK(p,b))return;const key=p.id+"|"+b;if(seen.has(key)&&!via)return;
     const L=cmpPool(p,b);if(!L.length)return;seen.add(key);
     $("#cmpBody").innerHTML=cmpHTML(p,b,L);box.hidden=false;requestAnimationFrame(()=>box.classList.add("show"));shownAt=Date.now();
-    track("compare_prompt_shown",{suggested:L.map(o=>o.name),nearest_km:+L[0].k.toFixed(1),via:via==="bottom_line"?"bottom_line":"auto"});};
+    track("compare_prompt_shown",{suggested:L.map(o=>o.name),nearest_km:+L[0].k.toFixed(1),via:via||"auto"});};
   $("#blGo").addEventListener("click",()=>show("bottom_line"));
   window.cmpShow=show;
   // v52: 3 seconds after "What could it sell for?" is opened
@@ -1797,9 +1808,13 @@ function cmpHTML(p,b,L){const rn=roomName(b),ex=exitYear(p),e=exitProj(p),MONS=[
   document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!box.hidden)close("escape");});
 })();
 // v63: bottom-line card under section 04, opens the comparison pop-up
-function renderBline(p){const el=$("#bline");if(!el)return;const b=ROOMSEL,L=p&&b&&roomOK(p,b)?cmpPool(p,b):[];el.hidden=!L.length;if(!L.length)return;
+// v65: real price moves at the nearest comparable projects, shared by the verdict row and the bottom-line card
+function realMoves(p,b){const L=p&&b&&roomOK(p,b)?cmpPool(p,b):[];if(!L.length)return {L,txt:"",g:null};
   const one=o=>{const yrs=Math.max(0.5,NOWF-o.t),tot=o.now/o.lp-1;return `${esc(o.name)} ${tot>=0?"+":""}${Math.round(tot*100)}% in ${yrs<1.5?yrs.toFixed(1):Math.round(yrs)} yrs`;};
-  $("#blSub").innerHTML=`Real ${roomName(b)} sales nearby: ${L.map(one).join(" · ")}. See what that pace means for ${esc(p.name)}.`;}
+  const g=L.reduce((a,o)=>a+Math.pow(o.now/o.lp,1/Math.max(0.5,NOWF-o.t))-1,0)/L.length;
+  return {L,txt:L.map(one).join(" · "),g};}
+function renderBline(p){const el=$("#bline");if(!el)return;const b=ROOMSEL,R=realMoves(p,b);el.hidden=!R.L.length;if(!R.L.length)return;
+  $("#blSub").innerHTML=`Real ${roomName(b)} sales nearby: ${R.txt}. See what that pace means for ${esc(p.name)}.`;}
 function renderAll(){ const p=cur(); renderChips(); renderBalance(p); focusPin(); renderMap(); {const bl=$("#bline");if(bl)bl.hidden=true;} if(!renderGate(p))return; renderBank(p); renderHdbReal(p); renderSens(p); renderPrice(p); renderVerdict(p); renderBline(p); }
 renderSegments(); renderFactors(); renderWeights(); renderAll();
 // v64: shared links (?l=<launch>&r=<room>) open on that launch and room
@@ -1876,11 +1891,11 @@ if(location.hash==="#how")openHow();
   const open=trigger=>{if(!box.hidden)return;box.hidden=false;requestAnimationFrame(()=>box.classList.add("show"));shownThisVisit=true;track("waitlist_prompt_shown",{trigger});};
   const close=(why)=>{box.classList.remove("show");box.hidden=true;if(why){put({s:"dismissed",t:Date.now()});track("waitlist_dismissed",{how:why});}};
   const auto=trigger=>{if(shownThisVisit||blocked())return;const c=$("#cmp"),f=$("#fb");if((c&&!c.hidden)||(f&&!f.hidden)){setTimeout(()=>auto(trigger),2000);return;}open(trigger);};
-  // 40 seconds of use: count only time while the page is visible
+  // v66: 25 seconds of use (was 40): count only time while the page is visible
   // v49: count only quiet seconds: page visible, no comparison or feedback pop-up open, and 10s since one closed
   let used=0,quietSince=0;const other=()=>["#cmp","#fb"].some(q=>{const e=$(q);return e&&!e.hidden;});
   const tick=setInterval(()=>{const now=Date.now();if(other()){quietSince=now;return;}
-    if(document.visibilityState==="visible"&&now-quietSince>=10000)used++;if(used>=40){clearInterval(tick);auto("used_40s");}},1000);
+    if(document.visibilityState==="visible"&&now-quietSince>=10000)used++;if(used>=25){clearInterval(tick);auto("used_25s");}},1000);
   btn.addEventListener("click",()=>{const v=get();if(v&&v.s==="joined"){box.hidden=false;box.classList.add("show");$("#wlBody").innerHTML='<h3>You\'re on the list</h3><p class="ok">Thanks. We\'ll be in touch.</p>';return;}open("header_button");$("#wlEmail").focus();});
   $("#wlX").addEventListener("click",()=>close("close_button"));
   $("#wlNo").addEventListener("click",()=>close("no_thanks"));
