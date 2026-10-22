@@ -253,6 +253,21 @@ details.q[open]>summary::after{content:"Hide"}
 #wl .x:hover{background:rgba(255,255,255,.7)}
 #wl .fine,#wl .no{color:#6E6A80}
 @media (prefers-reduced-motion:reduce){#wl.wl.show{animation:none}}
+/* v67: compact on phones */
+#wl .wl-m{display:none}
+@media (max-width:520px){
+  #wl.wl{padding:12px 14px 10px;border-radius:16px;border-width:1.5px;box-shadow:0 10px 28px rgba(232,128,110,.25)}
+  #wl.wl.show{animation:none}
+  #wl h3{font-size:17px;margin:0 28px 4px 0}
+  #wl .wl-d{display:none}
+  #wl .wl-m{display:block;font-size:14.5px;margin:0 0 8px}
+  #wl form{flex-wrap:nowrap;gap:6px}
+  #wl input{flex:1 1 auto;padding:8px 10px;font-size:16px}
+  #wl .go{padding:8px 12px;font-size:15px;white-space:nowrap}
+  #wl .fine{display:inline;font-size:12.5px;margin:0}
+  #wl .no{display:inline;margin:0 0 0 6px;font-size:13px}
+  #wl .x{top:6px;right:8px}
+}
 .wl.cmp{width:420px;max-height:calc(100vh - 40px);overflow:auto}
 .shr{position:fixed;right:20px;bottom:20px;z-index:29}
 .shr[hidden]{display:none}
@@ -442,9 +457,10 @@ details summary{cursor:pointer;color:var(--muted);font-size:16px;margin-bottom:1
   <button class="x" type="button" id="wlX" aria-label="Close">×</button>
   <div id="wlBody">
     <h3 id="wlT">Help us build the full HuatNex</h3>
-    <p>This is an early version. Good property data costs money, so before we raise funds we want to know if people would use HuatNex.</p>
-    <p>More interest means more data, and new tools to check resale homes and rental prices.</p>
-    <p>Join the waitlist and we'll tell you when it's ready.</p>
+    <p class="wl-m">Join the waitlist and we'll tell you when the full version is ready.</p>
+    <p class="wl-d">This is an early version. Good property data costs money, so before we raise funds we want to know if people would use HuatNex.</p>
+    <p class="wl-d">More interest means more data, and new tools to check resale homes and rental prices.</p>
+    <p class="wl-d">Join the waitlist and we'll tell you when it's ready.</p>
     <form id="wlForm" novalidate><input type="email" id="wlEmail" name="email" autocomplete="email" placeholder="you@example.com" aria-label="Email address" required><button class="go" type="submit">Join waitlist</button></form>
     <p class="msg" id="wlMsg" hidden></p>
     <p class="fine">We'll only email you about HuatNex. Unsubscribe anytime.</p>
