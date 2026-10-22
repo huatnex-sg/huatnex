@@ -7,7 +7,12 @@
 <meta property="og:site_name" content="HuatNex">
 <meta property="og:title" content="HuatNex: Huat Your Way with the Right Property Insights.">
 <meta property="og:description" content="Not a listing marketplace: an integrated decision framework for Singapore new launches, informed by local socio-cultural and terrain appreciation. Free early preview.">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://huatnex.vercel.app/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="HuatNex: Is that new condo likely to grow in value?">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://huatnex.vercel.app/og-image.png">
 <meta charset="utf-8">
 <title>HuatNex · Huat Your Way with the Right Property Insights</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1871,7 +1876,16 @@ const track=(ev,props)=>{try{const ph=window.posthog;if(ph&&typeof ph.capture===
 })();
 if(location.hash==="#how")openHow();
 // Feedback (v47): public site only (answers go to PostHog). Never opens by itself.
-(()=>{const ph=()=>window.posthog;const wait=n=>{const p=ph();if(p&&p.__loaded)start();else if(p&&n>0)setTimeout(()=>wait(n-1),500);};wait(60);
+// v69: send one event straight to PostHog (through /ingest) and resolve only when it is received
+function hxSend(ev,props){const H=window.HX_PH;if(!H)return Promise.reject(new Error("no PostHog"));
+  let did=null;try{const p=window.posthog;if(p&&p.__loaded&&typeof p.get_distinct_id==="function")did=p.get_distinct_id();}catch(e){}
+  if(!did){try{did=sessionStorage.getItem("hx_did");if(!did){did="hx-"+Date.now().toString(36)+Math.random().toString(36).slice(2,8);sessionStorage.setItem("hx_did",did);}}catch(e){did="hx-anon";}}
+  const ctl=window.AbortController?new AbortController():null,to=setTimeout(()=>ctl&&ctl.abort(),10000);
+  return fetch(H.capture,{method:"POST",headers:{"Content-Type":"application/json"},keepalive:true,signal:ctl?ctl.signal:undefined,
+    body:JSON.stringify({api_key:H.key,event:ev,distinct_id:did,timestamp:new Date().toISOString(),
+      properties:Object.assign({launch:sel,room:ROOMSEL?roomName(ROOMSEL):null,$current_url:location.href,source:"direct"},props||{})})})
+    .then(r=>{clearTimeout(to);if(!r.ok)throw new Error("status "+r.status);return r;},e=>{clearTimeout(to);throw e;});}
+(()=>{const ph=()=>window.posthog;const wait=n=>{const p=ph();if(p&&p.__loaded)start();else if(p&&n>0)setTimeout(()=>wait(n-1),500);else if(window.HX_PH)start();};wait(8);
   function start(){const box=$("#fb"),btn=$("#fbOpen"),body=$("#fbBody"),blank=body.innerHTML;btn.hidden=false;$("#fbFootWrap").hidden=false;
     let A={},sent=false,openedAt=0;
     const answered=()=>Object.keys(A).filter(k=>Array.isArray(A[k])?A[k].length:A[k]!=null).length+($("#fbTxt")&&$("#fbTxt").value.trim()?1:0);
@@ -1889,10 +1903,13 @@ if(location.hash==="#how")openHow();
         if(q==="not_working"){A[q]=A[q]||[];A[q]=on?[...A[q],v]:A[q].filter(x=>x!==v);o.setAttribute("aria-pressed",String(on));return;}
         box.querySelectorAll(`.fbo[data-q="${q}"]`).forEach(b=>b.setAttribute("aria-pressed","false"));
         if(on){o.setAttribute("aria-pressed","true");A[q]=q==="rating"?+v:v;}else A[q]=null;return;}
-      if(e.target.id==="fbSend"){const t=$("#fbTxt").value.trim();sent=true;
-        const p=cur();track("feedback_submitted",{rating:A.rating??null,not_working:A.not_working||[],build_next:A.build_next??null,would_pay:A.would_pay??null,
-          comment:t||null,answered:answered(),launch_name:p?p.name:null});
-        body.innerHTML='<h3>Thank you</h3><p class="ok">This helps us decide what to build next.</p>';setTimeout(()=>{if(sent){box.classList.remove("show");box.hidden=true;}},2000);}});
+      if(e.target.id==="fbSend"){const sb=e.target;if(sb.disabled)return;const t=$("#fbTxt").value.trim();
+        let er=$("#fbErr");if(!er){er=document.createElement("p");er.id="fbErr";er.className="msg";er.hidden=true;sb.parentNode.insertBefore(er,sb);}
+        er.hidden=true;sb.disabled=true;sb.textContent="Sending…";
+        const p=cur();hxSend("feedback_submitted",{rating:A.rating??null,not_working:A.not_working||[],build_next:A.build_next??null,would_pay:A.would_pay??null,
+          comment:t||null,answered:answered(),launch_name:p?p.name:null})
+        .then(()=>{sent=true;body.innerHTML='<h3>Thank you</h3><p class="ok">This helps us decide what to build next.</p>';setTimeout(()=>{if(sent){box.classList.remove("show");box.hidden=true;}},2000);})
+        .catch(()=>{er.textContent="Sorry, that didn't go through. Please check your connection and press Send again.";er.hidden=false;sb.disabled=false;sb.textContent="Send";});}});
   }
 })();
 // Waitlist prompt: public site only (needs PostHog). Shows by itself; visitors opt out with "No thanks" or ×.
