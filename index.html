@@ -170,6 +170,16 @@ svg text{fill:var(--muted);font-family:var(--f-mono);font-size:13px}
 .hovercard .poil{margin:3px 0;color:var(--ink)}
 .hovercard .ptag{font:600 12px var(--f-mono);padding:1px 7px;border-radius:999px;background:#E3EAF8;color:var(--head)}
 @media (prefers-reduced-motion:reduce){.hovercard{transition:none}}
+.schbar{margin:8px 0 0;padding:10px 14px;border:1px solid #C9D5F0;border-radius:14px;background:#F6F8FD;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:4px 16px;align-items:center;transition:opacity .6s ease;font-size:15px}
+.schbar.out{opacity:0}
+.schbar[hidden]{display:none}
+.schbar .sn{font:700 16px var(--f-display);color:var(--head)}
+.schbar .so{color:var(--muted);font-size:14px}
+.schbar .sbm{height:12px;border-radius:999px;background:#FCE4DF;overflow:hidden}
+.schbar .sbm i{display:block;height:100%;background:var(--school,#5C6FA8);border-radius:999px}
+.schbar .nums{font:600 14px var(--f-mono);color:var(--head);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+@media (max-width:640px){.schbar{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.schbar{transition:none}}
 .hovercard h4{margin:0 0 2px;font:700 17px var(--f-display);color:var(--head);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .hovercard .meta{color:var(--muted);margin-bottom:10px}
 .hovercard .hrow{display:flex;justify-content:space-between;gap:8px;margin:4px 0}
@@ -549,6 +559,7 @@ details summary{cursor:pointer;color:var(--muted);font-size:16px;margin-bottom:1
         <div class="panpad" role="group" aria-label="Move the map"><button class="pan" data-pan="up" aria-label="Move map up"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 9l4-4 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="pan" data-pan="left" aria-label="Move map left"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M9 3L5 7l4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="pan" data-pan="right" aria-label="Move map right"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M5 3l4 4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="pan" data-pan="down" aria-label="Move map down"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M3 5l4 4 4-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>
         <div class="maphint" id="mapHint" aria-live="polite" hidden></div>
         <div class="zoomlvl" id="zLvl">1.0×</div></div>
+      <div class="schbar" id="schBar" aria-live="polite" hidden></div>
       <p class="note" style="margin:6px 0 0">Pinch, double-tap or press + to zoom in. Drag to move, or use the arrows. Tap a pin for details.</p>
       <details class="sub"><summary>Map layers and legend</summary>
         <div class="toggle" role="group" aria-label="Map layers" id="layerToggles" style="margin-top:10px"></div>
@@ -1580,15 +1591,24 @@ function poiHTML(p){const [nm,rest]=p[1].split(" — "),kind=p[0]==="school"?"Pr
   const lines=(rest||"").split(" · ").filter(Boolean);
   return `<h4>${esc(nm)}${p[6]==="pop"?' <span class="ptag">Popular</span>':""}</h4><div class="meta">${kind}${p[5]==="future"?" · opening later":""}</div>${lines.map(l=>`<p class="poil">${esc(l)}</p>`).join("")}`;}
 let hcT=null;
-function showCard(id,cx,cy){clearTimeout(hcT);hc.classList.remove("out");
+// v73: schools show their Phase 2C quota and subscription in a bar under the map
+const sb=$("#schBar");let sbT=null,sbFor=null;
+function showSchBar(id,p){clearTimeout(sbT);sb.classList.remove("out");if(sbFor!==id){const S=p[7]||{},q=S.p1;sbFor=id;
+  const out=!q?"":q.band==="ballot1km"?"Balloted even for citizens within 1km":q.band==="safe1km"?"Citizens within 1km all got in":"Everyone who applied got in";
+  sb.innerHTML=`<div><div class="sn">${esc(S.n||p[1].split(" — ")[0])}</div><div class="so">Phase 2C, 2026${out?" · "+out:""}</div></div>`+(q?`<div><div class="nums"><span>${fmt(q.vac)} places</span><span>${fmt(q.app)} applied</span><span>${q.ratio>1?q.ratio.toFixed(1)+"× subscribed":"under-subscribed"}</span></div><div class="sbm" role="img" aria-label="${q.vac} places for ${q.app} applicants"><i style="width:${Math.min(100,Math.round(q.vac/Math.max(q.app,1)*100))}%"></i></div></div>`:`<div class="so">No Phase 2C figures for this school.</div>`);}
+  sb.hidden=false;}
+function hideSchBar(){if(sb.hidden||sb.classList.contains("out"))return;sb.classList.add("out");clearTimeout(sbT);sbT=setTimeout(()=>{sb.hidden=true;sb.classList.remove("out");sbFor=null;},600);}
+function showCard(id,cx,cy){
+  if(id.startsWith("a:")&&POIS[+id.slice(2)]&&POIS[+id.slice(2)][0]==="school"){showSchBar(id,POIS[+id.slice(2)]);hideCard();return;}
+  hideSchBar();clearTimeout(hcT);hc.classList.remove("out");
   if(id.startsWith("a:")){const p=POIS[+id.slice(2)];if(!p)return;if(hcFor!==id){hc.innerHTML=poiHTML(p);hcFor=id;}hc.hidden=false;placeCard(cx,cy);return;}
   if(id.startsWith("t:")){const t=id.slice(2);if(!HDBR.towns[t])return;if(hcFor!==id){hc.innerHTML=townHTML(t);hcFor=id;}hc.hidden=false;placeCard(cx,cy);return;}
   if(id.startsWith("g:")){const L=GLS[+id.slice(2)];if(!L)return;if(hcFor!==id){hc.innerHTML=landHTML(L);hcFor=id;}hc.hidden=false;placeCard(cx,cy);return;}
   const p=PROJECTS.find(q=>q.id===id);if(!p)return;if(hcFor!==id){hc.innerHTML=cardHTML(p);hcFor=id;}hc.hidden=false;placeCard(cx,cy);}
 function hideCard(){if(hc.hidden||hc.classList.contains("out"))return;hc.classList.add("out");clearTimeout(hcT);hcT=setTimeout(()=>{hc.hidden=true;hc.classList.remove("out");hcFor=null;},600);}
 function hoverWire(root,attr){
-  root.addEventListener("pointermove",e=>{if(e.pointerType==="touch")return;const t=e.target.closest(`[${attr}]`);if(t&&!(root===mapEl&&dragMoved))showCard(t.getAttribute(attr),e.clientX,e.clientY);else hideCard();});
-  root.addEventListener("pointerleave",hideCard);
+  root.addEventListener("pointermove",e=>{if(e.pointerType==="touch")return;const t=e.target.closest(`[${attr}]`);if(t&&!(root===mapEl&&dragMoved))showCard(t.getAttribute(attr),e.clientX,e.clientY);else{hideCard();hideSchBar();}});
+  root.addEventListener("pointerleave",e=>{hideCard();if(e.pointerType!=="touch")hideSchBar();});
   root.addEventListener("focusin",e=>{const t=e.target.closest(`[${attr}]`);if(!t)return;const r=t.getBoundingClientRect();showCard(t.getAttribute(attr),r.right,r.bottom);});
   root.addEventListener("focusout",hideCard);}
 hoverWire(mapEl,"data-p");hoverWire($("#chips"),"data-id");
