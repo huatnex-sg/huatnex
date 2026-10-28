@@ -165,7 +165,11 @@ svg text{fill:var(--muted);font-family:var(--f-mono);font-size:13px}
 .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:15px;color:var(--muted)}
 .legend i{display:inline-block;width:12px;height:3px;margin-right:6px;vertical-align:middle}
 .row{display:flex;flex-wrap:wrap;gap:16px;align-items:center}
-.hovercard{position:fixed;z-index:20;width:300px;max-width:calc(100vw - 32px);background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 16px;box-shadow:0 12px 36px rgba(92,111,168,.18);pointer-events:none;font-size:15px}
+.hovercard{position:fixed;z-index:20;width:300px;max-width:calc(100vw - 32px);background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 16px;box-shadow:0 12px 36px rgba(92,111,168,.18);pointer-events:none;font-size:15px;opacity:1;transition:opacity .6s ease}
+.hovercard.out{opacity:0}
+.hovercard .poil{margin:3px 0;color:var(--ink)}
+.hovercard .ptag{font:600 12px var(--f-mono);padding:1px 7px;border-radius:999px;background:#E3EAF8;color:var(--head)}
+@media (prefers-reduced-motion:reduce){.hovercard{transition:none}}
 .hovercard h4{margin:0 0 2px;font:700 17px var(--f-display);color:var(--head);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 .hovercard .meta{color:var(--muted);margin-bottom:10px}
 .hovercard .hrow{display:flex;justify-content:space-between;gap:8px;margin:4px 0}
@@ -1242,7 +1246,7 @@ function renderMap(){
     if(LAYERS.bank.on)Object.keys(HDBR.towns).forEach(t=>{const A=townAnchor(t);if(!A||!A.d)return;const sc=townScore(t);
       s+=`<path d="${A.d}" fill="#3E9A7A" fill-opacity="${(0.04+sc/10*0.16).toFixed(3)}" stroke="#2F7D62" stroke-width="1.1" stroke-dasharray="4 3" vector-effect="non-scaling-stroke" pointer-events="none"/>`;});
     for(const t of ["mall","mrt","school"]){ if(!LAYERS[t].on)continue;
-    for(const p of POIS.filter(q=>q[0]===t)){const [x,y]=P([p[2],p[3]]);s+=`<g><title>${esc(p[1])} [${p[4]}]</title>${glyph(t,x,y,p[5]==="future",p[6])}</g>`;}}
+    POIS.forEach((p,i)=>{if(p[0]!==t)return;const [x,y]=P([p[2],p[3]]);s+=`<g class="pin poi" data-p="a:${i}" aria-label="${esc(p[1].split(" — ")[0])}">${glyph(t,x,y,p[5]==="future",p[6])}</g>`;});}
   if(LAYERS.bank.on)Object.keys(HDBR.towns).forEach(t=>{const A=townAnchor(t);if(!A)return;const T=HDBR.towns[t],sc=townScore(t);
     // v61: fixed-size square score tag (no size scaling, so it doesn't read as an area or radius)
     const tn=t.split("/")[0].toLowerCase().replace(/\b\w/g,c=>c.toUpperCase()),lab=`${tn} ${sc}`;
@@ -1377,9 +1381,9 @@ const FACTORS=[
 function renderFactors(){
   $("#factorRows").innerHTML=FACTORS.map(f=>`<tr><td><b>${f[0]}</b></td><td>${f[1]}</td><td>${f[2]}</td><td class="num" style="color:${f[3]==='−'?'var(--red)':f[3]==='+'?'var(--jade)':'var(--ochre)'}">${f[3]}</td><td>${f[4]}</td><td>${conf(f[5])}</td></tr>`).join("");
 }
-$("#map").addEventListener("click",e=>{if(dragMoved){dragMoved=false;return;}const od=e.target.closest("[data-o]");if(od){window.hxOld(+od.dataset.o);$("#oldTool").scrollIntoView({behavior:"smooth",block:"center"});return;}const pin=e.target.closest("[data-p]");if(pin){if(pin.dataset.p.startsWith("t:"))return;if(pin.dataset.p.startsWith("g:")){pickLand(+pin.dataset.p.slice(2));return;}sel=pin.dataset.p;mapDist=null;renderAll();return;}
+$("#map").addEventListener("click",e=>{if(dragMoved){dragMoved=false;return;}const od=e.target.closest("[data-o]");if(od){window.hxOld(+od.dataset.o);$("#oldTool").scrollIntoView({behavior:"smooth",block:"center"});return;}const pin=e.target.closest("[data-p]");if(pin){if(pin.dataset.p.startsWith("a:")){showCard(pin.dataset.p,e.clientX,e.clientY);return;}if(pin.dataset.p.startsWith("t:"))return;if(pin.dataset.p.startsWith("g:")){pickLand(+pin.dataset.p.slice(2));return;}sel=pin.dataset.p;mapDist=null;renderAll();return;}
   const c=e.target.closest("[data-d]");if(c){mapDist=c.dataset.d;renderMap();}});
-$("#map").addEventListener("keydown",e=>{const pin=e.target.closest("[data-p]");if(pin&&(e.key==="Enter"||e.key===" ")){e.preventDefault();sel=pin.dataset.p;mapDist=null;renderAll();}});
+$("#map").addEventListener("keydown",e=>{const pin=e.target.closest("[data-p]");if(pin&&(e.key==="Enter"||e.key===" ")){e.preventDefault();if(/^[atg]:/.test(pin.dataset.p))return;sel=pin.dataset.p;mapDist=null;renderAll();}});
 $("#mm-segment").onclick=()=>{mapMode="segment";renderMap();};
 $("#mm-lu").onclick=()=>{mapMode="lu";renderMap();};
 $("#mm-opp").onclick=()=>{mapMode="opp";renderMap();};
@@ -1571,10 +1575,17 @@ function townHTML(t){const T=HDBR.towns[t],sc=townScore(t),tn=t.toLowerCase().re
   <div class="hrow"><span>$1m+ flats sold</span><b>${fmt(T.mil)}</b></div>
   <div class="hrow"><span>All HDB resales</span><b>${fmt(T.n)}</b></div>
   <div class="src2">Families selling flats that just passed their 5-year minimum occupation are the likeliest condo upgraders. Score = those resales ÷ 40, capped at 10. HDB resale records, Oct 2025 to Sep 2026.</div>`;}
-function showCard(id,cx,cy){if(id.startsWith("t:")){const t=id.slice(2);if(!HDBR.towns[t])return;if(hcFor!==id){hc.innerHTML=townHTML(t);hcFor=id;}hc.hidden=false;placeCard(cx,cy);return;}
+// v72: hover card for schools, MRT stations and malls
+function poiHTML(p){const [nm,rest]=p[1].split(" — "),kind=p[0]==="school"?"Primary school":p[0]==="mrt"?"MRT station":"Shopping mall";
+  const lines=(rest||"").split(" · ").filter(Boolean);
+  return `<h4>${esc(nm)}${p[6]==="pop"?' <span class="ptag">Popular</span>':""}</h4><div class="meta">${kind}${p[5]==="future"?" · opening later":""}</div>${lines.map(l=>`<p class="poil">${esc(l)}</p>`).join("")}`;}
+let hcT=null;
+function showCard(id,cx,cy){clearTimeout(hcT);hc.classList.remove("out");
+  if(id.startsWith("a:")){const p=POIS[+id.slice(2)];if(!p)return;if(hcFor!==id){hc.innerHTML=poiHTML(p);hcFor=id;}hc.hidden=false;placeCard(cx,cy);return;}
+  if(id.startsWith("t:")){const t=id.slice(2);if(!HDBR.towns[t])return;if(hcFor!==id){hc.innerHTML=townHTML(t);hcFor=id;}hc.hidden=false;placeCard(cx,cy);return;}
   if(id.startsWith("g:")){const L=GLS[+id.slice(2)];if(!L)return;if(hcFor!==id){hc.innerHTML=landHTML(L);hcFor=id;}hc.hidden=false;placeCard(cx,cy);return;}
   const p=PROJECTS.find(q=>q.id===id);if(!p)return;if(hcFor!==id){hc.innerHTML=cardHTML(p);hcFor=id;}hc.hidden=false;placeCard(cx,cy);}
-function hideCard(){hc.hidden=true;hcFor=null;}
+function hideCard(){if(hc.hidden||hc.classList.contains("out"))return;hc.classList.add("out");clearTimeout(hcT);hcT=setTimeout(()=>{hc.hidden=true;hc.classList.remove("out");hcFor=null;},600);}
 function hoverWire(root,attr){
   root.addEventListener("pointermove",e=>{if(e.pointerType==="touch")return;const t=e.target.closest(`[${attr}]`);if(t&&!(root===mapEl&&dragMoved))showCard(t.getAttribute(attr),e.clientX,e.clientY);else hideCard();});
   root.addEventListener("pointerleave",hideCard);
